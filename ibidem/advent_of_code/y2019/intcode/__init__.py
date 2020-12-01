@@ -2,12 +2,8 @@
 # -*- coding: utf-8
 import os
 
-try:
-    from .machine import IntCode
-    from .disassembler import Disassembler
-except ModuleNotFoundError:
-    from machine import IntCode
-    from disassembler import Disassembler
+from .disassembler import Disassembler
+from .machine import IntCode
 
 
 def load_program(day):

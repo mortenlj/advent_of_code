@@ -4,15 +4,10 @@
 import enum
 
 import numpy as np
-
-try:
-    from .board import Board
-    from .intcode import load_program, IntCode, Disassembler
-except ModuleNotFoundError:
-    from board import Board
-    from intcode import load_program, IntCode, Disassembler
-
 from colorama import init, Fore, Back
+
+from .board import Board
+from .intcode import load_program, IntCode
 
 SIZE = 100
 

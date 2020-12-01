@@ -3,7 +3,8 @@
 import io
 
 from colorama import init, Fore
-from util import get_input_name
+
+from .util import get_input_name
 
 
 class Image(object):

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
 
-from intcode import IntCode, load_program
+from .intcode import IntCode, load_program
 
 
 def part1():

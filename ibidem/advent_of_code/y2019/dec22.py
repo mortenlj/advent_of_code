@@ -4,10 +4,7 @@ import re
 
 import numpy as np
 
-try:
-    from util import get_input_name
-except ModuleNotFoundError:
-    from .util import get_input_name
+from .util import get_input_name
 
 
 class DealToNew(object):

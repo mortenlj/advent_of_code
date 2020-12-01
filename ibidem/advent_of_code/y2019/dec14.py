@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
-import math
 from collections import defaultdict
 from functools import total_ordering
 from queue import PriorityQueue
 
-try:
-    from util import get_input_name
-except ModuleNotFoundError:
-    from .util import get_input_name
+import math
+
+from .util import get_input_name
 
 TRILLION = 1000000000000
 CHEMICALS = {}

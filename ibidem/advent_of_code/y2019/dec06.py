@@ -3,10 +3,7 @@
 
 import itertools
 
-try:
-    from util import get_input_name
-except ModuleNotFoundError:
-    from .util import get_input_name
+from .util import get_input_name
 
 
 class Planet(object):

@@ -1,12 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
 
-try:
-    from .board import Board
-    from .intcode import load_program, IntCode, Disassembler
-except ModuleNotFoundError:
-    from board import Board
-    from intcode import load_program, IntCode, Disassembler
+from .board import Board
+from .intcode import load_program, IntCode
 
 
 def capture_camera(intcode):

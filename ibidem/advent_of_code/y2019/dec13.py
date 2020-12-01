@@ -1,14 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
 
-try:
-    from .board import Board
-    from .intcode import load_program, IntCode, Disassembler
-except ModuleNotFoundError:
-    from board import Board
-    from intcode import load_program, IntCode, Disassembler
-
 from collections import namedtuple
+
+from .board import Board
+from .intcode import load_program, IntCode
 
 Tile = namedtuple("Tile", ["value", "char"])
 

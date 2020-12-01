@@ -1,15 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
 
-try:
-    from .board import Board
-    from .intcode import load_program, IntCode
-except ModuleNotFoundError:
-    from board import Board
-    from intcode import load_program, IntCode
-
 from collections import namedtuple
 
+from .board import Board
+from .intcode import load_program, IntCode
 
 Color = namedtuple("Color", ("char", "value"))
 

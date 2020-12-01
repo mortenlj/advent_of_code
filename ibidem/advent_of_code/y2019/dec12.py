@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
-import math
 import re
 from functools import reduce
 from multiprocessing import Process, Queue
 
+import math
 from vectormath import Vector3
 
-try:
-    from util import get_input_name
-except ModuleNotFoundError:
-    from .util import get_input_name
+from .util import get_input_name
 
 INPUT_FORMAT = re.compile(r"<x=(.+), y=(.+), z=(.+)>")
 

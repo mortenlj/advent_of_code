@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
 
-try:
-    from intcode import IntCode, load_program
-except ModuleNotFoundError:
-    from .intcode import IntCode, load_program
+from .intcode import IntCode, load_program
 
 
 def part1():

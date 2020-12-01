@@ -2,10 +2,7 @@
 # -*- coding: utf-8
 from queue import Queue
 
-try:
-    from .intcode import load_program, IntCode
-except ModuleNotFoundError:
-    from intcode import load_program, IntCode
+from .intcode import load_program, IntCode
 
 
 class Solver(object):

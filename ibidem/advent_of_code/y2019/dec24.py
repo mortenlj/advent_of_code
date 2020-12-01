@@ -3,13 +3,8 @@
 
 import numpy as np
 
-try:
-    from .board import Board
-    from .util import get_input_name
-except ModuleNotFoundError:
-    from board import Board
-    from util import get_input_name
-
+from .board import Board
+from .util import get_input_name
 
 BOARD_SIZE = 5
 

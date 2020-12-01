@@ -1,4 +1,4 @@
-from util import get_input_name
+from ibidem.advent_of_code.y2020.util import get_input_name
 
 
 def load():

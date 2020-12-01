@@ -3,10 +3,7 @@
 
 import numpy as np
 
-try:
-    from util import get_input_name
-except ModuleNotFoundError:
-    from .util import get_input_name
+from .util import get_input_name
 
 BASE_PATTERN = [0, 1, 0, -1]
 

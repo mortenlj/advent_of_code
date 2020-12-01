@@ -4,11 +4,7 @@
 from queue import Empty, Queue
 from threading import Thread, Lock
 
-try:
-    from .intcode import load_program, IntCode
-except ModuleNotFoundError:
-    from intcode import load_program, IntCode
-
+from .intcode import load_program, IntCode
 
 IDLE_THRESHOLD = 10
 

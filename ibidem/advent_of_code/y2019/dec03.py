@@ -2,8 +2,8 @@
 # -*- coding: utf-8
 import sys
 
-from board import Board
-from util import get_input_name
+from .board import Board
+from .util import get_input_name
 
 
 def manhattan(pos):

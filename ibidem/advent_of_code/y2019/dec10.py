@@ -3,16 +3,12 @@
 import itertools
 from collections import defaultdict
 
-try:
-    from .board import Board
-    from .util import get_input_name
-except ModuleNotFoundError:
-    from board import Board
-    from util import get_input_name
-
 from colorama import Fore
-from vectormath import Vector2
 from numpy import pi
+from vectormath import Vector2
+
+from .board import Board
+from .util import get_input_name
 
 COLORS = [a for a in dir(Fore) if a.isupper() and a not in ("RESET", "BLACK", "LIGHTWHITE_EX", "WHITE")]
 STYLES = [(getattr(Fore, color), char) for char in "#@¤+*%$<>XOABCDEFGHIJKLMNPRSTUVWYZ" for color in COLORS]

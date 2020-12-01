@@ -5,10 +5,7 @@ import itertools
 from queue import Queue
 from threading import Thread
 
-try:
-    from intcode import IntCode, load_program
-except ModuleNotFoundError:
-    from .intcode import IntCode, load_program
+from .intcode import IntCode, load_program
 
 NAMES = ["A", "B", "C", "D", "E"]
 
