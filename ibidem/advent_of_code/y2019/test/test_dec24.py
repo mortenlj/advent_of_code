@@ -5,7 +5,7 @@ import textwrap
 
 import pytest
 
-from ..board import Board
+from ibidem.advent_of_code.board import Board
 from ..dec24 import GoL
 
 STEPS = [

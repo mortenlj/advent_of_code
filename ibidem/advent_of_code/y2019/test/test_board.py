@@ -3,7 +3,7 @@
 import io
 import textwrap
 
-from ..board import Board
+from ibidem.advent_of_code.board import Board
 
 
 def test_board():

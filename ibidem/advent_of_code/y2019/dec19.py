@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
 
-from .board import Board
+from ibidem.advent_of_code.board import Board
 from .intcode import load_program, IntCode
 
 

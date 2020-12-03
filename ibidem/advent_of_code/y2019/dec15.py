@@ -6,7 +6,7 @@ import enum
 import numpy as np
 from colorama import init, Fore, Back
 
-from .board import Board
+from ibidem.advent_of_code.board import Board
 from .intcode import load_program, IntCode
 
 SIZE = 100

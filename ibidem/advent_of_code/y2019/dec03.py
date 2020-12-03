@@ -2,7 +2,7 @@
 # -*- coding: utf-8
 import sys
 
-from .board import Board
+from ibidem.advent_of_code.board import Board
 from .util import get_input_name
 
 

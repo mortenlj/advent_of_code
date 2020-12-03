@@ -3,7 +3,7 @@
 
 from collections import namedtuple
 
-from .board import Board
+from ibidem.advent_of_code.board import Board
 from .intcode import load_program, IntCode
 
 Tile = namedtuple("Tile", ["value", "char"])

@@ -7,7 +7,7 @@ from colorama import Fore
 from numpy import pi
 from vectormath import Vector2
 
-from .board import Board
+from ibidem.advent_of_code.board import Board
 from .util import get_input_name
 
 COLORS = [a for a in dir(Fore) if a.isupper() and a not in ("RESET", "BLACK", "LIGHTWHITE_EX", "WHITE")]
