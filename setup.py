@@ -23,6 +23,7 @@ setup(
         "numpy",
         "vectormath",
         "colorama",
+        "requests",
     ],
     extras_require={
         "dev": [
@@ -39,4 +40,10 @@ setup(
     long_description=read("README.rst"),
     license="MIT",
     keywords="ibidem advent_of_code",
+
+    entry_points={
+        "console_scripts": [
+            "aoc = ibidem.advent_of_code.cli:main"
+        ]
+    }
 )
