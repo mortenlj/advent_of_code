@@ -15,11 +15,11 @@ HTTPIE_SESSION_PATH = os.path.join(os.path.expanduser("~"), ".config", "httpie",
 SOLUTION_TEMPLATE = """\
 #!/usr/bin/env python
 
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.y{year}.util import get_input_name
 
 
 def load():
-    with open(get_input_name("dec{:02}")) as fobj:
+    with open(get_input_name("dec{day:02}")) as fobj:
         fobj.read()
 
 
@@ -36,6 +36,18 @@ if __name__ == "__main__":
     part2()
 """
 
+TEST_TEMPLATE = """\
+
+import pytest
+
+from ibidem.advent_of_code.y{year}.dec{day:02} import *
+
+
+class TestDec{day:02}():
+    def test_load(self):
+        pass
+"""
+
 
 def _get_session_cookie_value():
     with open(HTTPIE_SESSION_PATH) as fobj:
@@ -44,26 +56,30 @@ def _get_session_cookie_value():
 
 
 def get_input():
-    now = datetime.datetime.now()
-    filepath = pkg_resources.resource_filename(f"ibidem.advent_of_code.y{now.year}", f"data/dec{now.day:02}.txt")
-    if os.path.exists(filepath):
-        return filepath
-    url = f"https://adventofcode.com/{now.year}/day/{now.day}/input"
-    cookies = {"session": _get_session_cookie_value()}
-    resp = requests.get(url, cookies=cookies)
-    with open(filepath, 'wb') as fd:
-        for chunk in resp.iter_content(chunk_size=128):
-            fd.write(chunk)
-    return filepath
+    def generator(year, day):
+        url = f"https://adventofcode.com/{year}/day/{day}/input"
+        cookies = {"session": _get_session_cookie_value()}
+        resp = requests.get(url, cookies=cookies)
+        return resp.text
+
+    return _create_file("data/", "txt", generator)
 
 
 def create_solution():
+    return _create_file("", "py", SOLUTION_TEMPLATE.format)
+
+
+def create_test():
+    return _create_file("test/", "py", TEST_TEMPLATE.format)
+
+
+def _create_file(dir, ext, content_generator):
     now = datetime.datetime.now()
-    filepath = pkg_resources.resource_filename(f"ibidem.advent_of_code.y{now.year}", f"dec{now.day:02}.py")
+    filepath = pkg_resources.resource_filename(f"ibidem.advent_of_code.y{now.year}", f"{dir}{now.day:02}.{ext}")
     if os.path.exists(filepath):
         return filepath
     with open(filepath, "w") as fd:
-        fd.write(SOLUTION_TEMPLATE.format(now.day))
+        fd.write(content_generator(year=now.year, day=now.day))
     return filepath
 
 
@@ -72,6 +88,8 @@ def main():
     print(f"Downloaded todays input to {filepath}")
     filepath = create_solution()
     print(f"Created solution file at {filepath}")
+    filepath = create_test()
+    print(f"Created test file at {filepath}")
 
 
 if __name__ == "__main__":
