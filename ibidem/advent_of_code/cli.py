@@ -17,16 +17,19 @@ SOLUTION_TEMPLATE = """\
 
 from ibidem.advent_of_code.y2020.util import get_input_name
 
+
 def load():
-    # TODO: Use correct input name
-    with open(get_input_name("")) as fobj:
+    with open(get_input_name("dec{:02}")) as fobj:
         fobj.read()
+
 
 def part1():
     pass
+
     
 def part2():
     pass
+
     
 if __name__ == "__main__":
     part1()
@@ -60,7 +63,7 @@ def create_solution():
     if os.path.exists(filepath):
         return filepath
     with open(filepath, "w") as fd:
-        fd.write(SOLUTION_TEMPLATE)
+        fd.write(SOLUTION_TEMPLATE.format(now.day))
     return filepath
 
 
