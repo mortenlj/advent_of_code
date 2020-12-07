@@ -20,7 +20,7 @@ from ibidem.advent_of_code.y{year}.util import get_input_name
 
 def load():
     with open(get_input_name("dec{day:02}")) as fobj:
-        fobj.read()
+        return fobj.read()
 
 
 def part1():
