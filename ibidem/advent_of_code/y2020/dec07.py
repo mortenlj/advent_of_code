@@ -2,9 +2,11 @@
 
 import re
 
+import networkx as nx
+
 from ibidem.advent_of_code.y2020.util import get_input_name
 
-BAG_PATTERN = re.compile(r"\d* ?(\w+ \w+) bags?")
+BAG_PATTERN = re.compile(r"(\d*) ?(\w+ \w+) bags?")
 TARGET = "shiny gold"
 
 
@@ -16,7 +18,7 @@ def load():
 def parse_color(spec):
     m = BAG_PATTERN.match(spec)
     if m:
-        return m.group(1)
+        return m.group(1), m.group(2)
     raise ValueError(f"Found no color in {spec}")
 
 
@@ -28,10 +30,23 @@ def parse(rules, target):
         for rule in rules:
             left, right = rule.split("contain")
             if carry in right:
-                container = parse_color(left)
+                _, container = parse_color(left)
                 carriers.append(container)
                 containers.add(container)
     return containers
+
+
+def parse_network(rules):
+    g = nx.DiGraph()
+    for rule in rules:
+        left, right = rule.split("contain")
+        _, parent = parse_color(left.strip())
+        for spec in right.split(","):
+            count, child = parse_color(spec.strip())
+            if not count:
+                continue
+            g.add_edge(parent, child, weight=int(count))
+    return g
 
 
 def part1():
@@ -39,8 +54,17 @@ def part1():
     print(f"{len(containers)} bags can carry a {TARGET} bag")
 
 
+def count_children(g, target):
+    count = 1
+    for child in g.successors(target):
+        count += count_children(g, child) * g.out_edges[target, child]["weight"]
+    return count
+
+
 def part2():
-    pass
+    g = parse_network(load())
+    count = count_children(g, TARGET) - 1
+    print(f"One {TARGET} bag must contain {count} other bags")
 
 
 if __name__ == "__main__":

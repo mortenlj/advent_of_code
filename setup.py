@@ -24,6 +24,7 @@ setup(
         "vectormath",
         "colorama",
         "requests",
+        "networkx",
     ],
     extras_require={
         "dev": [
