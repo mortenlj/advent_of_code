@@ -1,6 +1,6 @@
 import pytest
 
-from ibidem.advent_of_code.y2020.dec07 import parse_color, parse, TARGET, parse_network, count_children
+from ibidem.advent_of_code.y2020.dec07 import parse_color, TARGET, parse_network, count_children, find_containers
 
 RULES = """\
 light red bags contain 1 bright white bag, 2 muted yellow bags.
@@ -42,8 +42,8 @@ class TestDec07:
     def test_no_other_color(self):
         assert parse_color("no other bags.") == ("", "no other")
 
-    def test_parse(self):
-        colors = parse(RULES, TARGET)
+    def test_find_containers(self):
+        colors = find_containers(RULES, TARGET)
         assert VALID_BAGS == set(colors)
 
     @pytest.mark.parametrize("rules, target, count", (

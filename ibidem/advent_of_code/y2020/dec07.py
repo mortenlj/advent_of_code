@@ -22,20 +22,6 @@ def parse_color(spec):
     raise ValueError(f"Found no color in {spec}")
 
 
-def parse(rules, target):
-    carriers = [target]
-    containers = set()
-    while carriers:
-        carry = carriers.pop()
-        for rule in rules:
-            left, right = rule.split("contain")
-            if carry in right:
-                _, container = parse_color(left)
-                carriers.append(container)
-                containers.add(container)
-    return containers
-
-
 def parse_network(rules):
     g = nx.DiGraph()
     for rule in rules:
@@ -50,8 +36,14 @@ def parse_network(rules):
 
 
 def part1():
-    containers = parse(load(), TARGET)
+    containers = find_containers(load(), TARGET)
     print(f"{len(containers)} bags can carry a {TARGET} bag")
+
+
+def find_containers(rules, target):
+    g = parse_network(rules)
+    containers = nx.algorithms.dag.ancestors(g, target)
+    return containers
 
 
 def count_children(g, target):
