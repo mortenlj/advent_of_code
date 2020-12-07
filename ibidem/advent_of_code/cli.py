@@ -70,12 +70,12 @@ def create_solution():
 
 
 def create_test():
-    return _create_file("test/", "py", TEST_TEMPLATE.format)
+    return _create_file("test/test_", "py", TEST_TEMPLATE.format)
 
 
-def _create_file(dir, ext, content_generator):
+def _create_file(prefix, ext, content_generator):
     now = datetime.datetime.now()
-    filepath = pkg_resources.resource_filename(f"ibidem.advent_of_code.y{now.year}", f"{dir}{now.day:02}.{ext}")
+    filepath = pkg_resources.resource_filename(f"ibidem.advent_of_code.y{now.year}", f"{prefix}dec{now.day:02}.{ext}")
     if os.path.exists(filepath):
         return filepath
     with open(filepath, "w") as fd:
