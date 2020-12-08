@@ -23,3 +23,10 @@ class TestDec08():
         handheld.execute()
         assert handheld.ip == 1
         assert handheld.acc == 5
+
+    def test_execute_patcher(self):
+        handheld = Handheld(TEST_PROGRAM)
+        patched_ip = handheld.execute_patcher()
+        assert handheld.ip == len(handheld.program)
+        assert handheld.acc == 8
+        assert patched_ip == 7
