@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import re
 
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 def hgt_validator(v):
@@ -9,7 +9,7 @@ def hgt_validator(v):
     If cm, the number must be at least 150 and at most 193.
     If in, the number must be at least 59 and at most 76.
     """
-    m = re.match("(\d+)(cm|in)", v)
+    m = re.match(r"(\d+)(cm|in)", v)
     if m:
         height = int(m.group(1))
         unit = m.group(2)
@@ -51,7 +51,7 @@ def parse(s):
 
 def load():
     records = []
-    with open(get_input_name("dec04")) as fobj:
+    with open(get_input_name(4, 2020)) as fobj:
         record = []
         for line in fobj:
             line = line.strip()

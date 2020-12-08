@@ -1,5 +1,5 @@
 from ibidem.advent_of_code.board import Board
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 PART1_SLOPE = (3, 1)
 PART2_SLOPES = (
@@ -12,7 +12,7 @@ PART2_SLOPES = (
 
 
 def load():
-    with open(get_input_name("dec03")) as fobj:
+    with open(get_input_name(3, 2020)) as fobj:
         return Board.from_string(fobj.read())
 
 

@@ -3,7 +3,7 @@
 import sys
 
 from ibidem.advent_of_code.board import Board
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 def manhattan(pos):
@@ -13,7 +13,7 @@ def manhattan(pos):
 
 def part1():
     board = Board(15000, 20000, dtype="<U1")
-    with open(get_input_name("dec03")) as fobj:
+    with open(get_input_name(3, 2019)) as fobj:
         wires = []
         for line in fobj:
             wires.append(line.split(","))

@@ -4,7 +4,7 @@
 import numpy as np
 
 from ibidem.advent_of_code.board import Board
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 BOARD_SIZE = 5
 
@@ -44,7 +44,7 @@ class GoL(object):
 
 
 def part1():
-    with open(get_input_name("dec24")) as fobj:
+    with open(get_input_name(24, 2019)) as fobj:
         char_board = Board.from_string(fobj.read().strip())
         board = char_board.grid == "#"
         gol = GoL(board)

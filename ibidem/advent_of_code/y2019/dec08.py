@@ -4,7 +4,7 @@ import io
 
 from colorama import init, Fore
 
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 class Image(object):
@@ -55,7 +55,7 @@ def chunks(lst, n):
 
 
 def main():
-    with open(get_input_name("dec08")) as fobj:
+    with open(get_input_name(8, 2019)) as fobj:
         data = fobj.read().strip()
         image = Image(25, 6, data)
         best_count = len(data)

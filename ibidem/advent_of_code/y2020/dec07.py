@@ -4,14 +4,14 @@ import re
 
 import networkx as nx
 
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 BAG_PATTERN = re.compile(r"(\d*) ?(\w+ \w+) bags?")
 TARGET = "shiny gold"
 
 
 def load():
-    with open(get_input_name("dec07")) as fobj:
+    with open(get_input_name(7, 2020)) as fobj:
         return fobj.read().splitlines(keepends=False)
 
 

@@ -4,7 +4,7 @@ import re
 
 import numpy as np
 
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 class DealToNew(object):
@@ -67,7 +67,7 @@ class Shuffler(object):
 
 
 def part1():
-    with open(get_input_name("dec22")) as fobj:
+    with open(get_input_name(22, 2019)) as fobj:
         deck = np.arange(10007, dtype=np.int16)
         shuffler = Shuffler(fobj, deck)
         shuffler.shuffle()
@@ -76,7 +76,7 @@ def part1():
 
 
 def part2():
-    with open(get_input_name("dec22")) as fobj:
+    with open(get_input_name(22, 2019)) as fobj:
         deck = np.arange(119315717514047, dtype=np.int16)
         shuffler = Shuffler(fobj, deck)
         for _ in range(101741582076661):

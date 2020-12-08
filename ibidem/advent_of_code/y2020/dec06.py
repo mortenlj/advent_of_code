@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 import string
 
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 ALL_ANSWERS = set(string.ascii_lowercase)
 
 
 def load(update):
-    with open(get_input_name("dec06")) as fobj:
+    with open(get_input_name(6, 2020)) as fobj:
         groups = []
         group = set()
         for line in fobj:

@@ -3,7 +3,7 @@
 
 import itertools
 
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 class Planet(object):
@@ -51,13 +51,13 @@ def find_path_to_com(planet):
 
 
 def part1():
-    with open(get_input_name("dec06")) as fobj:
+    with open(get_input_name(6, 2019)) as fobj:
         total_orbits = calculate_orbits(fobj)
         print("Total orbits: {}".format(total_orbits))
 
 
 def part2():
-    with open(get_input_name("dec06")) as fobj:
+    with open(get_input_name(6, 2019)) as fobj:
         planets = load_planets(fobj)
         transfers = calculate_transfers(planets)
         print("Transfers: {}".format(transfers))

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from collections import namedtuple
 
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 Instruction = namedtuple("Instruction", ("operation", "value"))
 
@@ -52,7 +52,7 @@ class Handheld:
 
 
 def load():
-    with open(get_input_name("dec08")) as fobj:
+    with open(get_input_name(8, 2020)) as fobj:
         return fobj.readlines()
 
 

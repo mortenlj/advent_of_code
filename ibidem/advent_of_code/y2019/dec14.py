@@ -6,7 +6,7 @@ from queue import PriorityQueue
 
 import math
 
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 TRILLION = 1000000000000
 CHEMICALS = {}
@@ -116,13 +116,13 @@ def _load_reactions(lines):
 
 
 def part1():
-    with open(get_input_name("dec14")) as fobj:
+    with open(get_input_name(14, 2019)) as fobj:
         ore_needed = calculate_ore(fobj)
     print("You need {} units of ORE".format(ore_needed))
 
 
 def part2():
-    with open(get_input_name("dec14")) as fobj:
+    with open(get_input_name(14, 2019)) as fobj:
         fuel_produced = calculate_fuel(fobj)
     print("With {} ORE you could produce {} fuel".format(TRILLION, fuel_produced))
 

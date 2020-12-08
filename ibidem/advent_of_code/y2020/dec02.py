@@ -3,7 +3,7 @@
 import re
 from abc import ABCMeta, abstractmethod
 
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 class Policy(metaclass=ABCMeta):
@@ -36,7 +36,7 @@ class Policy2(Policy):
 
 
 def load(klz):
-    with open(get_input_name("dec02")) as fobj:
+    with open(get_input_name(2, 2020)) as fobj:
         for line in fobj:
             policy, password = line.strip().split(":")
             yield klz(policy), password.strip()

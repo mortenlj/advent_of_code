@@ -7,7 +7,7 @@ from multiprocessing import Process, Queue
 import math
 from vectormath import Vector3
 
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 INPUT_FORMAT = re.compile(r"<x=(.+), y=(.+), z=(.+)>")
 
@@ -151,13 +151,13 @@ def find_cycle(moons):
 
 
 def part1():
-    with open(get_input_name("dec12")) as fobj:
+    with open(get_input_name(12, 2019)) as fobj:
         moons = load_input(fobj)
         simulate(moons, 1000)
 
 
 def part2():
-    with open(get_input_name("dec12")) as fobj:
+    with open(get_input_name(12, 2019)) as fobj:
         moons = load_input(fobj)
         cycle_interval = find_cycle(moons)
         print("These moons will cycle after {} steps".format(cycle_interval))

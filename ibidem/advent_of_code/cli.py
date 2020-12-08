@@ -12,15 +12,14 @@ import requests
 HTTPIE_SESSION_PATH = os.path.join(os.path.expanduser("~"), ".config", "httpie", "sessions", "adventofcode.com",
                                    "session.json")
 
-# TODO: Refactor location of util to be non-year specific
 SOLUTION_TEMPLATE = """\
 #!/usr/bin/env python
 
-from ibidem.advent_of_code.y{year}.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 def load():
-    with open(get_input_name("dec{day:02}")) as fobj:
+    with open(get_input_name({day}, {year})) as fobj:
         return fobj.read()
 
 

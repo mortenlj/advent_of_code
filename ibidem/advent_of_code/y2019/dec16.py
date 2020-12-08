@@ -3,7 +3,7 @@
 
 import numpy as np
 
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 BASE_PATTERN = [0, 1, 0, -1]
 
@@ -54,14 +54,14 @@ def process(data, repetitions=1, offset=None):
 
 
 def part1():
-    with open(get_input_name("dec16")) as fobj:
+    with open(get_input_name(16, 2019)) as fobj:
         data = fobj.read().strip()
     result = process(data, offset=0)
     print("After 100 phases, the cleaned signal starts with these 8 digits: {}".format(result))
 
 
 def part2():
-    with open(get_input_name("dec16")) as fobj:
+    with open(get_input_name(16, 2019)) as fobj:
         data = fobj.read().strip()
     result = process(data, repetitions=10000)
     print("After 100 phases, the cleaned signal starts with these 8 digits: {}".format(result))

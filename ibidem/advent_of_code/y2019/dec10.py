@@ -8,7 +8,7 @@ from numpy import pi
 from vectormath import Vector2
 
 from ibidem.advent_of_code.board import Board
-from .util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 COLORS = [a for a in dir(Fore) if a.isupper() and a not in ("RESET", "BLACK", "LIGHTWHITE_EX", "WHITE")]
 STYLES = [(getattr(Fore, color), char) for char in "#@¤+*%$<>XOABCDEFGHIJKLMNPRSTUVWYZ" for color in COLORS]
@@ -54,7 +54,7 @@ class Asteroid(object):
 
 
 def part1():
-    with open(get_input_name("dec10")) as fobj:
+    with open(get_input_name(10, 2019)) as fobj:
         lines = fobj.readlines()
     best, board, count = solve_map(lines)
     present_result(best, board, count)

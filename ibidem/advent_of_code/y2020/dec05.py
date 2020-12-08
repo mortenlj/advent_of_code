@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 class BoardingPass():
@@ -16,7 +16,7 @@ class BoardingPass():
 
 def load():
     passes = []
-    with open(get_input_name("dec05")) as fobj:
+    with open(get_input_name(5, 2020)) as fobj:
         for line in fobj:
             passes.append(BoardingPass(line.strip()))
     return passes

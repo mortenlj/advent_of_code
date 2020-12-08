@@ -1,8 +1,8 @@
-from ibidem.advent_of_code.y2020.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name
 
 
 def load():
-    with open(get_input_name("dec01")) as fobj:
+    with open(get_input_name(1, 2020)) as fobj:
         return [int(l) for l in fobj]
 
 
