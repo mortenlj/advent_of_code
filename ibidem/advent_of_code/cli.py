@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 """CLI to make working with Advent of Code slightly simpler"""
-import datetime
 import json
 import os
+import webbrowser
+from datetime import datetime
 
 import pkg_resources
 import requests
@@ -74,7 +75,7 @@ def create_test():
 
 
 def _create_file(prefix, ext, content_generator):
-    now = datetime.datetime.now()
+    now = datetime.now()
     filepath = pkg_resources.resource_filename(f"ibidem.advent_of_code.y{now.year}", f"{prefix}dec{now.day:02}.{ext}")
     if os.path.exists(filepath):
         return filepath
@@ -90,6 +91,10 @@ def main():
     print(f"Created solution file at {filepath}")
     filepath = create_test()
     print(f"Created test file at {filepath}")
+    now = datetime.now()
+    problem_url = f"https://adventofcode.com/{now.year}/day/{now.day}/"
+    print(f"Read the problem description at {problem_url} (I've tried opening it for you)")
+    webbrowser.open_new_tab(problem_url)
 
 
 if __name__ == "__main__":
