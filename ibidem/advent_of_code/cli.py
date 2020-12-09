@@ -91,7 +91,7 @@ def main():
     filepath = create_test()
     print(f"Created test file at {filepath}")
     now = datetime.now()
-    problem_url = f"https://adventofcode.com/{now.year}/day/{now.day}/"
+    problem_url = f"https://adventofcode.com/{now.year}/day/{now.day}"
     print(f"Read the problem description at {problem_url} (I've tried opening it for you)")
     webbrowser.open_new_tab(problem_url)
 
