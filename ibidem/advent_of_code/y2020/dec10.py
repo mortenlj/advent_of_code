@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from collections import defaultdict
 
 from ibidem.advent_of_code.util import get_input_name
 
@@ -23,11 +24,18 @@ def part1(adapters):
     return result
 
 
-def part2():
-    pass
+def part2(adapters):
+    adapters = list(reversed(sorted(adapters)))
+    paths_from = defaultdict(int)
+    paths_from[max(adapters) + 3] = 1
+    for i in adapters:
+        paths_from[i] = paths_from[i + 1] + paths_from[i + 2] + paths_from[i + 3]
+    result = paths_from[1] + paths_from[2] + paths_from[3]
+    print(f"Part 2 result: {result}")
+    return result
 
 
 if __name__ == "__main__":
     adapters = load()
     part1(adapters)
-    part2()
+    part2(adapters)
