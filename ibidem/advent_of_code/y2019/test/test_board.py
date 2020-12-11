@@ -3,7 +3,17 @@
 import io
 import textwrap
 
+import pytest
+
 from ibidem.advent_of_code.board import Board
+
+ADJACENCY_BOARD = Board.from_string(textwrap.dedent("""\
+    abcd
+    efgh
+    ijkl
+    mnop
+    qrst
+    """))
 
 
 def test_board():
@@ -65,3 +75,13 @@ def test_print():
 def test_count():
     b = Board.from_string(".#.\n#.#\n###")
     assert b.count(".") == 3
+
+
+@pytest.mark.parametrize("x, y, expected", (
+        (1, 1, list("abcegijk")),
+        (0, 0, list("bef")),
+        (3, 3, list("klost")),
+))
+def test_adjacent(x, y, expected):
+    actual = ADJACENCY_BOARD.adjacent(x, y)
+    assert actual == expected

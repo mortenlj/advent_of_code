@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
-
+import io
 import textwrap
 
 import numpy as np
@@ -49,9 +49,9 @@ class Board(object):
     def _grow(self, axis):
         if self._do_translate:
             if axis == "x":
-                pad = ((0, 0), (GROW_SIZE//2, GROW_SIZE//2))
+                pad = ((0, 0), (GROW_SIZE // 2, GROW_SIZE // 2))
             else:
-                pad = ((GROW_SIZE//2, GROW_SIZE//2), (0, 0))
+                pad = ((GROW_SIZE // 2, GROW_SIZE // 2), (0, 0))
         else:
             if axis == "x":
                 pad = ((0, 0), (0, GROW_SIZE))
@@ -76,6 +76,24 @@ class Board(object):
     def count(self, v):
         return sum((row == v).sum() for row in self.grid)
 
+    def copy(self):
+        b = Board(size_x=self.size_x, size_y=self.size_y, do_translate=self._do_translate,
+                  flip=self._flip, fill_value=self._fill_value, dtype=self.grid.dtype)
+        b.grid = self.grid.copy()
+        return b
+
+    def adjacent(self, x, y):
+        values = []
+        for j in (-1, 0, 1):
+            for i in (-1, 0, 1):
+                if i == j == 0:
+                    continue
+                try:
+                    values.append(self.get(x + i, y + j))
+                except IndexError:
+                    pass
+        return values
+
     def print(self, buf=None):
         lines = []
         rows = reversed(self.grid) if self._flip else self.grid
@@ -85,6 +103,16 @@ class Board(object):
         output = "\n".join(lines)
         text = textwrap.dedent(output)
         print(text, file=buf)
+
+    def __repr__(self):
+        buf = io.StringIO()
+        self.print(buf)
+        return buf.getvalue()
+
+    def __eq__(self, other):
+        return other is not None and \
+               (self.grid == other.grid).all() and \
+               self._flip == other._flip and self._do_translate == other._do_translate
 
 
 if __name__ == "__main__":
