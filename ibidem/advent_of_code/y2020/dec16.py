@@ -3,6 +3,7 @@
 import collections
 import operator
 import re
+from functools import reduce
 
 import numpy as np
 
@@ -88,17 +89,11 @@ def find_invalid(field_rules, nearby):
     return invalid, results
 
 
-def find_invalid_tickets(nearby, invalid):
+def find_field_order(field_rules, invalid, results, count):
+    possible_fields = _prep_possible_fields(count, field_rules)
     invalid_rows = invalid.any(axis=1)
     idx = np.where(invalid_rows)
-    return nearby[idx]
-
-
-def find_field_order(field_rules, invalid_tickets, results):
-    count = len(invalid_tickets[0])
-    possible_fields = _prep_possible_fields(count, field_rules)
-    # TODO: Remove results for invalid tickets
-
+    results = np.delete(results, idx, axis=1)
     _filter_invalid_rules(field_rules, possible_fields, results)
     return _decide_field_order(field_rules, possible_fields)
 
@@ -141,14 +136,14 @@ def _prep_possible_fields(count, field_rules):
 def part2(input):
     nearby = np.array(input.nearby_tickets)
     invalid, results = find_invalid(input.field_rules, nearby)
-    invalid_tickets = find_invalid_tickets(nearby, invalid)
-    field_order = find_field_order(input.field_rules, invalid_tickets, results)
+    count = len(nearby[0])
+    field_order = find_field_order(input.field_rules, invalid, results, count)
     ticket_values = []
     for fieldname, idx in field_order.items():
         if fieldname.startswith("departure"):
             ticket_values.append(input.your_ticket[idx])
     assert len(ticket_values) == 6
-    result = map(operator.mul, ticket_values)
+    result = reduce(operator.mul, ticket_values)
     print(f"The final result is {result}")
 
 

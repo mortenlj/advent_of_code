@@ -61,20 +61,9 @@ class TestDec16():
         result = part1(input)
         assert result == 71
 
-    def test_find_invalid_tickets(self):
-        input = load()
-        nearby = np.array(input.nearby_tickets)
-        invalid, _ = find_invalid(input.field_rules, nearby)
-        invalid_tickets = find_invalid_tickets(nearby, invalid)
-        assert len(invalid_tickets) == 3
-        assert np.equal(invalid_tickets[0], [40, 4, 50]).all()
-        assert np.equal(invalid_tickets[1], [55, 2, 20]).all()
-        assert np.equal(invalid_tickets[2], [38, 6, 12]).all()
-
     def test_find_field_order(self):
         invalid, results = find_invalid(RULES, NEARBY)
-        invalid_tickets = find_invalid_tickets(NEARBY, invalid)
-        order = find_field_order(RULES, invalid_tickets, results)
+        order = find_field_order(RULES, invalid, results, 3)
         assert order["row"] == 0
         assert order["class"] == 1
         assert order["seat"] == 2
