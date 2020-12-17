@@ -19,6 +19,25 @@ nearby tickets:
 38,6,12
 """
 
+RULES = [
+    Input("class", Range(0, 1), Range(4, 19)),
+    Input("row", Range(0, 5), Range(8, 19)),
+    Input("seat", Range(0, 13), Range(16, 19)),
+]
+
+NEARBY = np.array([
+    [3, 9, 18],
+    [15, 1, 5],
+    [20, 0, 0],
+    [5, 14, 9],
+    [19, 19, 19],
+    [0, 0, 0],
+    [8, 4, 16],
+    [0, 20, 0],
+    [5, 1, 13],
+    [0, 0, 20],
+])
+
 
 class TestDec16():
     @pytest.fixture(autouse=True)
@@ -41,3 +60,22 @@ class TestDec16():
         input = load()
         result = part1(input)
         assert result == 71
+
+    def test_find_invalid_tickets(self):
+        input = load()
+        nearby = np.array(input.nearby_tickets)
+        invalid, _ = find_invalid(input.field_rules, nearby)
+        invalid_tickets = find_invalid_tickets(nearby, invalid)
+        assert len(invalid_tickets) == 3
+        assert np.equal(invalid_tickets[0], [40, 4, 50]).all()
+        assert np.equal(invalid_tickets[1], [55, 2, 20]).all()
+        assert np.equal(invalid_tickets[2], [38, 6, 12]).all()
+
+    def test_find_field_order(self):
+        invalid, results = find_invalid(RULES, NEARBY)
+        invalid_tickets = find_invalid_tickets(NEARBY, invalid)
+        order = find_field_order(RULES, invalid_tickets, results)
+        assert order["row"] == 0
+        assert order["class"] == 1
+        assert order["seat"] == 2
+        assert len(order) == 3
