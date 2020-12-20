@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 """CLI to make working with Advent of Code slightly simpler"""
+import argparse
 import json
 import os
 import webbrowser
@@ -84,14 +85,18 @@ def _create_file(prefix, ext, content_generator):
 
 
 def main():
+    parser = argparse.ArgumentParser()
+    now = datetime.now()
+    parser.add_argument("--year", type=int, help="Year of the code", default=now.year)
+    parser.add_argument("--day", type=int, help="Day of the code", default=now.day)
+    options = parser.parse_args()
     filepath = get_input()
     print(f"Downloaded todays input to {filepath}")
     filepath = create_solution()
     print(f"Created solution file at {filepath}")
     filepath = create_test()
     print(f"Created test file at {filepath}")
-    now = datetime.now()
-    problem_url = f"https://adventofcode.com/{now.year}/day/{now.day}"
+    problem_url = f"https://adventofcode.com/{options.year}/day/{options.day}"
     print(f"Read the problem description at {problem_url} (I've tried opening it for you)")
     webbrowser.open_new_tab(problem_url)
 
