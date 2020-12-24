@@ -126,7 +126,7 @@ class Mapper(object):
     def _input(self):
         best = None
         for direction in Directions:
-            x, y = direction.move(self._x, self._y)
+            x, y = direction.axial(self._x, self._y)
             candidate = self._nodes.get(x, y)
             if best is None or candidate.visits < best[0].visits:
                 best = (candidate, direction)

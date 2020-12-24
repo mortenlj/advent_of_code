@@ -43,8 +43,18 @@ class Board(object):
 
     def get(self, x, y):
         gx, gy = self._translate(x, y)
-        self._index_check(gx, gy)
+        try:
+            self._index_check(gx, gy)
+        except IndexError as e:
+            self._grow(e.args[-1])
+            return self.get(x, y)
         return self.grid[gy][gx]
+
+    def __getitem__(self, item):
+        return self.get(*item)
+
+    def __setitem__(self, key, value):
+        return self.set(key[0], key[1], value)
 
     def _grow(self, axis):
         if self._do_translate:

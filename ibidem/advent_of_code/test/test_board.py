@@ -7,13 +7,16 @@ import pytest
 
 from ibidem.advent_of_code.board import Board
 
-ADJACENCY_BOARD = Board.from_string(textwrap.dedent("""\
-    abcd
-    efgh
-    ijkl
-    mnop
-    qrst
-    """))
+
+@pytest.fixture
+def adjacency_board():
+    return Board.from_string(textwrap.dedent("""\
+        abcd
+        efgh
+        ijkl
+        mnop
+        qrst
+        """))
 
 
 def test_board():
@@ -82,6 +85,15 @@ def test_count():
         (0, 0, list("bef")),
         (3, 3, list("klost")),
 ))
-def test_adjacent(x, y, expected):
-    actual = ADJACENCY_BOARD.adjacent(x, y)
+def test_adjacent(x, y, expected, adjacency_board):
+    actual = adjacency_board.adjacent(x, y)
     assert actual == expected
+
+
+def test_get_coord(adjacency_board):
+    assert adjacency_board[1, 1] == "f"
+
+
+def test_set_coord(adjacency_board):
+    adjacency_board[1, 1] = "X"
+    assert adjacency_board.get(1, 1) == "X"
