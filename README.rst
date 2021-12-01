@@ -14,5 +14,5 @@ CLI
 This repo also contains a minimal cli to generate files for problems ready for implementing.
 In order to work, it needs a proper session to start with, and the simplest way to get that is to issue this command::
 
-    http --session session https://adventofcode.com
+    # TODO: Remember how to do oauth flow with httpie :shrug:
 
