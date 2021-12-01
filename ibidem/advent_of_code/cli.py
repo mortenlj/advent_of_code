@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-"""CLI to make working with Advent of Code slightly simpler"""
+"""CLI to make working with Advent of Code slightly simpler
+"""
 import argparse
 import json
 import os
@@ -78,6 +79,7 @@ def _create_file(prefix, ext, content_generator, now):
     filepath = pkg_resources.resource_filename(f"ibidem.advent_of_code.y{now.year}", f"{prefix}dec{now.day:02}.{ext}")
     if os.path.exists(filepath):
         return filepath
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
     with open(filepath, "w") as fd:
         fd.write(content_generator(year=now.year, day=now.day))
     return filepath
