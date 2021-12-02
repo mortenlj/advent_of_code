@@ -26,16 +26,18 @@ def load():
 
 
 def part1():
-    pass
+    return None
 
     
 def part2():
-    pass
+    return None
 
     
 if __name__ == "__main__":
-    part1()
-    part2()
+    p1_result = part1()
+    print(f"Part 1: {p1_result}")
+    p2_result = part2()
+    print(f"Part 2: {p2_result}")
 """
 
 TEST_TEMPLATE = """\
@@ -47,6 +49,12 @@ from ibidem.advent_of_code.y{year}.dec{day:02} import *
 
 class TestDec{day:02}():
     def test_load(self):
+        pass
+        
+    def test_part1(self):
+        pass
+        
+    def test_part2(self):
         pass
 """
 
