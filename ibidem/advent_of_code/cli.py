@@ -35,9 +35,9 @@ def part2():
     
 if __name__ == "__main__":
     p1_result = part1()
-    print(f"Part 1: {p1_result}")
+    print(f"Part 1: {{p1_result}}")
     p2_result = part2()
-    print(f"Part 2: {p2_result}")
+    print(f"Part 2: {{p2_result}}")
 """
 
 TEST_TEMPLATE = """\
