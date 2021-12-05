@@ -21,11 +21,11 @@ class Board(object):
         self._flip = flip
 
     @classmethod
-    def from_string(cls, string):
+    def from_string(cls, string, fill_value=" ", dtype="<U15"):
         lines = string.strip().splitlines()
         size_y = len(lines)
         size_x = len(lines[0].strip())
-        board = cls(size_x, size_y, do_translate=False, flip=False)
+        board = cls(size_x, size_y, do_translate=False, flip=False, fill_value=fill_value, dtype=dtype)
         for y, row in enumerate(lines):
             for x, char in enumerate(row):
                 board.set(x, y, char)
