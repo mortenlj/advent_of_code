@@ -19,6 +19,7 @@ TEST_INPUT = """\
 """
 
 PART1_RESULT = 198
+PART2_RESULT = 230
 
 
 class TestDec03():
@@ -28,4 +29,6 @@ class TestDec03():
         assert result == PART1_RESULT
         
     def test_part2(self):
-        pass
+        board = Board.from_string(TEST_INPUT, fill_value=0, dtype=np.int_)
+        result = part2(board)
+        assert result == PART2_RESULT
