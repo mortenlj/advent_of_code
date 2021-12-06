@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+from collections import defaultdict
+
 import numpy as np
 
 from ibidem.advent_of_code.util import get_input_name
@@ -19,8 +21,18 @@ def simulate(fobj, days):
 
 
 def part2(fobj):
-    # TODO: Maths
-    return None #simulate(fobj, 256)
+    counters = defaultdict(int)
+    initial = np.fromstring(fobj.read(), dtype=int, sep=",")
+    for v in initial:
+        counters[v] += 1
+    for day in range(256):
+        new = defaultdict(int)
+        for i in range(8):
+            new[i] = counters[i+1]
+        new[8] = counters[0]
+        new[6] += counters[0]
+        counters = new
+    return sum(counters.values())
 
 
 if __name__ == "__main__":
