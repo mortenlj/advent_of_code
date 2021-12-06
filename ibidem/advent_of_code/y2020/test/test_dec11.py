@@ -17,7 +17,7 @@ INITIAL_BOARD = Board.from_string(textwrap.dedent("""\
     LLLLLLLLLL
     L.LLLLLL.L
     L.LLLLL.LL
-    """))
+    """), growable=False)
 PART1_STEP2_BOARD = Board.from_string(textwrap.dedent("""\
     #.##.##.##
     #######.##
@@ -29,7 +29,7 @@ PART1_STEP2_BOARD = Board.from_string(textwrap.dedent("""\
     ##########
     #.######.#
     #.#####.##
-    """))
+    """), growable=False)
 PART1_FINAL_BOARD = Board.from_string(textwrap.dedent("""\
     #.#L.L#.##
     #LLL#LL.L#
@@ -41,7 +41,7 @@ PART1_FINAL_BOARD = Board.from_string(textwrap.dedent("""\
     #L#L##L#L#
     #.LLLLLL.L
     #.#L#L#.##
-    """))
+    """), growable=False)
 PART2_STEP2_BOARD = Board.from_string(textwrap.dedent("""\
     #.##.##.##
     #######.##
@@ -53,7 +53,7 @@ PART2_STEP2_BOARD = Board.from_string(textwrap.dedent("""\
     ##########
     #.######.#
     #.#####.##
-    """))
+    """), growable=False)
 PART2_STEP3_BOARD = Board.from_string(textwrap.dedent("""\
     #.LL.LL.L#
     #LLLLLL.LL
@@ -65,7 +65,7 @@ PART2_STEP3_BOARD = Board.from_string(textwrap.dedent("""\
     LLLLLLLLL#
     #.LLLLLL.L
     #.LLLLL.L#
-    """))
+    """), growable=False)
 PART2_FINAL_BOARD = Board.from_string(textwrap.dedent("""\
     #.L#.L#.L#
     #LLLLLL.LL
@@ -77,7 +77,7 @@ PART2_FINAL_BOARD = Board.from_string(textwrap.dedent("""\
     LLL###LLL#
     #.LLLLL#.L
     #.L#LL#.L#
-    """))
+    """), growable=False)
 
 
 class TestDec11():
@@ -115,7 +115,7 @@ class TestPart2Stepper():
     def test_look(self, pos, dv, expected):
         stepper = Part2Stepper(Board.from_string("L.#\n"
                                                  ".#.\n"
-                                                 "#L."))
+                                                 "#L.", growable=False))
         actual = stepper._look(pos, dv)
         assert actual == expected
 

@@ -9,8 +9,13 @@ import numpy as np
 GROW_SIZE = 200
 
 
+class TooSmall(Exception):
+    """The current grid is too small for the wanted operation"""
+    pass
+
+
 class Board(object):
-    def __init__(self, size_x=None, size_y=None, do_translate=True, flip=False, fill_value=" ", dtype="<U15"):
+    def __init__(self, size_x=None, size_y=None, do_translate=True, flip=False, fill_value=" ", dtype="<U15", growable=True):
         size_x = 10 if size_x is None else size_x
         size_y = 10 if size_y is None else size_y
         self.size_x = size_x
@@ -19,13 +24,14 @@ class Board(object):
         self._fill_value = fill_value
         self._do_translate = do_translate
         self._flip = flip
+        self._growable = growable
 
     @classmethod
-    def from_string(cls, string, fill_value=" ", dtype="<U15"):
+    def from_string(cls, string, fill_value=" ", dtype="<U15", growable=True):
         lines = string.strip().splitlines()
         size_y = len(lines)
         size_x = len(lines[0].strip())
-        board = cls(size_x, size_y, do_translate=False, flip=False, fill_value=fill_value, dtype=dtype)
+        board = cls(size_x, size_y, do_translate=False, flip=False, fill_value=fill_value, dtype=dtype, growable=growable)
         for y, row in enumerate(lines):
             for x, char in enumerate(row):
                 board.set(x, y, char)
@@ -35,7 +41,7 @@ class Board(object):
         gx, gy = self._translate(x, y)
         try:
             self._index_check(gx, gy)
-        except IndexError as e:
+        except TooSmall as e:
             self._grow(e.args[-1])
             return self.set(x, y, c)
         old = self.grid[gy][gx]
@@ -46,7 +52,7 @@ class Board(object):
         gx, gy = self._translate(x, y)
         try:
             self._index_check(gx, gy)
-        except IndexError as e:
+        except TooSmall as e:
             self._grow(e.args[-1])
             return self.get(x, y)
         return self.grid[gy][gx]
@@ -58,6 +64,8 @@ class Board(object):
         return self.set(key[0], key[1], value)
 
     def _grow(self, axis):
+        if not self._growable:
+            raise IndexError(f"{axis.upper()} coordinate out of bounds")
         if self._do_translate:
             if axis == "x":
                 pad = ((0, 0), (GROW_SIZE // 2, GROW_SIZE // 2))
@@ -79,10 +87,15 @@ class Board(object):
         return gx, gy
 
     def _index_check(self, gx, gy):
+        if not self._do_translate:
+            if gx < 0:
+                raise IndexError("X coordinate ({}) out of bounds".format(gx), "x")
+            if gy < 0:
+                raise IndexError("Y coordinate ({}) out of bounds".format(gy), "y")
         if not 0 <= gx < self.size_x:
-            raise IndexError("X coordinate ({}) out of bounds".format(gx), "x")
+            raise TooSmall("X coordinate ({}) out of bounds".format(gx), "x")
         if not 0 <= gy < self.size_y:
-            raise IndexError("Y coordinate ({}) out of bounds".format(gy), "y")
+            raise TooSmall("Y coordinate ({}) out of bounds".format(gy), "y")
 
     def count(self, v):
         return sum((row == v).sum() for row in self.grid)
@@ -100,8 +113,10 @@ class Board(object):
                 if i == j == 0:
                     continue
                 try:
-                    values.append(self.get(x + i, y + j))
-                except IndexError:
+                    nx, ny = x + i, y + j
+                    self._index_check(nx, ny)
+                    values.append(self.get(nx, ny))
+                except (IndexError, TooSmall):
                     pass
         return values
 

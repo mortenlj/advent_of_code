@@ -4,17 +4,17 @@ import pytest
 
 from ibidem.advent_of_code.y2020.dec19 import *
 
-TestCase = namedtuple("TestCase", ["rules", "messages", "matches"])
+Case = namedtuple("TestCase", ["rules", "messages", "matches"])
 
-CASE1 = TestCase(
+CASE1 = Case(
     {r.name: r for r in (Rule("0", "((1) (2))"), Rule("1", "a"), Rule("2", "((1 3) | (3 1))"), Rule("3", "b"))},
     ["aab", "aba", "aabb", "baa"], ["aab", "aba"])
-CASE2 = TestCase({r.name: r for r in (Rule("0", "(4 1 5)"), Rule("1", "((2 3) | (3 2))"), Rule("2", "((4 4) | (5 5))"),
-                                      Rule("3", "((4 5) | (5 4))"), Rule("4", "a"), Rule("5", "b"))},
-                 ["ababbb", "bababa", "abbbab", "aaabbb", "aaaabbb"],
-                 ["ababbb", "abbbab"])
-CASE3 = TestCase({r.name: r for r in (Rule("0", "1 15"), Rule("1", "a"), Rule("15", "b"), Rule("5", "x"))},
-                 ["ab", "aab", "abb", "aabb"], ["ab"])
+CASE2 = Case({r.name: r for r in (Rule("0", "(4 1 5)"), Rule("1", "((2 3) | (3 2))"), Rule("2", "((4 4) | (5 5))"),
+                                  Rule("3", "((4 5) | (5 4))"), Rule("4", "a"), Rule("5", "b"))},
+             ["ababbb", "bababa", "abbbab", "aaabbb", "aaaabbb"],
+             ["ababbb", "abbbab"])
+CASE3 = Case({r.name: r for r in (Rule("0", "1 15"), Rule("1", "a"), Rule("15", "b"), Rule("5", "x"))},
+             ["ab", "aab", "abb", "aabb"], ["ab"])
 
 
 class TestDec19():
