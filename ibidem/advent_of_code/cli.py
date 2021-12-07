@@ -20,42 +20,58 @@ SOLUTION_TEMPLATE = """\
 from ibidem.advent_of_code.util import get_input_name
 
 
-def load():
-    with open(get_input_name({day}, {year})) as fobj:
-        return fobj.read()
+def load(fobj):
+    return fobj.read()
 
 
-def part1():
+def part1(input):
     return None
 
-    
-def part2():
+
+def part2(input):
     return None
 
-    
+
 if __name__ == "__main__":
-    p1_result = part1()
-    print(f"Part 1: {{p1_result}}")
-    p2_result = part2()
-    print(f"Part 2: {{p2_result}}")
+    with open(get_input_name(7, 2021)) as fobj:
+        p1_result = part1(load(fobj))
+        print(f"Part 1: {{p1_result}}")
+    with open(get_input_name(7, 2021)) as fobj:
+        p2_result = part2(load(fobj))
+        print(f"Part 2: {{p2_result}}")
 """
 
 TEST_TEMPLATE = """\
-
+import io
 import pytest
 
-from ibidem.advent_of_code.y{year}.dec{day:02} import *
+from ibidem.advent_of_code.y2021.dec07 import load, part1, part2
 
 
-class TestDec{day:02}():
-    def test_load(self):
-        pass
+TEST_INPUT = io.StringIO(\"\"\"\\
+\"\"\")
+
+PART1_RESULT = NotImplemented
+PART2_RESULT = NotImplemented
+
+
+class TestDec07():
+    @pytest.fixture
+    def input(self):
+        TEST_INPUT.seek(0)
+        return TEST_INPUT
+
+    def test_load(self, input):
+        result = load(input)
+        assert result
         
-    def test_part1(self):
-        pass
+    def test_part1(self, input):
+        result = part1(input)
+        assert result == PART1_RESULT
         
-    def test_part2(self):
-        pass
+    def test_part2(self, input):
+        result = part2(input)
+        assert result == PART2_RESULT
 """
 
 
