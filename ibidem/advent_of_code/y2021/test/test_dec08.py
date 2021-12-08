@@ -18,7 +18,7 @@ gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce
 """)
 
 PART1_RESULT = 26
-PART2_RESULT = NotImplemented
+PART2_RESULT = 61229
 
 
 class TestDec08():
