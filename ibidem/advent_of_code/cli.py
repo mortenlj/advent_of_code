@@ -33,10 +33,10 @@ def part2(input):
 
 
 if __name__ == "__main__":
-    with open(get_input_name(7, 2021)) as fobj:
+    with open(get_input_name({day}, {year})) as fobj:
         p1_result = part1(load(fobj))
         print(f"Part 1: {{p1_result}}")
-    with open(get_input_name(7, 2021)) as fobj:
+    with open(get_input_name({day}, {year})) as fobj:
         p2_result = part2(load(fobj))
         print(f"Part 2: {{p2_result}}")
 """
@@ -45,7 +45,7 @@ TEST_TEMPLATE = """\
 import io
 import pytest
 
-from ibidem.advent_of_code.y2021.dec07 import load, part1, part2
+from ibidem.advent_of_code.y{year}.dec{day:02} import load, part1, part2
 
 
 TEST_INPUT = io.StringIO(\"\"\"\\
@@ -55,7 +55,7 @@ PART1_RESULT = NotImplemented
 PART2_RESULT = NotImplemented
 
 
-class TestDec07():
+class TestDec{day:02}():
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
