@@ -90,6 +90,16 @@ def test_adjacent(x, y, expected, adjacency_board):
     assert actual == expected
 
 
+@pytest.mark.parametrize("x, y, expected", (
+        (1, 1, list("begj")),
+        (0, 0, list("be")),
+        (3, 3, list("lot")),
+))
+def test_adjacent_without_diagonal(x, y, expected, adjacency_board):
+    actual = adjacency_board.adjacent(x, y, include_diagonal=False)
+    assert actual == expected
+
+
 def test_get_coord(adjacency_board):
     assert adjacency_board[1, 1] == "f"
 

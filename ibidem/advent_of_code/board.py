@@ -15,7 +15,8 @@ class TooSmall(Exception):
 
 
 class Board(object):
-    def __init__(self, size_x=None, size_y=None, do_translate=True, flip=False, fill_value=" ", dtype="<U15", growable=True):
+    def __init__(self, size_x=None, size_y=None, do_translate=True, flip=False, fill_value=" ", dtype="<U15",
+                 growable=True):
         size_x = 10 if size_x is None else size_x
         size_y = 10 if size_y is None else size_y
         self.size_x = size_x
@@ -31,7 +32,8 @@ class Board(object):
         lines = string.strip().splitlines()
         size_y = len(lines)
         size_x = len(lines[0].strip())
-        board = cls(size_x, size_y, do_translate=False, flip=False, fill_value=fill_value, dtype=dtype, growable=growable)
+        board = cls(size_x, size_y, do_translate=False, flip=False, fill_value=fill_value, dtype=dtype,
+                    growable=growable)
         for y, row in enumerate(lines):
             for x, char in enumerate(row):
                 board.set(x, y, char)
@@ -106,19 +108,25 @@ class Board(object):
         b.grid = self.grid.copy()
         return b
 
-    def adjacent(self, x, y):
+    def adjacent(self, x, y, include_diagonal=True):
         values = []
+        for nx, ny in self.adjacent_indexes(x, y, include_diagonal):
+            values.append(self.get(nx, ny))
+        return values
+
+    def adjacent_indexes(self, x, y, include_diagonal):
         for j in (-1, 0, 1):
             for i in (-1, 0, 1):
                 if i == j == 0:
                     continue
+                if not include_diagonal and (i != 0 and j != 0):
+                    continue
                 try:
                     nx, ny = x + i, y + j
                     self._index_check(nx, ny)
-                    values.append(self.get(nx, ny))
+                    yield (nx, ny)
                 except (IndexError, TooSmall):
                     pass
-        return values
 
     def print(self, buf=None):
         lines = []
