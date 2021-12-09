@@ -61,16 +61,19 @@ class TestDec{day:02}():
         TEST_INPUT.seek(0)
         return TEST_INPUT
 
-    def test_load(self, input):
-        result = load(input)
-        assert result
+    @pytest.fixture
+    def loaded(self, input):
+        return load(input)
+
+    def test_load(self, loaded):
+        assert loaded
         
-    def test_part1(self, input):
-        result = part1(input)
+    def test_part1(self, loaded):
+        result = part1(loaded)
         assert result == PART1_RESULT
         
-    def test_part2(self, input):
-        result = part2(input)
+    def test_part2(self, loaded):
+        result = part2(loaded)
         assert result == PART2_RESULT
 """
 
