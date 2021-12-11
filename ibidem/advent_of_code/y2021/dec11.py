@@ -38,7 +38,11 @@ def part1(board):
 
 
 def part2(board):
-    return None
+    step = 0
+    while board.count(0) < 100:
+        step += 1
+        simulate_step(board)
+    return step
 
 
 if __name__ == "__main__":

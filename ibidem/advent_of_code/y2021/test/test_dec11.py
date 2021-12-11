@@ -43,7 +43,7 @@ STEP2 = load(io.StringIO("""\
 """))
 
 PART1_RESULT = 1656
-PART2_RESULT = NotImplemented
+PART2_RESULT = 195
 
 
 class TestDec11():
