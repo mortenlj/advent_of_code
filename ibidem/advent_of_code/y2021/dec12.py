@@ -19,7 +19,7 @@ def load(fobj):
 def all_paths(G):
     cutoff = len(G) * 10
     source = "start"
-    targets = {"end"}
+    target = "end"
     visited = [source]
     stack = [iter(G[source])]
     while stack:
@@ -31,16 +31,14 @@ def all_paths(G):
         elif len(visited) < cutoff:
             if child in visited and child == child.lower():
                 continue
-            if child in targets:
+            if child == target:
                 yield visited + [child]
             visited.append(child)
-            if targets - set(visited):  # expand stack until find all targets
+            if target not in visited:  # expand stack until find all targets
                 stack.append(iter(G[child]))
             else:
                 visited.pop()  # maybe other ways to child
         else:  # len(visited) == cutoff:
-            for target in (targets & (set(children) | {child})) - set(visited):
-                yield visited + [target]
             stack.pop()
             visited.pop()
 
@@ -52,8 +50,11 @@ def part1(G: networkx.Graph):
     return len(paths)
 
 
-def part2(input):
-    return None
+def part2(G: networkx.Graph):
+    paths = list(all_paths(G))
+    for p in paths:
+        print(",".join(p))
+    return len(paths)
 
 
 if __name__ == "__main__":
