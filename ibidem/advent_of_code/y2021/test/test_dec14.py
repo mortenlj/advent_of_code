@@ -2,7 +2,7 @@ import io
 
 import pytest
 
-from ibidem.advent_of_code.y2021.dec14 import load, part1, part2
+from ibidem.advent_of_code.y2021.dec14 import load, part1, part2, solve_step, seed
 
 TEST_INPUT = io.StringIO("""\
 NNCB
@@ -48,6 +48,15 @@ class TestDec14():
     def test_part1(self, loaded):
         result = part1(*loaded)
         assert result == PART1_RESULT
+
+    @pytest.mark.parametrize("template, result", (
+            ("NBCCNBBBCBHCB", "NBBBCNCCNBBNBNBBCHBHHBCHB"),
+            ("NBBBCNCCNBBNBNBBCHBHHBCHB", "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB"),
+    ))
+    def test_solve_step(self, template, result, loaded):
+        _, rules = loaded
+        actual = solve_step(0, seed(template), rules)
+        assert actual == seed(result)
 
     def test_part2(self, loaded):
         result = part2(*loaded)
