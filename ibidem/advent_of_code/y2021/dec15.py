@@ -3,7 +3,7 @@ import networkx
 import numpy as np
 
 from ibidem.advent_of_code.board import Board
-from ibidem.advent_of_code.util import get_input_name
+from ibidem.advent_of_code.util import get_input_name, time_this
 
 
 def make_graph(board):
@@ -33,10 +33,12 @@ def load2(fobj):
     return make_graph(board)
 
 
+@time_this
 def part1(graph, lr):
     return networkx.shortest_path_length(graph, (0, 0), lr, "risk")
 
 
+@time_this
 def part2(graph, lr):
     return networkx.shortest_path_length(graph, (0, 0), lr, "risk")
 
