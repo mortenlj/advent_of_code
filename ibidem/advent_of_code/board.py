@@ -19,13 +19,19 @@ class Board(object):
                  growable=True):
         size_x = 10 if size_x is None else size_x
         size_y = 10 if size_y is None else size_y
-        self.size_x = size_x
-        self.size_y = size_y
         self.grid = np.full((size_y, size_x), fill_value, dtype)
         self._fill_value = fill_value
         self._do_translate = do_translate
         self._flip = flip
         self._growable = growable
+
+    @property
+    def size_x(self):
+        return self.grid.shape[1]
+
+    @property
+    def size_y(self):
+        return self.grid.shape[0]
 
     @classmethod
     def from_string(cls, string, fill_value=" ", dtype="<U15", growable=True):
@@ -79,7 +85,6 @@ class Board(object):
             else:
                 pad = ((0, GROW_SIZE), (0, 0))
         self.grid = np.pad(self.grid, pad, mode="constant", constant_values=self._fill_value)
-        self.size_y, self.size_x = self.grid.shape
 
     def _translate(self, x, y):
         if not self._do_translate:
