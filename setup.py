@@ -25,6 +25,7 @@ setup(
         "colorama",
         "requests",
         "networkx",
+        "bitstruct",
     ],
     extras_require={
         "dev": [
