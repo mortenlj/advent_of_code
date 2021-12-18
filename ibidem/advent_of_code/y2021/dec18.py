@@ -1,5 +1,7 @@
 #!/usr/bin/env python
+import copy
 import functools
+import itertools
 import math
 from collections import abc
 
@@ -17,8 +19,10 @@ class ExplodeValues(Exception):
 
 
 def load(fobj):
+    numbers = []
     for line in fobj:
-        yield eval(line.strip())
+        numbers.append(eval(line.strip()))
+    return numbers
 
 
 def snailadd_pair(left, right):
@@ -113,7 +117,12 @@ def part1(numbers):
 
 
 def part2(numbers):
-    return None
+    best = 0
+    for pair in itertools.permutations(numbers, 2):
+        mag = magnitude(snailadd(copy.deepcopy(pair)))
+        if mag > best:
+            best = mag
+    return best
 
 
 if __name__ == "__main__":
