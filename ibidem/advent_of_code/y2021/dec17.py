@@ -59,14 +59,25 @@ def part1(target):
                 if height > max:
                     max = height
             except TooFar:
-                pass  # break
+                pass
             except TooShort:
                 continue
     return max
 
 
-def part2(input):
-    return None
+def part2(target):
+    velocities = []
+    for x in range(1, int(target.lower_right.x) + 1):
+        for y in range(int(target.lower_right.y), abs(int(target.lower_right.y))):
+            try:
+                vel = Vector2(x, y)
+                calculate_highest(vel.copy(), target)
+                velocities.append(vel)
+            except TooFar:
+                pass
+            except TooShort:
+                continue
+    return len(velocities)
 
 
 if __name__ == "__main__":
