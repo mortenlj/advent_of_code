@@ -60,7 +60,6 @@ class TestDec12():
         result = part1(load(case.input))
         assert result == case.p1_result
 
-    @pytest.mark.xfail(reason="Eh.. comming back to this")
     @pytest.mark.parametrize("case", TESTS)
     def test_part2(self, case):
         case.input.seek(0)

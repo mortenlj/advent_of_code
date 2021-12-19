@@ -29,7 +29,7 @@ def all_paths(G):
             if child in visited and child == child.lower():
                 continue
             if child == target:
-                yield visited + [child]
+                yield tuple(visited + [child])
             visited.append(child)
             if target not in visited:  # expand stack until find all targets
                 stack.append(iter(G[child]))
@@ -48,7 +48,19 @@ def part1(G: networkx.Graph):
 
 
 def part2(G: networkx.Graph):
-    paths = list(all_paths(G))
+    small_caves = [n for n in G.nodes if n.islower()]
+    paths = set()
+    for cave in small_caves:
+        if cave in ("start", "end"):
+            continue
+        neighbors = G.neighbors(cave)
+        g = G.copy()
+        cave_alt = cave + "*"
+        for n in neighbors:
+            g.add_edge(cave_alt, n)
+        for path in all_paths(g):
+            actual_path = tuple(c[:-1] if "*" in c else c for c in path)
+            paths.add(actual_path)
     for p in paths:
         print(",".join(p))
     return len(paths)
