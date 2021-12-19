@@ -1,9 +1,6 @@
 #!/usr/bin/env python
-from collections import deque
-from pprint import pprint
 
 import networkx
-import matplotlib.pyplot as plt
 
 from ibidem.advent_of_code.util import get_input_name
 

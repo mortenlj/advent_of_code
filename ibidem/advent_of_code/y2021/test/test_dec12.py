@@ -8,7 +8,7 @@ from ibidem.advent_of_code.y2021.dec12 import load, part1, part2
 
 Case = namedtuple("Case", ("p1_result", "p2_result", "input"))
 
-PART1_TESTS = [
+TESTS = [
     Case(10, 36, io.StringIO(textwrap.dedent("""\
         start-A
         start-b
@@ -52,17 +52,17 @@ PART1_TESTS = [
         """))),
 ]
 
-PART2_RESULT = NotImplemented
-
 
 class TestDec12():
-    @pytest.mark.parametrize("case", PART1_TESTS)
+    @pytest.mark.parametrize("case", TESTS)
     def test_part1(self, case):
+        case.input.seek(0)
         result = part1(load(case.input))
         assert result == case.p1_result
 
     @pytest.mark.xfail(reason="Eh.. comming back to this")
-    @pytest.mark.parametrize("case", PART1_TESTS)
+    @pytest.mark.parametrize("case", TESTS)
     def test_part2(self, case):
+        case.input.seek(0)
         result = part2(load(case.input))
         assert result == case.p2_result
