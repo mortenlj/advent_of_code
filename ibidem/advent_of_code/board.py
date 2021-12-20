@@ -133,14 +133,24 @@ class Board(object):
                 except (IndexError, TooSmall):
                     pass
 
-    def print(self, buf=None):
+    def adjacent_view(self, x, y):
+        x_min = max(x - 1, 0)
+        y_min = max(y - 1, 0)
+        x_max = min(x + 2, self.grid.shape[1])
+        y_max = min(y + 2, self.grid.shape[0])
+        return self.grid[(slice(y_min, y_max), slice(x_min, x_max))]
+
+    def print(self, buf=None, include_empty=False):
         lines = []
         rows = reversed(self.grid) if self._flip else self.grid
         for row in rows:
-            if not all(c == self._fill_value for c in row):
+            if not all(c == self._fill_value for c in row) or include_empty:
                 lines.append("".join(str(v) for v in row).rstrip())
         output = "\n".join(lines)
-        text = textwrap.dedent(output)
+        if not include_empty:
+            text = textwrap.dedent(output)
+        else:
+            text = output
         print(text, file=buf)
 
     def __repr__(self):
