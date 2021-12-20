@@ -28,24 +28,36 @@ def pad(view, x, y, parent):
 def part1(algo, board):
     size_x, size_y = board.size_x, board.size_y
     for i in range(2):
-        grid = np.zeros_like(board.grid)
-        for x in range(size_x):
-            for y in range(size_y):
-                view = board.adjacent_view(x, y)
-                if view.shape != (3, 3):
-                    view = pad(view, x, y, board.grid)
-                g = view.flatten()
-                b = g == "#"
-                idx = int("".join("1" if v else "0" for v in b), 2)
-                grid[y, x] = algo[idx]
-        board.grid = grid
+        enhance(algo, board, size_x, size_y)
         print(f"After {i + 1} steps:")
         board.print(include_empty=True)
     return board.count("#")
 
 
+def enhance(algo, board, size_x, size_y):
+    grid = np.zeros_like(board.grid)
+    for x in range(size_x):
+        for y in range(size_y):
+            view = board.adjacent_view(x, y)
+            if view.shape != (3, 3):
+                view = pad(view, x, y, board.grid)
+            g = view.flatten()
+            b = g == "#"
+            idx = int("".join("1" if v else "0" for v in b), 2)
+            grid[y, x] = algo[idx]
+    board.grid = grid
+
+
 def part2(algo, board):
-    return None
+    board.grid = np.pad(board.grid, ((200, 200), (200, 200)), mode="constant", constant_values=".")
+    size_x, size_y = board.size_x, board.size_y
+    for i in range(50):
+        enhance(algo, board, size_x, size_y)
+        print(f"After {i + 1} steps:")
+        board.print(include_empty=True)
+    # Cut away the outer edges where we find weird artifacts that shouldn't be there.
+    board.grid = board.grid[50:-50, 50:-50]
+    return board.count("#")
 
 
 if __name__ == "__main__":
