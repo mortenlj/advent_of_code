@@ -139,11 +139,10 @@ def load(fobj):
 
 def run_program(program):
     states = {State(0, 0, 0, 0).pack(): BLANK_RESULT}
-    step = 0
     for generation, inst in enumerate(program):
         new_states = {}
         if isinstance(inst, Inp):
-            step += 1
+            print(f"Processing instruction {generation} (which is an input instruction)")
             for state_key in alive_it(states):
                 state = State.unpack(state_key)
                 for value in range(1, 10):
@@ -166,6 +165,7 @@ def run_program(program):
                     new_states[new_state.pack()] = Result(generation, inputs)
         states = {k: v for k, v in states.items() if v.generation == generation}
         states.update(new_states)
+    print(f"Searching {len(states)} states for best result")
     return max(states[s].inputs for s in states if State.unpack(s).z == 0)
 
 
