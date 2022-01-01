@@ -26,6 +26,8 @@ setup(
         "requests",
         "networkx",
         "bitstruct",
+        "alive_progress",
+        "tqdm",
     ],
     extras_require={
         "dev": [
