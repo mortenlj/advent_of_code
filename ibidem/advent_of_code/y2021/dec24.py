@@ -1,32 +1,40 @@
 #!/usr/bin/env python
-import itertools
 import re
+import struct
 from collections import namedtuple
 
-from tqdm import tqdm
+from alive_progress import alive_it
 
 from ibidem.advent_of_code.util import get_input_name
 
-Registers = namedtuple("Registers", ("w", "x", "y", "z"))
+
+class Packable(object):
+    _PACK_FMT = ""
+
+    @classmethod
+    def unpack(cls, key):
+        params = struct.unpack(cls._PACK_FMT, key)
+        return cls(*params)
+
+    def pack(self):
+        return struct.pack(self._PACK_FMT, *self)
 
 
-class Alu(object):
-    def __init__(self, program, inputs):
-        self.w = self.x = self.y = self.z = 0
-        self.inputs = iter(inputs)
-        self._program = program
+class State(namedtuple("State", ("w", "x", "y", "z")), Packable):
+    _PACK_FMT = "iiiq"
 
-    def run(self):
-        for inst in self._program:
-            inst(self)
 
-    @property
-    def registers(self):
-        return Registers(self.w, self.x, self.y, self.z)
+Result = namedtuple("Result", ("generation", "inputs"))
+
+BLANK_RESULT = Result(-1, 0)
 
 
 class Instruction(object):
-    pass
+    _target = None
+    _value = ""
+
+    def __repr__(self):
+        return f"{self.__class__.__name__.lower()} {self._target} {self._value}"
 
 
 class Inp(Instruction):
@@ -35,9 +43,8 @@ class Inp(Instruction):
     def __init__(self, target):
         self._target = target
 
-    def __call__(self, alu):
-        value = next(alu.inputs)
-        setattr(alu, self._target, value)
+    def __call__(self, state, value):
+        return state._replace(w=value)
 
 
 class Add(Instruction):
@@ -47,13 +54,13 @@ class Add(Instruction):
         self._target = target
         self._value = value
 
-    def __call__(self, alu):
+    def __call__(self, state):
         try:
             right = int(self._value)
         except ValueError:
-            right = getattr(alu, self._value)
-        left = getattr(alu, self._target)
-        setattr(alu, self._target, left + right)
+            right = getattr(state, self._value)
+        left = getattr(state, self._target)
+        return state._replace(**{self._target: left + right})
 
 
 class Mul(Instruction):
@@ -63,13 +70,13 @@ class Mul(Instruction):
         self._target = target
         self._value = value
 
-    def __call__(self, alu):
+    def __call__(self, state):
         try:
             right = int(self._value)
         except ValueError:
-            right = getattr(alu, self._value)
-        left = getattr(alu, self._target)
-        setattr(alu, self._target, left * right)
+            right = getattr(state, self._value)
+        left = getattr(state, self._target)
+        return state._replace(**{self._target: left * right})
 
 
 class Div(Instruction):
@@ -79,13 +86,13 @@ class Div(Instruction):
         self._target = target
         self._value = value
 
-    def __call__(self, alu):
+    def __call__(self, state):
         try:
             right = int(self._value)
         except ValueError:
-            right = getattr(alu, self._value)
-        left = getattr(alu, self._target)
-        setattr(alu, self._target, int(left / right))
+            right = getattr(state, self._value)
+        left = getattr(state, self._target)
+        return state._replace(**{self._target: int(left / right)})
 
 
 class Mod(Instruction):
@@ -95,13 +102,13 @@ class Mod(Instruction):
         self._target = target
         self._value = value
 
-    def __call__(self, alu):
+    def __call__(self, state):
         try:
             right = int(self._value)
         except ValueError:
-            right = getattr(alu, self._value)
-        left = getattr(alu, self._target)
-        setattr(alu, self._target, left % right)
+            right = getattr(state, self._value)
+        left = getattr(state, self._target)
+        return state._replace(**{self._target: left % right})
 
 
 class Eql(Instruction):
@@ -111,13 +118,13 @@ class Eql(Instruction):
         self._target = target
         self._value = value
 
-    def __call__(self, alu):
+    def __call__(self, state):
         try:
             right = int(self._value)
         except ValueError:
-            right = getattr(alu, self._value)
-        left = getattr(alu, self._target)
-        setattr(alu, self._target, 1 if left == right else 0)
+            right = getattr(state, self._value)
+        left = getattr(state, self._target)
+        return state._replace(**{self._target: 1 if left == right else 0})
 
 
 def load(fobj):
@@ -130,19 +137,41 @@ def load(fobj):
                 break
 
 
-def run_program(program, inputs):
-    alu = Alu(program, inputs)
-    alu.run()
-    return alu.registers
+def run_program(program):
+    states = {State(0, 0, 0, 0).pack(): BLANK_RESULT}
+    step = 0
+    for generation, inst in enumerate(program):
+        new_states = {}
+        if isinstance(inst, Inp):
+            step += 1
+            for state_key in alive_it(states):
+                state = State.unpack(state_key)
+                for value in range(1, 10):
+                    new_state = inst(state, value)
+                    inputs = states[state_key].inputs * 10 + value
+                    if new_state.pack() in states:
+                        old_max = states.get(new_state.pack(), BLANK_RESULT).inputs
+                        states[new_state.pack()] = Result(generation, max(inputs, old_max))
+                    else:
+                        new_states[new_state.pack()] = Result(generation, inputs)
+        else:
+            for state_key in alive_it(states):
+                state = State.unpack(state_key)
+                new_state = inst(state)
+                inputs = states[state_key].inputs
+                if new_state.pack() in states:
+                    old_max = states.get(new_state.pack(), BLANK_RESULT).inputs
+                    states[new_state.pack()] = Result(generation, max(inputs, old_max))
+                else:
+                    new_states[new_state.pack()] = Result(generation, inputs)
+        states = {k: v for k, v in states.items() if v.generation == generation}
+        states.update(new_states)
+    return max(states[s].inputs for s in states if State.unpack(s).z == 0)
 
 
 def part1(program):
     program = list(program)
-    for candidate in tqdm(itertools.product(range(9, 0, -1), repeat=14)):
-        result = run_program(program, candidate)
-        if result.z == 0:
-            return "".join(str(d) for d in candidate)
-    return None
+    return run_program(program)
 
 
 def part2(program):
