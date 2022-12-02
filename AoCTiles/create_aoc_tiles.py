@@ -19,17 +19,17 @@ import functools
 import itertools
 import math
 import os
+import re
 from collections import namedtuple
-from datetime import datetime
+from datetime import datetime, timedelta
 from functools import cache
 from pathlib import Path
-import re
 
 import requests
-from PIL import Image, ImageColor
 import yaml
-from PIL.ImageDraw import ImageDraw
+from PIL import Image, ImageColor
 from PIL import ImageFont
+from PIL.ImageDraw import ImageDraw
 
 # The year and day pattern to detect directories. For example, if your day folders are
 # called "day1" to "day25" then set the pattern to r"day\d{1,2}". The script extracts
@@ -154,7 +154,9 @@ def parse_leaderboard(leaderboard_path: Path) -> dict[str, DayScores]:
 
 def request_leaderboard(year: int) -> dict[str, DayScores]:
     leaderboard_path = CACHE_DIR / f"leaderboard{year}.html"
-    if leaderboard_path.exists():
+    now = datetime.now()
+    leaderboard_age = now - datetime.fromtimestamp(leaderboard_path.stat().st_mtime)
+    if leaderboard_path.exists() and (leaderboard_age < timedelta(hours=6) or year < now.year):
         leaderboard = parse_leaderboard(leaderboard_path)
         has_no_none_values = all(itertools.chain(map(list, leaderboard.values())))
         if has_no_none_values:
