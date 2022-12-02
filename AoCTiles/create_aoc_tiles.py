@@ -17,7 +17,6 @@ Then run the script:
 """
 import functools
 import itertools
-import math
 import os
 import re
 from collections import namedtuple
@@ -170,41 +169,6 @@ def request_leaderboard(year: int) -> dict[str, DayScores]:
     return parse_leaderboard(leaderboard_path)
 
 
-class HTMLTag:
-    def __init__(self, parent: "HTML", tag: str, closing: bool = True, **kwargs):
-        self.parent = parent
-        self.tag = tag
-        self.closing = closing
-        self.kwargs = kwargs
-        attributes = "".join(f' {k}="{v}"' for k, v in self.kwargs.items())
-        self.parent.push(f"<{self.tag}{attributes}>", depth=self.closing)
-
-    def __enter__(self):
-        pass
-
-    def __exit__(self, *args):
-        if self.closing:
-            self.parent.push(f"</{self.tag}>", depth=-self.closing)
-
-
-class HTML:
-    tags: list[str] = []
-    depth = 0
-
-    def push(self, tag: str, depth=0):
-        if depth < 0:
-            self.depth += depth
-        self.tags.append("  " * self.depth + tag)
-        if depth > 0:
-            self.depth += depth
-
-    def tag(self, tag: str, closing: bool = True, **kwargs):
-        return HTMLTag(self, tag, closing, **kwargs)
-
-    def __str__(self):
-        return "\n".join(self.tags)
-
-
 def darker_color(c: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
     return c[0] - 10, c[1] - 10, c[2] - 10, 255
 
@@ -239,16 +203,6 @@ def format_time(time: str) -> str:
         h, m, s = time.split(":")
         formatted = f">{h}h" if int(h) >= 1 else f"{m:02}:{s:02}"
     return f"{formatted:>5}"
-
-
-def draw_star(drawer: ImageDraw, at: tuple[int, int], size=9, color="#ffff0022", num_points=5):
-    """Draws a star at the given position"""
-    diff = math.pi * 2 / num_points / 2
-    points: list[tuple[float, float]] = []
-    for angle in [diff * i - math.pi / 2 for i in range(num_points * 2)]:
-        factor = size if len(points) % 2 == 0 else size * 0.4
-        points.append((at[0] + math.cos(angle) * factor, at[1] + math.sin(angle) * factor))
-    drawer.polygon(points, fill=color)
 
 
 def generate_day_tile_image(day: str, year: str, languages: list[str], day_scores: DayScores | None) -> Path:
@@ -330,9 +284,10 @@ def handle_year(year_path: Path, year: int):
     # Add year header
     stars = sum((ds.time1 is not None) + (ds.time2 is not None) for ds in leaderboard.values() if ds is not None)
     title = f"{year} - {stars} ⭐"
-    content.extend(("", title, "."*len(title.encode("utf-8"))))
+    content.extend(("", title, "." * len(title.encode("utf-8"))))
 
-    days_with_filled_gaps = {find_first_number(p.name): p for p in sorted(get_paths_matching_regex(year_path, DAY_PATTERN))}
+    days_with_filled_gaps = {find_first_number(p.name): p for p in
+                             sorted(get_paths_matching_regex(year_path, DAY_PATTERN))}
     if not CREATE_ALL_DAYS and len(days_with_filled_gaps) == 0:
         print(f"Year {year} is empty!")
         return
