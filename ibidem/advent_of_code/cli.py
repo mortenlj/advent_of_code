@@ -81,7 +81,7 @@ class TestDec{day:02}():
 def _get_session_cookie_value():
     with open(HTTPIE_SESSION_PATH) as fobj:
         data = json.load(fobj)
-        return data["cookies"]["session"]["value"]
+        return data["cookies"][0]["value"]
 
 
 def get_input(options):
