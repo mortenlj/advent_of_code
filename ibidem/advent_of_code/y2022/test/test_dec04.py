@@ -2,22 +2,22 @@ import io
 
 import pytest
 
-from ibidem.advent_of_code.y2022.dec03 import load, part1, part2
+from ibidem.advent_of_code.y2022.dec04 import load, part1, part2
 
 TEST_INPUT = io.StringIO("""\
-vJrwpWtwJgWrhcsFMMfFFhFp
-jqHRNqRjqzjGDLGLrsFMfFZSrLrFZsSL
-PmmdzqPrVvPwwTWBwg
-wMqvLMZHhHMvwLHjbvcjnnSBnvTQFn
-ttgJtRGJQctTZtZT
-CrZsJsPPZsGzwwsLwLmpwMDw
+2-4,6-8
+2-3,4-5
+5-7,7-9
+2-8,3-7
+6-6,4-6
+2-6,4-8
 """)
 
-PART1_RESULT = 157
-PART2_RESULT = 70
+PART1_RESULT = 2
+PART2_RESULT = 4
 
 
-class TestDec03():
+class TestDec04():
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
