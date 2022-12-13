@@ -59,7 +59,6 @@ class TestDec09():
         result = part1(loaded1)
         assert result == PART1_RESULT
 
-    @pytest.mark.skip(reason="Back later")
     def test_part2(self, loaded2):
-        result = part2(loaded2)
+        result = part2(loaded2, with_visual=True)
         assert result == PART2_RESULT

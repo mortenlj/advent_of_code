@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import enum
 import re
+from itertools import pairwise
 
 import vectormath
 
@@ -47,13 +48,13 @@ def calculate_tail_move(tail, head):
             return Moves.Right
         case (-2., 0.):
             return Moves.Left
-        case (1., 2.) | (2., 1.):
+        case (1., 2.) | (2., 1.) | (2., 2.):
             return Moves.UpRight
-        case (-1., 2.) | (-2., 1.):
+        case (-1., 2.) | (-2., 1.) | (-2., 2.):
             return Moves.UpLeft
-        case (1., -2.) | (2., -1.):
+        case (1., -2.) | (2., -1.) | (2., -2.):
             return Moves.DownRight
-        case (-1., -2.) | (-2., -1.):
+        case (-1., -2.) | (-2., -1.) | (-2., -2.):
             return Moves.DownLeft
     return Moves.Stay
 
@@ -62,23 +63,37 @@ def part1(steps):
     visited = Board(size_x=14, size_y=10, fill_value=".")
     head = vectormath.Vector2(0, 0)
     tail = vectormath.Vector2(0, 0)
-    for step in steps:
-        move = Moves(step)
+    for move in (Moves(step) for step in steps):
         head += move.change
-        tail_move = calculate_tail_move(tail, head)
-        tail += tail_move.change
-
-        old_head = visited.set(int(head.x), int(head.y), "H")
-        visited.set(int(tail.x), int(tail.y), "T")
-        # visited.print(include_empty=True)
-        # print("-"*40)
-        visited.set(int(head.x), int(head.y), old_head)
+        tail = move_tail(head, tail)
         visited.set(int(tail.x), int(tail.y), "#")
     return visited.count("#")
 
 
-def part2(steps):
-    return None
+def move_tail(left, right):
+    tail_move = calculate_tail_move(right, left)
+    right += tail_move.change
+    return right
+
+
+def part2(steps, with_visual=False):
+    visited = Board(size_x=140, size_y=10, fill_value=".")
+    knots = [vectormath.Vector2(0, 0) for i in range(10)]
+    for move in (Moves(step) for step in steps):
+        knots[0] += move.change
+        for left, right in pairwise(range(len(knots))):
+            knots[right] = move_tail(knots[left], knots[right])
+        tail = knots[-1]
+        visited.set(int(tail.x), int(tail.y), "#")
+        if with_visual:
+            visual = Board(size_x=140, size_y=10, fill_value=".")
+            for i, knot in enumerate(knots):
+                label = "H" if i == 0 else str(i)
+                visual.set(int(knot.x), int(knot.y), label)
+            print("=" * 60)
+            visual.print()
+            print("=" * 60)
+    return visited.count("#")
 
 
 if __name__ == "__main__":
