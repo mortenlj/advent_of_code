@@ -58,7 +58,6 @@ class TestDec11():
         result = part1(loaded)
         assert result == PART1_RESULT
 
-    @pytest.mark.skip(reason="Too much worry")
     def test_part2(self, loaded):
         result = part2(loaded)
         assert result == PART2_RESULT
@@ -76,7 +75,7 @@ class TestDec11():
 
     def test_play_monkey_round(self, loaded):
         monkeys = loaded
-        play_monkey_round(monkeys, worry_level_managed=True)
+        play_monkey_round(monkeys, worry_level_adjustment=lambda item: item // 3)
         assert monkeys[0].items == [20, 23, 27, 26]
         assert monkeys[1].items == [2080, 25, 167, 207, 401, 1046]
         assert monkeys[2].items == []

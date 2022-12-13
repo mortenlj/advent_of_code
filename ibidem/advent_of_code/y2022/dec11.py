@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import logging
+import math
 import re
 import typing
 
@@ -67,23 +69,22 @@ class Monkey:
             elif m := FALSE_PAT.match(line):
                 self.false_target = int(m.group(1))
 
-    def inspect(self, worry_level_managed):
+    def inspect(self, worry_level_adjustment):
         while self.items:
             item = self.items.pop(0)
-            print(f"  Monkey inspects an item with a worry level of {item}.")
+            logging.debug(f"  Monkey inspects an item with a worry level of {item}.")
             item = self.operation(item)
-            print(f"    Worry level {self.operation.__doc__} to {item}.")
-            if worry_level_managed:
-                item = item // 3
-                print(f"    Monkey gets bored with item. Worry level is divided by 3 to {item}.")
+            logging.debug(f"    Worry level {self.operation.__doc__} to {item}.")
+            item = worry_level_adjustment(item)
+            logging.debug(f"    Monkey gets bored with item. Worry level is adjusted to {item}.")
             divisible = item % self.test_divisor == 0
             if divisible:
-                print(f"    Current worry level is divisible by {self.test_divisor}.")
+                logging.debug(f"    Current worry level is divisible by {self.test_divisor}.")
                 target = self.true_target
             else:
-                print(f"    Current worry level is not divisible by {self.test_divisor}.")
+                logging.debug(f"    Current worry level is not divisible by {self.test_divisor}.")
                 target = self.false_target
-            print(f"    Item with worry level 26 is thrown to monkey {target}.")
+            logging.debug(f"    Item with worry level 26 is thrown to monkey {target}.")
             self.inspected += 1
             yield item, target
 
@@ -96,23 +97,25 @@ def load(fobj):
     return monkeys
 
 
-def play_monkey_round(monkeys, worry_level_managed):
+def play_monkey_round(monkeys, worry_level_adjustment):
     for monkey in monkeys:
-        print(f"Monkey {monkey.index}:")
-        for item, target in monkey.inspect(worry_level_managed):
+        logging.debug(f"Monkey {monkey.index}:")
+        for item, target in monkey.inspect(worry_level_adjustment):
             monkeys[target].items.append(item)
 
 
 def part1(monkeys):
     for _ in range(20):
-        play_monkey_round(monkeys, worry_level_managed=True)
+        play_monkey_round(monkeys, worry_level_adjustment=lambda item: item // 3)
     most_active = list(sorted((m.inspected for m in monkeys), reverse=True))
     return most_active[0] * most_active[1]
 
 
 def part2(monkeys):
+    logging.basicConfig(level=logging.INFO)
+    multiplier = math.prod((m.test_divisor for m in monkeys))
     for _ in alive_progress.alive_it(range(10000), total=10000):
-        play_monkey_round(monkeys, worry_level_managed=False)
+        play_monkey_round(monkeys, worry_level_adjustment=lambda item: item % multiplier)
     most_active = list(sorted((m.inspected for m in monkeys), reverse=True))
     return most_active[0] * most_active[1]
 
