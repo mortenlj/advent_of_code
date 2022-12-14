@@ -140,14 +140,21 @@ class Board(object):
         y_max = min(y + 2, self.grid.shape[0])
         return self.grid[(slice(y_min, y_max), slice(x_min, x_max))]
 
-    def print(self, buf=None, include_empty=False):
+    def print(self, buf=None, include_empty=False, crop_to_bounds=False):
         lines = []
         rows = reversed(self.grid) if self._flip else self.grid
+        min_row = 0
+        max_row = self.size_y
+        if crop_to_bounds:
+            min_row, max_row = max_row, min_row
         for row in rows:
-            if not all(c == self._fill_value for c in row) or include_empty:
+            if (tainted := not all(c == self._fill_value for c in row)) or include_empty:
+                if tainted and crop_to_bounds:
+                    min_row = min(min_row, len(lines))
+                    max_row = max(max_row, len(lines) + 1)
                 lines.append("".join(str(v) for v in row).rstrip())
-        output = "\n".join(lines)
-        if not include_empty:
+        output = "\n".join(lines[min_row:max_row])
+        if not include_empty or crop_to_bounds:
             text = textwrap.dedent(output)
         else:
             text = output

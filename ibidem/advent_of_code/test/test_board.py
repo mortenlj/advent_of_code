@@ -75,6 +75,15 @@ def test_print():
     assert buf.getvalue() == text
 
 
+def test_print_cropped():
+    b = Board(size_x=100, size_y=100)
+    b.set(10, 10, "X")
+    b.set(12, 12, "X")
+    buf = io.StringIO()
+    b.print(buf, include_empty=True, crop_to_bounds=True)
+    assert buf.getvalue() == "  X\n\nX\n"
+
+
 def test_count():
     b = Board.from_string(".#.\n#.#\n###")
     assert b.count(".") == 3
