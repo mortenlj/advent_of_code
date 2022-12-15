@@ -65,6 +65,15 @@ class Board(object):
             return self.get(x, y)
         return self.grid[gy][gx]
 
+    def get_row(self, y):
+        gx, gy = self._translate(0, y)
+        try:
+            self._index_check(gx, gy)
+        except TooSmall as e:
+            self._grow(e.args[-1])
+            return self.get_row(y)
+        return self.grid[gy]
+
     def __getitem__(self, item):
         return self.get(*item)
 
