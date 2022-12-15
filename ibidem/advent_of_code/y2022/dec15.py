@@ -35,14 +35,11 @@ def part1(pairs, depth=2000000):
     for sensor, beacon in pairs:
         distance = (sensor - beacon).manhattan()
         if depth not in range(sensor.y - distance, sensor.y + distance):
-            print(f"Sensor at {sensor} with closest beacon at {beacon} is out of range from depth {depth}, ignoring")
+            # print(f"Sensor at {sensor} with closest beacon at {beacon} is out of range from depth {depth}, ignoring")
             continue
-        for y in range(sensor.y - distance, sensor.y + distance + 1):
-            if y != depth:
-                continue
-            rem = distance - abs(sensor.y - y)
-            for x in range(sensor.x - rem, sensor.x + rem + 1):
-                line[(x, y)] = 1
+        rem = distance - abs(sensor.y - depth)
+        for x in range(sensor.x - rem, sensor.x + rem + 1):
+            line[(x, depth)] = 1
         if sensor.y == depth:
             line[(sensor.x, sensor.y)] = 1
         if beacon.y == depth:
