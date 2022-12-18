@@ -31,3 +31,13 @@ def time_this(f):
             print(f"Spent {format_delta(delta)} in call")
 
     return wrapper
+
+
+def gen_list(f):
+    """Make generator function return list"""
+
+    @functools.wraps(f)
+    def wrapper(*args, **kwargs):
+        return list(f(*args, **kwargs))
+
+    return wrapper
