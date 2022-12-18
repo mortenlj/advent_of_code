@@ -156,7 +156,7 @@ def request_leaderboard(year: int) -> dict[str, DayScores]:
     if leaderboard_path.exists():
         now = datetime.now()
         leaderboard_age = now - datetime.fromtimestamp(leaderboard_path.stat().st_mtime)
-        if leaderboard_age < timedelta(hours=6) or year < now.year:
+        if leaderboard_age < timedelta(minutes=10) or year < now.year:
             leaderboard = parse_leaderboard(leaderboard_path)
             has_no_none_values = all(itertools.chain(map(list, leaderboard.values())))
             if has_no_none_values:
