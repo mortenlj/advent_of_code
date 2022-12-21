@@ -15,7 +15,7 @@ TEST_INPUT = io.StringIO("""\
 """)
 
 PART1_RESULT = 3
-PART2_RESULT = NotImplemented
+PART2_RESULT = 1623178306
 
 
 class TestDec20():

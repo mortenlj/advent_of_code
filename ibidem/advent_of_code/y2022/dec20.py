@@ -107,14 +107,13 @@ def load(fobj):
 
 
 def part1(input: list[Element]):
-    input_length = len(input)
     for item in input:
-        print(f"Item: {item}")
+        # print(f"Item: {item}")
         # print("Before:", item.values_as_list())
         prev = item.previous
         item.cut()
         target = prev.get_at(item.value)
-        print(f"Target: {target}")
+        # print(f"Target: {target}")
         insert_after(item, target)
         # print("After :", target.values_as_list())
         # print("AfterR:", list(reversed(target.previous.values_as_rev_list())))
@@ -133,8 +132,33 @@ def insert_after(item, target):
     target.next = item
 
 
-def part2(input):
-    return None
+def part2(input: list[Element]):
+    input_length = len(input)
+    for item in input:
+        item.value *= 811589153
+    for i in range(10):
+        for item in input:
+            # print(f"Item: {item}")
+            # print("Before:", item.values_as_list())
+            prev = item.previous
+            item.cut()
+            target = prev.get_at(get_offset(input_length, item.value))
+            # print(f"Target: {target}")
+            insert_after(item, target)
+            # print("After :", target.values_as_list())
+            # print("AfterR:", list(reversed(target.previous.values_as_rev_list())))
+    zero_element = input[0].find_first(0)
+    first = zero_element.get_at(get_offset(input_length, 1000))
+    second = zero_element.get_at(get_offset(input_length, 2000))
+    third = zero_element.get_at(get_offset(input_length, 3000))
+    return first.value + second.value + third.value
+
+
+def get_offset(input_length, value):
+    offset = 0
+    if value < 0:
+        offset = 1
+    return (value % input_length) + offset
 
 
 if __name__ == "__main__":
