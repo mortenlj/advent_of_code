@@ -7,3 +7,4 @@
 
 # Redirect output to stderr.
 poetry run python AoCTiles/create_aoc_tiles.py 1>&2
+git add Media README.rst
