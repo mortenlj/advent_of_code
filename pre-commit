@@ -6,4 +6,4 @@
 # To enable this hook, rename this file to "pre-commit".
 
 # Redirect output to stderr.
-pew in advent-of-code python AoCTiles/create_aoc_tiles.py 1>&2
+poetry run python AoCTiles/create_aoc_tiles.py 1>&2
