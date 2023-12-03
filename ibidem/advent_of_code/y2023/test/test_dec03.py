@@ -26,7 +26,7 @@ SPECIAL_CASE = io.StringIO("""\
 """)
 
 PART1_RESULT = 4361
-PART2_RESULT = NotImplemented
+PART2_RESULT = 467835
 
 
 class TestDec03():
