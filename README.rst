@@ -35,8 +35,8 @@ To add a pre-commit hook that generates tiles, copy `pre-commit` to `.git/hooks/
 
 .. AOC TILES BEGIN - 2023
 
-2023 - 8 ⭐
-............
+2023 - 10 ⭐
+.............
 
 .. image:: Media/2023/01.png
    :width: 161px
@@ -56,6 +56,11 @@ To add a pre-commit hook that generates tiles, copy `pre-commit` to `.git/hooks/
 .. image:: Media/2023/04.png
    :width: 161px
    :target: ibidem/advent_of_code/y2023/dec04.py
+
+
+.. image:: Media/2023/05.png
+   :width: 161px
+   :target: ibidem/advent_of_code/y2023/dec05.py
 
 .. AOC TILES END - 2023
 
