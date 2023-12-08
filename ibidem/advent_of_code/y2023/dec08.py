@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import math
 import re
 from itertools import cycle
 
@@ -30,13 +31,17 @@ def part2(input):
     directions, map = input
     current = [node for node in map.keys() if node.endswith("A")]
     print(f"Stepping {len(current)} nodes: {current}")
+    cycle_lengths = [get_steps(start, directions, map) for start in current]
+    return math.lcm(*cycle_lengths)
+
+
+def get_steps(start, directions, map):
+    current = start
     for step, direction in enumerate(cycle(directions)):
-        current = [map[c][direction] for c in current]
-        if all(c.endswith("Z") for c in current):
+        current = map[current][direction]
+        if current.endswith("Z"):
             return step + 1
-        if step % 1000000 == 0:
-            print(f"Step {step}: {current}")
-    raise RuntimeError("No ZZZ found")
+    raise RuntimeError("No end location found")
 
 
 if __name__ == "__main__":
