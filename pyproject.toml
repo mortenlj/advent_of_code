@@ -19,6 +19,7 @@ alive-progress = "^3.1.5"
 tqdm = "^4.66.1"
 sympy = "^1.12"
 bpython = "^0.24"
+matplotlib = "^3.8.2"
 
 [tool.poetry.scripts]
 aoc = "ibidem.advent_of_code.cli:main"

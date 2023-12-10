@@ -109,11 +109,11 @@ PART2_RESULT = 2758514936282235
 class TestDec22():
     @pytest.fixture(params=CASES)
     def case(self, request):
-        request.param.input.seek(0)
+        request.param.case.seek(0)
         return request.param
 
     def test_part1(self, case):
-        result = part1(load(case.input))
+        result = part1(load(case.case))
         assert result == case.result
 
     @pytest.mark.parametrize("step, expected", (

@@ -1,41 +1,65 @@
 import io
+import textwrap
+from collections import namedtuple
+
 import pytest
 
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2023.dec10 import load, part1, part2
 
+TestData = namedtuple('TestData', 'part1 part2 input')
 
-TEST_INPUT = io.StringIO("""\
-7-F7-
-.FJ|7
-SJLL7
-|F--J
-LJ.LJ
-""")
-
-PART1_RESULT = 8
-PART2_RESULT = 1
+TEST_INPUTS = [
+    TestData(8, 1, io.StringIO(textwrap.dedent("""\
+        7-F7-
+        .FJ|7
+        SJLL7
+        |F--J
+        LJ.LJ
+        """))),
+    TestData(80, 10, io.StringIO(textwrap.dedent("""\
+        FF7FSF7F7F7F7F7F---7
+        L|LJ||||||||||||F--J
+        FL-7LJLJ||||||LJL-77
+        F--JF--7||LJLJ7F7FJ-
+        L---JF-JLJ.||-FJLJJ7
+        |F|F-JF---7F7-L7L|7|
+        |FFJF7L7F-JF7|JL---7
+        7-L-JL7||F7|L7F-7F7|
+        L.L7LFJ|||||FJL7||LJ
+        L7JLJL-JLJLJL--JLJ.L
+        """))),
+    TestData(23, 4, io.StringIO(textwrap.dedent("""\
+        ...........
+        .S-------7.
+        .|F-----7|.
+        .||.....||.
+        .||.....||.
+        .|L-7.F-J|.
+        .|..|.|..|.
+        .L--J.L--J.
+        ...........
+        """))),
+]
 
 
 class TestDec10():
-    @pytest.fixture
-    def input(self):
-        TEST_INPUT.seek(0)
-        return TEST_INPUT
+    @pytest.fixture(params=TEST_INPUTS)
+    def case(self, request):
+        request.param.input.seek(0)
+        return request.param
 
     @pytest.fixture
-    def loaded(self, input):
-        return load(input)
+    def loaded(self, case):
+        return load(case.input)
 
     def test_load(self, loaded):
         assert isinstance(loaded, Board)
-        assert loaded.size_x == 5
-        assert loaded.size_y == 5
 
-    def test_part1(self, loaded):
+    def test_part1(self, loaded, case):
         result = part1(loaded)
-        assert result == PART1_RESULT
-        
-    def test_part2(self, loaded):
+        assert result == case.part1
+
+    def test_part2(self, loaded, case):
         result = part2(loaded)
-        assert result == PART2_RESULT
+        assert result == case.part2
