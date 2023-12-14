@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import numpy as np
+
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
 
@@ -39,8 +41,33 @@ def part1(input: Board):
     return result
 
 
-def part2(input):
-    return None
+def run_cycle(grid):
+    for direction in ("N", "W", "S", "E"):
+        new_grid = grid.copy()
+        for x in range(grid.shape[1]):
+            column = grid[:, x]
+            new_column = tilt_column(column)
+            new_grid[:, x] = new_column
+        grid = np.rot90(new_grid, k=-1, axes=(0, 1))
+    return grid
+
+
+def part2(board):
+    grid = board.grid
+    configurations = {}
+    for i in range(1, 1_000_000_001):
+        grid = run_cycle(grid)
+        last_seen = configurations.get(grid.tobytes())
+        if last_seen is not None:
+            if (1_000_000_000 - i) % (i - last_seen) == 0:
+                break
+        configurations[grid.tobytes()] = i
+    result = 0
+    for x in range(grid.shape[1]):
+        column = grid[:, x]
+        total_load = calculate_load(column)
+        result += total_load
+    return result
 
 
 if __name__ == "__main__":

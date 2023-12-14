@@ -5,7 +5,7 @@ from collections import namedtuple
 import pytest
 
 from ibidem.advent_of_code.board import Board
-from ibidem.advent_of_code.y2023.dec14 import load, part1, part2, tilt_column, calculate_load
+from ibidem.advent_of_code.y2023.dec14 import load, part1, part2, tilt_column, calculate_load, run_cycle
 
 TestData = namedtuple('TestData', 'part1 part2 input')
 
@@ -69,3 +69,26 @@ class TestDec14():
     def test_calculate_load(self, column, expected):
         actual = calculate_load(column)
         assert actual == expected
+
+    def test_run_cycle(self, loaded):
+        loaded.grid = run_cycle(loaded.grid)
+        print("After 1 cycle")
+        loaded.print()
+        loaded.grid = run_cycle(loaded.grid)
+        print("After 2 cycles")
+        loaded.print()
+        loaded.grid = run_cycle(loaded.grid)
+        print("After 3 cycles")
+        loaded.print()
+        assert repr(loaded) == textwrap.dedent("""\
+                                .....#....
+                                ....#...O#
+                                .....##...
+                                ..O#......
+                                .....OOO#.
+                                .O#...O#.#
+                                ....O#...O
+                                .......OOO
+                                #...O###.O
+                                #.OOO#...O
+                                """)
