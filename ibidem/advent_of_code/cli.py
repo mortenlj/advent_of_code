@@ -43,38 +43,41 @@ if __name__ == "__main__":
 
 TEST_TEMPLATE = """\
 import io
+import textwrap
+from collections import namedtuple
+
 import pytest
 
 from ibidem.advent_of_code.y{year}.dec{day:02} import load, part1, part2
 
+TestData = namedtuple('TestData', 'part1 part2 input')
 
-TEST_INPUT = io.StringIO(\"\"\"\\
-\"\"\")
-
-PART1_RESULT = NotImplemented
-PART2_RESULT = NotImplemented
+TEST_INPUTS = [
+    TestData(NotImplemented, NotImplemented, io.StringIO(textwrap.dedent(\"\"\"\\
+    \"\"\"))),
+]
 
 
 class TestDec{day:02}():
-    @pytest.fixture
-    def input(self):
-        TEST_INPUT.seek(0)
-        return TEST_INPUT
+    @pytest.fixture(params=TEST_INPUTS)
+    def case(self, request):
+        request.param.input.seek(0)
+        return request.param
 
     @pytest.fixture
-    def loaded(self, input):
-        return load(input)
+    def loaded(self, case):
+        return load(case.input)
 
     def test_load(self, loaded):
         assert loaded
         
-    def test_part1(self, loaded):
+    def test_part1(self, loaded, case):
         result = part1(loaded)
-        assert result == PART1_RESULT
+        assert result == case.part1
         
-    def test_part2(self, loaded):
+    def test_part2(self, loaded, case):
         result = part2(loaded)
-        assert result == PART2_RESULT
+        assert result == case.part2
 """
 
 
