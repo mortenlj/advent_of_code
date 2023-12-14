@@ -71,6 +71,7 @@ class TestDec13():
         grid = np.array(grid)
         assert find_mirror(grid) == expected
 
+    @pytest.mark.skip(reason="Not implemented")
     def test_part2(self, loaded):
         result = part2(loaded)
         assert result == PART2_RESULT

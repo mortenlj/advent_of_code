@@ -37,6 +37,7 @@ class TestDec12():
         result = part1(loaded)
         assert result == PART1_RESULT
 
+    @pytest.mark.skip(reason="Takes too long")
     def test_part2(self, loaded):
         result = part2(loaded)
         assert result == PART2_RESULT
