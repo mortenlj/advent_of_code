@@ -8,7 +8,6 @@ def load(fobj):
 
 
 def tilt_column(column):
-    new_column = column.copy()
     insert_at = 0
     for i, c in enumerate(column):
         if c == ".":
@@ -16,10 +15,10 @@ def tilt_column(column):
         if c == "#":
             insert_at = i + 1
         if c == "O":
-            new_column[i] = "."
-            new_column[insert_at] = "O"
+            column[i] = "."
+            column[insert_at] = "O"
             insert_at += 1
-    return new_column
+    return column
 
 
 def calculate_load(column):
