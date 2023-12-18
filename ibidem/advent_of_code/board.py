@@ -137,7 +137,8 @@ class Board(object):
                     continue
                 try:
                     nx, ny = x + i, y + j
-                    self._index_check(nx, ny)
+                    if not self._growable:
+                        self._index_check(nx, ny)
                     yield (nx, ny)
                 except (IndexError, TooSmall):
                     pass
