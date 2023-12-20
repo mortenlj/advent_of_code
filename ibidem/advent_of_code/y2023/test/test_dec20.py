@@ -25,6 +25,10 @@ TEST_INPUTS = [
         %b -> con
         &con -> output
     """))),
+    TestData(1250000, 2, 3, io.StringIO(textwrap.dedent("""\
+        broadcaster -> a
+        %a -> rx
+    """)))
 ]
 
 
@@ -46,3 +50,8 @@ class TestDec20():
     def test_part1(self, loaded, case):
         result = part1(loaded)
         assert result == case.part1
+
+    def test_part2(self, loaded, case):
+        if case.part2 != NotImplemented:
+            result = part2(loaded)
+            assert result == case.part2
