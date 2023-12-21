@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import collections
+from datetime import datetime
 from enum import Enum
 from typing import Iterable
 
@@ -17,7 +18,6 @@ class Pulse(Enum):
 class Module:
     def __init__(self, name, outputs, output_deque: collections.deque):
         self.name = name
-        self._input = None
         self.outputs = outputs
         self.output_deque = output_deque
 
@@ -35,7 +35,7 @@ class Output(Module):
         self.last_pulse = None
 
     def _process(self, input_pulse, sender) -> Iterable[tuple[str, Pulse]]:
-        print(f"{self.name} recieved {input_pulse!r} from {sender}")
+        # print(f"{self.name} recieved {input_pulse!r} from {sender}")
         self.last_pulse = input_pulse
         return []
 
@@ -129,7 +129,7 @@ def part1(input):
             print(f"{source} {pulse} {target}")
             modules[target].pulse(pulse, source)
             pulse_counter[pulse] += 1
-        print(f"Completed {i+1} button presses")
+        print(f"Completed {i + 1} button presses")
     return pulse_counter[Pulse.LOW] * pulse_counter[Pulse.HIGH]
 
 
@@ -142,9 +142,11 @@ def part2(input):
         deque.append(("broadcaster", Pulse.LOW, "button"))
         while deque:
             target, pulse, source = deque.popleft()
-            print(f"{source} {pulse} {target}")
+            # print(f"{source} {pulse} {target}")
             modules[target].pulse(pulse, source)
-        print(f"Completed {i+1} button presses")
+        if i % 1000000 == 0:
+            now = datetime.now()
+            print(f"[{now.isoformat()}] Completed {i + 1} button presses")
         i += 1
     return i
 
