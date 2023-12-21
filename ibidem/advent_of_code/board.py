@@ -122,6 +122,9 @@ class Board(object):
         b.grid = self.grid.copy()
         return b
 
+    def find(self, value):
+        return np.where(self.grid == value)
+
     def adjacent(self, x, y, include_diagonal=True):
         values = []
         for nx, ny in self.adjacent_indexes(x, y, include_diagonal):
