@@ -123,7 +123,7 @@ class Board(object):
         return b
 
     def find(self, value):
-        return np.where(self.grid == value)
+        return list(zip(*np.where(self.grid == value)))
 
     def adjacent(self, x, y, include_diagonal=True):
         values = []

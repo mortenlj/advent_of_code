@@ -8,8 +8,7 @@ def load(fobj):
 
 
 def part1(board: Board, steps):
-    where = board.find('S')
-    visit = {(where[0][0], where[1][0])}
+    visit = board.find('S')
     for i in range(steps):
         new_visit = set()
         for x, y in visit:
