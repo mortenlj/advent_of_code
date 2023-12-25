@@ -20,6 +20,8 @@ tqdm = "^4.66.1"
 sympy = "^1.12"
 bpython = "^0.24"
 matplotlib = "^3.8.2"
+geometry3d = "^0.2.4"
+rich = "^13.7.0"
 
 [tool.poetry.scripts]
 aoc = "ibidem.advent_of_code.cli:main"
