@@ -98,7 +98,7 @@ def part1(bricks):
     sorted_bricks = sorted(bricks, key=lambda b: b.low_point())
     settled_bricks = settle(sorted_bricks)
     print("Bricks settled")
-    show_bricks(settled_bricks)
+    #show_bricks(settled_bricks)
     count = 0
     for brick in settled_bricks:
         bricks = copy.deepcopy(settled_bricks)
