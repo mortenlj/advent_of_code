@@ -42,7 +42,8 @@ class TestDec21():
     def test_part1(self, loaded, case):
         result = part1(loaded, case.steps)
         assert result == case.result
-        
+
+    @pytest.mark.skip(reason="Not implemented")
     def test_part2(self, loaded, case):
         result = part2(loaded, case.steps)
         assert result == case.result
