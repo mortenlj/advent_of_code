@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 from collections import deque, defaultdict
 
+from rich.progress import Progress
+
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
 
@@ -86,20 +88,22 @@ def show_path(board, node):
 
 def part2(board):
     start, end = find_start_and_end(board)
-    working = deque([Node(*start)])
     nodes = defaultdict(list)
-    while working:
-        node = working.popleft()
-        nodes[node.coords].append(node)
-        if node.coords == end:
-            continue
-        for x, y in board.adjacent_indexes(node.x, node.y, include_diagonal=False):
-            if node.visited((x, y)):
+    with Progress() as progress:
+        working = deque([Node(*start)])
+        progress.add_task("Searching for path", start=False, total=None)
+        while working:
+            node = working.popleft()
+            if node.coords == end:
+                nodes[node.coords].append(node)
                 continue
-            value = board.get(x, y)
-            if value == "#":
-                continue
-            working.append(Node(x, y, node))
+            for x, y in board.adjacent_indexes(node.x, node.y, include_diagonal=False):
+                if node.visited((x, y)):
+                    continue
+                value = board.get(x, y)
+                if value == "#":
+                    continue
+                working.append(Node(x, y, node))
     # show_path(board, nodes[end])
     return max(n.length for n in nodes[end])
 
