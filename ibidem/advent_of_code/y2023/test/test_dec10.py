@@ -7,17 +7,17 @@ import pytest
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2023.dec10 import load, part1, part2
 
-TestData = namedtuple('TestData', 'part1 part2 input')
+Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    TestData(8, 1, io.StringIO(textwrap.dedent("""\
+    Case(8, 1, io.StringIO(textwrap.dedent("""\
         7-F7-
         .FJ|7
         SJLL7
         |F--J
         LJ.LJ
         """))),
-    TestData(80, 10, io.StringIO(textwrap.dedent("""\
+    Case(80, 10, io.StringIO(textwrap.dedent("""\
         FF7FSF7F7F7F7F7F---7
         L|LJ||||||||||||F--J
         FL-7LJLJ||||||LJL-77
@@ -29,7 +29,7 @@ TEST_INPUTS = [
         L.L7LFJ|||||FJL7||LJ
         L7JLJL-JLJLJL--JLJ.L
         """))),
-    TestData(23, 4, io.StringIO(textwrap.dedent("""\
+    Case(23, 4, io.StringIO(textwrap.dedent("""\
         ...........
         .S-------7.
         .|F-----7|.

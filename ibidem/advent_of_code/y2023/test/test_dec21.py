@@ -7,10 +7,10 @@ import pytest
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2023.dec21 import load, part1, part2
 
-TestData = namedtuple('TestData', 'steps result input')
+Case = namedtuple('Case', 'steps result input')
 
 TEST_INPUTS = [
-    TestData(6, 16, io.StringIO(textwrap.dedent("""\
+    Case(6, 16, io.StringIO(textwrap.dedent("""\
         ...........
         .....###.#.
         .###.##..#.

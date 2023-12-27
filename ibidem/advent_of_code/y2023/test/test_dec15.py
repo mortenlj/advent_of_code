@@ -6,10 +6,10 @@ import pytest
 
 from ibidem.advent_of_code.y2023.dec15 import load, part1, part2, hash, focusing_power
 
-TestData = namedtuple('TestData', 'part1 part2 input')
+Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    TestData(1320, 145, io.StringIO(textwrap.dedent("rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7"))),
+    Case(1320, 145, io.StringIO(textwrap.dedent("rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7"))),
 ]
 
 

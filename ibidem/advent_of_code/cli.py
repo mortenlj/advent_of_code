@@ -50,10 +50,10 @@ import pytest
 
 from ibidem.advent_of_code.y{year}.dec{day:02} import load, part1, part2
 
-TestData = namedtuple('TestData', 'part1 part2 input')
+Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    TestData(NotImplemented, NotImplemented, io.StringIO(textwrap.dedent(\"\"\"\\
+    Case(NotImplemented, NotImplemented, io.StringIO(textwrap.dedent(\"\"\"\\
     \"\"\"))),
 ]
 

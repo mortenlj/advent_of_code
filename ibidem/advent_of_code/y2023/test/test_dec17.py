@@ -6,10 +6,10 @@ import pytest
 
 from ibidem.advent_of_code.y2023.dec17 import load, part1, part2
 
-TestData = namedtuple('TestData', 'part1 part2 input')
+Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    TestData(102, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(102, NotImplemented, io.StringIO(textwrap.dedent("""\
         2413432311323
         3215453535623
         3255245654254

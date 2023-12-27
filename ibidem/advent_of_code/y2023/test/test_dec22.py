@@ -7,10 +7,10 @@ from Geometry3D import Point
 
 from ibidem.advent_of_code.y2023.dec22 import load, part1, part2
 
-TestData = namedtuple('TestData', 'part1 part2 input')
+Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    TestData(5, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(5, NotImplemented, io.StringIO(textwrap.dedent("""\
         1,0,1~1,2,1
         0,0,2~2,0,2
         0,2,3~2,2,3

@@ -7,10 +7,10 @@ import pytest
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2023.dec23 import load, part1, part2, find_start_and_end, Node
 
-TestData = namedtuple('TestData', 'part1 part2 input')
+Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    TestData(94, 154, io.StringIO(textwrap.dedent("""\
+    Case(94, 154, io.StringIO(textwrap.dedent("""\
         #.#####################
         #.......#########...###
         #######.#########.#.###

@@ -7,10 +7,10 @@ import pytest
 
 from ibidem.advent_of_code.y2023.dec19 import load, part1, part2, parse_step, Step, true_func, parse_part, Part
 
-TestData = namedtuple('TestData', 'part1 part2 input')
+Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    TestData(19114, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(19114, NotImplemented, io.StringIO(textwrap.dedent("""\
         px{a<2006:qkq,m>2090:A,rfg}
         pv{a>1716:R,A}
         lnx{m>1548:A,A}

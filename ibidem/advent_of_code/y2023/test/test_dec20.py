@@ -8,24 +8,24 @@ import pytest
 
 from ibidem.advent_of_code.y2023.dec20 import load, part1, part2
 
-TestData = namedtuple('TestData', 'part1 part2 modules_length input')
+Case = namedtuple('Case', 'part1 part2 modules_length input')
 
 TEST_INPUTS = [
-    TestData(32000000, NotImplemented, 5, io.StringIO(textwrap.dedent("""\
+    Case(32000000, NotImplemented, 5, io.StringIO(textwrap.dedent("""\
         broadcaster -> a, b, c
         %a -> b
         %b -> c
         %c -> inv
         &inv -> a
     """))),
-    TestData(11687500, NotImplemented, 6, io.StringIO(textwrap.dedent("""\
+    Case(11687500, NotImplemented, 6, io.StringIO(textwrap.dedent("""\
         broadcaster -> a
         %a -> inv, con
         &inv -> b
         %b -> con
         &con -> output
     """))),
-    TestData(1250000, 2, 3, io.StringIO(textwrap.dedent("""\
+    Case(1250000, 2, 3, io.StringIO(textwrap.dedent("""\
         broadcaster -> a
         %a -> rx
     """)))

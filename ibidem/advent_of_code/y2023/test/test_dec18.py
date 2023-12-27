@@ -8,10 +8,10 @@ from vectormath import Vector2 as V2
 from ibidem.advent_of_code.y2023.dec18 import load1, part1, part2, load2, poly_area, Direction, generate_path, \
     Instruction
 
-TestData = namedtuple('TestData', 'part1 part2 input')
+Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    TestData(62, 952408144115, io.StringIO(textwrap.dedent("""\
+    Case(62, 952408144115, io.StringIO(textwrap.dedent("""\
         R 6 (#70c710)
         D 5 (#0dc571)
         L 2 (#5713f0)
