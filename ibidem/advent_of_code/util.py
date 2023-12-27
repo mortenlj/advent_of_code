@@ -2,15 +2,15 @@
 # -*- coding: utf-8
 import functools
 import time
-
-import pkg_resources
+from importlib import resources
 
 NSEC = 1e9
 MSEC = 1e3
 
 
 def get_input_name(day, year):
-    return pkg_resources.resource_filename(f"ibidem.advent_of_code.y{year}", f"data/dec{day:02}.txt")
+    year_dir = resources.files(f"ibidem.advent_of_code.y{year}")
+    return year_dir / "data" / f"dec{day:02}.txt"
 
 
 def format_delta(ns):
