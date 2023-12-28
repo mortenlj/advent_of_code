@@ -152,6 +152,11 @@ To add a pre-commit hook that generates tiles, copy `pre-commit` to `.git/hooks/
    :width: 161px
    :target: ibidem/advent_of_code/y2023/dec23.py
 
+
+.. image:: Media/2023/24.png
+   :width: 161px
+   :target: ibidem/advent_of_code/y2023/dec24.py
+
 .. AOC TILES END - 2023
 
 
