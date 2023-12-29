@@ -2,6 +2,7 @@ import io
 import textwrap
 from collections import namedtuple
 
+import networkx as nx
 import pytest
 
 from ibidem.advent_of_code.y2023.dec25 import load, part1, part2
@@ -37,11 +38,9 @@ class TestDec25():
     def loaded(self, case):
         return load(case.input)
 
-    @pytest.mark.skip(reason="Not implemented")
     def test_load(self, loaded):
-        assert loaded
+        assert isinstance(loaded, nx.Graph)
         
-    @pytest.mark.skip(reason="Not implemented")
     def test_part1(self, loaded, case):
         result = part1(loaded)
         assert result == case.part1

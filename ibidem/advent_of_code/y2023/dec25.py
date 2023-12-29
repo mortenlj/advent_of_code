@@ -1,14 +1,30 @@
 #!/usr/bin/env python
+import networkx as nx
+import numpy as np
+import matplotlib.pyplot as plt
+from icecream import ic
 
 from ibidem.advent_of_code.util import get_input_name
 
 
 def load(fobj):
-    return fobj.read()
+    g = nx.Graph()
+    for line in fobj:
+        line = line.strip()
+        source, targets = line.split(':')
+        for target in targets.split():
+            g.add_edge(source, target)
+    return g
 
 
-def part1(input):
-    return None
+def part1(graph):
+    nx.draw(graph)
+    plt.show()
+    cutset = nx.minimum_edge_cut(graph)
+    graph.remove_edges_from(cutset)
+    nx.draw(graph)
+    plt.show()
+    return np.prod([len(g) for g in nx.connected_components(graph)])
 
 
 def part2(input):
