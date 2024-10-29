@@ -9,7 +9,7 @@ packages = [{include = "ibidem"}]
 
 [tool.poetry.dependencies]
 python = "^3.11"
-numpy = "^1.26.2"
+numpy = "^2.0.0"
 vectormath = "^0.2.2"
 colorama = "^0.4.6"
 requests = "^2.31.0"
