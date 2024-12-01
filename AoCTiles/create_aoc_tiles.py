@@ -93,6 +93,22 @@ IMAGE_LINK = """
 """
 
 
+class InvalidLeaderboardFileException(Exception):
+    pass
+
+
+class MissingLeaderboardException(InvalidLeaderboardFileException):
+    pass
+
+
+class TooManyLeaderboardsException(InvalidLeaderboardFileException):
+    pass
+
+
+class InvalidNumberOfScoresException(InvalidLeaderboardFileException):
+    pass
+
+
 @cache
 def get_font(size: int, path: str):
     return ImageFont.truetype(str(AOC_DIR / path), size)
@@ -141,12 +157,16 @@ def parse_leaderboard(leaderboard_path: Path) -> dict[str, DayScores]:
         if no_stars in html:
             return {}
         matches = re.findall(rf"{start}(.*?){end}", html, re.DOTALL | re.MULTILINE)
-        assert len(matches) == 1, f"Found {'no' if len(matches) == 0 else 'more than one'} leaderboard?!"
+        if len(matches) == 0:
+            raise MissingLeaderboardException(f"Expected 1 leaderboard, got {len(matches)}")
+        if len(matches) > 1:
+            raise TooManyLeaderboardsException(f"Expected 1 leaderboard, got {len(matches)}")
         table_rows = matches[0].strip().split("\n")
         leaderboard = {}
         for line in table_rows:
             day, *scores = re.split(r"\s+", line.strip())
-            assert len(scores) in (3, 6), f"Number scores for {day=} ({scores}) are not 3 or 6."
+            if not len(scores) in (3, 6):
+                raise InvalidNumberOfScoresException(f"Number scores for {day=} ({scores}) are not 3 or 6.")
             leaderboard[day] = DayScores(*scores)
         return leaderboard
 
@@ -157,10 +177,13 @@ def request_leaderboard(year: int) -> dict[str, DayScores]:
         now = datetime.now()
         leaderboard_age = now - datetime.fromtimestamp(leaderboard_path.stat().st_mtime)
         if leaderboard_age < timedelta(minutes=10) or year < now.year:
-            leaderboard = parse_leaderboard(leaderboard_path)
-            has_no_none_values = all(itertools.chain(map(list, leaderboard.values())))
-            if has_no_none_values:
-                return leaderboard
+            try:
+                leaderboard = parse_leaderboard(leaderboard_path)
+                has_no_none_values = all(itertools.chain(map(list, leaderboard.values())))
+                if has_no_none_values:
+                    return leaderboard
+            except InvalidLeaderboardFileException:
+                pass
     with open(SESSION_COOKIE_PATH) as cookie_file:
         session_cookie = cookie_file.read().strip()
         data = requests.get(PERSONAL_LEADERBOARD_URL.format(year=year), cookies={"session": session_cookie}).text
