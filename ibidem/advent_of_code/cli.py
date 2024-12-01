@@ -3,12 +3,12 @@
 """CLI to make working with Advent of Code slightly simpler
 """
 import argparse
+from importlib import resources
 import json
 import os
 import webbrowser
 from datetime import datetime
 
-import pkg_resources
 import requests
 
 HTTPIE_SESSION_PATH = os.path.join(os.path.expanduser("~"), ".config", "httpie", "sessions", "adventofcode.com",
@@ -106,13 +106,14 @@ def create_test(options):
 
 
 def _create_file(prefix, ext, content_generator, now):
-    filepath = pkg_resources.resource_filename(f"ibidem.advent_of_code.y{now.year}", f"{prefix}dec{now.day:02}.{ext}")
-    if os.path.exists(filepath):
+    ref = resources.files(f"ibidem.advent_of_code.y{now.year}") / f"{prefix}dec{now.day:02}.{ext}"
+    with resources.as_file(ref) as filepath:
+        if os.path.exists(filepath):
+            return filepath
+        os.makedirs(os.path.dirname(filepath), exist_ok=True)
+        with open(filepath, "w") as fd:
+            fd.write(content_generator(year=now.year, day=now.day))
         return filepath
-    os.makedirs(os.path.dirname(filepath), exist_ok=True)
-    with open(filepath, "w") as fd:
-        fd.write(content_generator(year=now.year, day=now.day))
-    return filepath
 
 
 def main():
