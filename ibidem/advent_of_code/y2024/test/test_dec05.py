@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import pytest
 
-from ibidem.advent_of_code.y2024.dec05 import load, part1, part2, Rule, Page, Update
+from ibidem.advent_of_code.y2024.dec05 import load, part1, part2, Update
 
 Case = namedtuple('Case', 'part1 part2 input')
 
@@ -56,8 +56,8 @@ class TestDec05():
         rules, updates = loaded
         assert len(rules) == 21
         assert len(updates) == 6
-        assert rules[0].first.number == 47
-        assert rules[0].second.number == 53
+        assert rules[0].first == 47
+        assert rules[0].second == 53
         assert updates[0].page_numbers == [75, 47, 61, 53, 29]
         assert updates[0].middle_page == 61
 
