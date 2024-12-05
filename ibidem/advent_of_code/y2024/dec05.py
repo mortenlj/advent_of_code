@@ -23,6 +23,27 @@ class Rule:
         elif self.second.number == page:
             self.second.seen_idx = idx
 
+    def sort_update(self, update):
+        result = []
+        for idx, page in enumerate(update):
+            if page not in (self.first.number, self.second.number):
+                result.append(page)
+                continue
+            if page == self.second.number:
+                self.second.seen_idx = idx
+                if self.first.seen_idx >= 0:
+                    result.append(page)
+            if page == self.first.number:
+                self.first.seen_idx = idx
+                if self.second.seen_idx >= 0:
+                    result.append(page)
+                    result.append(self.second.number)
+                else:
+                    result.append(page)
+        if self.first.seen_idx < 0 and self.second.seen_idx >= 0:
+            result.insert(self.second.seen_idx, self.second.number)
+        return result
+
     @property
     def applies(self):
         return self.first.seen_idx >= 0 and self.second.seen_idx >= 0
@@ -70,9 +91,10 @@ def load(fobj):
 def part1(input):
     middle_numbers = []
     original_rules, updates = input
-    rule_mapping = defaultdict(list)
+    invalid_updates = []
     for update in updates:
         rules = [copy.deepcopy(rule) for rule in original_rules]
+        rule_mapping = defaultdict(list)
         for rule in rules:
             rule_mapping[rule.first.number].append(rule)
             rule_mapping[rule.second.number].append(rule)
@@ -84,17 +106,31 @@ def part1(input):
         update_valid = all(rule.valid or not rule.applies for rule in rules)
         if update_valid:
             middle_numbers.append(update.middle_page)
+        else:
+            invalid_updates.append(update)
+    return sum(middle_numbers), invalid_updates
+
+
+def part2(input, invalid_updates):
+    original_rules, _ = input
+    middle_numbers = []
+    for update in invalid_updates:
+        rules = [copy.deepcopy(rule) for rule in original_rules]
+        update = sort_update(update, rules)
+        middle_numbers.append(update.middle_page)
     return sum(middle_numbers)
 
 
-def part2(input):
-    return None
+def sort_update(update, rules):
+    for rule in rules:
+        update.page_numbers = rule.sort_update(update.page_numbers)
+    return update
 
 
 if __name__ == "__main__":
     with open(get_input_name(5, 2024)) as fobj:
-        p1_result = part1(load(fobj))
+        p1_result, invalid = part1(load(fobj))
         print(f"Part 1: {p1_result}")
     with open(get_input_name(5, 2024)) as fobj:
-        p2_result = part2(load(fobj))
+        p2_result = part2(load(fobj), invalid)
         print(f"Part 2: {p2_result}")
