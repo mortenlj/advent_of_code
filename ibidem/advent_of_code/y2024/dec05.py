@@ -115,8 +115,9 @@ def part2(input, invalid_updates):
     original_rules, _ = input
     middle_numbers = []
     for update in invalid_updates:
-        rules = [copy.deepcopy(rule) for rule in original_rules]
-        update = sort_update(update, rules)
+        for i in range(5):
+            rules = [copy.deepcopy(rule) for rule in original_rules]
+            update = sort_update(update, rules)
         middle_numbers.append(update.middle_page)
     return sum(middle_numbers)
 
