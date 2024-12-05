@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import copy
+import functools
 from collections import defaultdict
 from dataclasses import dataclass
 
@@ -22,27 +23,6 @@ class Rule:
             self.first.seen_idx = idx
         elif self.second.number == page:
             self.second.seen_idx = idx
-
-    def sort_update(self, update):
-        result = []
-        for idx, page in enumerate(update):
-            if page not in (self.first.number, self.second.number):
-                result.append(page)
-                continue
-            if page == self.second.number:
-                self.second.seen_idx = idx
-                if self.first.seen_idx >= 0:
-                    result.append(page)
-            if page == self.first.number:
-                self.first.seen_idx = idx
-                if self.second.seen_idx >= 0:
-                    result.append(page)
-                    result.append(self.second.number)
-                else:
-                    result.append(page)
-        if self.first.seen_idx < 0 and self.second.seen_idx >= 0:
-            result.insert(self.second.seen_idx, self.second.number)
-        return result
 
     @property
     def applies(self):
@@ -72,6 +52,15 @@ class Update:
     def parse(cls, line):
         return cls([int(p) for p in line.split(",")])
 
+    def sort(self, rules):
+        def cmp(a, b):
+            for rule in rules:
+                if a == rule.first.number and b == rule.second.number:
+                    return -1
+                if a == rule.second.number and b == rule.first.number:
+                    return 1
+            return 0
+        self.page_numbers.sort(key=functools.cmp_to_key(cmp))
 
 def load(fobj):
     rules = []
@@ -115,17 +104,9 @@ def part2(input, invalid_updates):
     original_rules, _ = input
     middle_numbers = []
     for update in invalid_updates:
-        for i in range(5):
-            rules = [copy.deepcopy(rule) for rule in original_rules]
-            update = sort_update(update, rules)
+        update.sort(original_rules)
         middle_numbers.append(update.middle_page)
     return sum(middle_numbers)
-
-
-def sort_update(update, rules):
-    for rule in rules:
-        update.page_numbers = rule.sort_update(update.page_numbers)
-    return update
 
 
 if __name__ == "__main__":
