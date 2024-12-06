@@ -1,8 +1,13 @@
 #!/usr/bin/env python
+import copy
 import enum
 import operator
 from collections import defaultdict
 from dataclasses import dataclass
+
+from alive_progress import alive_it
+
+import numpy as np
 
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
@@ -15,15 +20,33 @@ class Direction(enum.Enum):
     RIGHT = enum.auto()
 
     def __str__(self):
+        return _dir_to_str[self]
+
+    def next_step(self, x, y):
         return {
-            Direction.UP: "^",
-            Direction.DOWN: "v",
-            Direction.LEFT: "<",
-            Direction.RIGHT: ">",
+            Direction.UP: (x, y - 1),
+            Direction.DOWN: (x, y + 1),
+            Direction.LEFT: (x - 1, y),
+            Direction.RIGHT: (x + 1, y),
         }[self]
 
 
-@dataclass
+_dir_to_str = {
+    Direction.UP: "^",
+    Direction.DOWN: "v",
+    Direction.LEFT: "<",
+    Direction.RIGHT: ">",
+}
+
+_dir_rotate = {
+    Direction.UP: Direction.RIGHT,
+    Direction.RIGHT: Direction.DOWN,
+    Direction.DOWN: Direction.LEFT,
+    Direction.LEFT: Direction.UP,
+}
+
+
+@dataclass(frozen=True)
 class Guard:
     x: int
     y: int
@@ -33,12 +56,7 @@ class Guard:
         return f"G({self.x}, {self.y}, {self.direction})"
 
     def rotate(self):
-        self.direction = {
-            Direction.UP: Direction.RIGHT,
-            Direction.RIGHT: Direction.DOWN,
-            Direction.DOWN: Direction.LEFT,
-            Direction.LEFT: Direction.UP,
-        }[self.direction]
+        return Guard(self.x, self.y, _dir_rotate[self.direction])
 
 
 def load(fobj) -> Board:
@@ -48,6 +66,7 @@ def load(fobj) -> Board:
 def find_things(board: Board):
     row_obstacles = defaultdict(list)
     col_obstacles = defaultdict(list)
+    guard = None
     for y, row in enumerate(board.grid):
         for x, cell in enumerate(row):
             if cell == "#":
@@ -55,6 +74,7 @@ def find_things(board: Board):
                 col_obstacles[x].append(y)
             if cell == "^":
                 guard = Guard(x, y, Direction.UP)
+    assert guard is not None
     return row_obstacles, col_obstacles, guard
 
 
@@ -88,56 +108,58 @@ def find_obstacle(guard, row_obstacles, col_obstacles):
                     return x + adjust, guard.y
 
 
-def part1(board:Board):
+def part1(board: Board):
     _, _, guard = find_things(board)
     while True:
         board.set(guard.x, guard.y, "1")
-        new_pos = {
-            Direction.UP: (guard.x, guard.y - 1),
-            Direction.DOWN: (guard.x, guard.y + 1),
-            Direction.LEFT: (guard.x - 1, guard.y),
-            Direction.RIGHT: (guard.x + 1, guard.y),
-        }[guard.direction]
+        new_pos = guard.direction.next_step(guard.x, guard.y)
         if new_pos[0] < 0 or new_pos[1] < 0:
             break
         if new_pos[0] >= board.size_x or new_pos[1] >= board.size_y:
             break
         if board.get(*new_pos) == "#":
-            guard.rotate()
+            guard = guard.rotate()
             continue
-        guard.x, guard.y = new_pos
-    return board.count("1")
+        guard = Guard(*new_pos, guard.direction)
+    return board.count("1"), board
 
 
-def part1_clever(board: Board):
-    row_obstacles, col_obstacles, guard = find_things(board)
-    board.grid[guard.y][guard.x] = "1"
-    new_pos = find_obstacle(guard, row_obstacles, col_obstacles)
-    while new_pos is not None:
-        if guard.x == new_pos[0]:
-            min_y = min(guard.y, new_pos[1])
-            max_y = max(guard.y, new_pos[1]) + 1
-            board.grid[min_y:max_y, guard.x] = "1"
-        else:
-            min_x = min(guard.x, new_pos[0])
-            max_x = max(guard.x, new_pos[0]) + 1
-            board.grid[guard.y, min_x:max_x] = "1"
-        guard.x, guard.y = new_pos
-        guard.rotate()
-        new_pos = find_obstacle(guard, row_obstacles, col_obstacles)
-    visited = board.count("1")
-    visited += distance_to_edge(guard, board)
-    return visited
-
-
-def part2(board: Board):
-    return None
+def part2(original_board: Board, walked_board: Board):
+    _, _, start_guard = find_things(original_board)
+    loops = 0
+    candidates = np.where(walked_board.grid == "1")
+    zipped = list(zip(*candidates))
+    bar = alive_it(zipped)
+    for y, x in bar:
+        bar.title = f"Placing obstacle at ({x}, {y})"
+        board = original_board.copy()
+        guard = copy.deepcopy(start_guard)
+        visited = set()
+        board.set(x, y, "O")
+        while True:
+            board.set(guard.x, guard.y, str(guard.direction))
+            new_pos = guard.direction.next_step(guard.x, guard.y)
+            if new_pos[0] < 0 or new_pos[1] < 0:
+                break
+            if new_pos[0] >= board.size_x or new_pos[1] >= board.size_y:
+                break
+            if guard in visited:
+                loops += 1
+                bar.text = f"Found loop, loops={loops}"
+                break
+            visited.add(copy.deepcopy(guard))
+            if board.get(*new_pos) in ("#", "O"):
+                bar.text = f"{guard} rotating"
+                guard = guard.rotate()
+                continue
+            guard = Guard(*new_pos, guard.direction)
+    return loops
 
 
 if __name__ == "__main__":
     with open(get_input_name(6, 2024)) as fobj:
-        p1_result = part1(load(fobj))
+        p1_result, board = part1(load(fobj))
         print(f"Part 1: {p1_result}")
     with open(get_input_name(6, 2024)) as fobj:
-        p2_result = part2(load(fobj))
+        p2_result = part2(load(fobj), board)
         print(f"Part 2: {p2_result}")

@@ -11,7 +11,7 @@ from ibidem.advent_of_code.y2024.dec06 import load, part1, part2, find_things, D
 Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    Case(41, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(41, 6, io.StringIO(textwrap.dedent("""\
         ....#.....
         .........#
         ..........
@@ -22,6 +22,18 @@ TEST_INPUTS = [
         ........#.
         #.........
         ......#...
+    """))),
+    Case(11, 2, io.StringIO(textwrap.dedent("""\
+        .#........
+        ...#......
+        #^........
+        .#........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
+        ..........
     """))),
 ]
 
@@ -37,6 +49,11 @@ class TestDec06():
         return load(case.input)
 
     @pytest.fixture
+    def walked_board(self, loaded):
+        _, walked_board = part1(loaded.copy())
+        return walked_board
+
+    @pytest.fixture
     def things(self, loaded):
         return find_things(loaded)
 
@@ -47,6 +64,9 @@ class TestDec06():
 
     def test_find_things(self, loaded):
         row_obstacles, col_obstacles, guard = find_things(loaded)
+        if guard.x != 4:
+            # Ignore second case for this test
+            return
         assert row_obstacles[0] == [4]
         assert row_obstacles[1] == [9]
         assert col_obstacles[0] == [8]
@@ -78,13 +98,16 @@ class TestDec06():
     ], ids=str)
     def test_find_obstacle(self, things, guard, expected):
         row_obstacles, col_obstacles, _ = things
+        if len(row_obstacles) == 4:
+            # Ignore second case for this test
+            return
         result = find_obstacle(guard, row_obstacles, col_obstacles)
         assert result == expected
 
     def test_part1(self, loaded, case):
-        result = part1(loaded)
+        result, _ = part1(loaded)
         assert result == case.part1
 
-    def test_part2(self, loaded, case):
-        result = part2(loaded)
+    def test_part2(self, loaded, case, walked_board):
+        result = part2(loaded, walked_board)
         assert result == case.part2
