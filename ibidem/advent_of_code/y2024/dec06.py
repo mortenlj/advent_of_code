@@ -88,7 +88,28 @@ def find_obstacle(guard, row_obstacles, col_obstacles):
                     return x + adjust, guard.y
 
 
-def part1(board: Board):
+def part1(board:Board):
+    _, _, guard = find_things(board)
+    while True:
+        board.set(guard.x, guard.y, "1")
+        new_pos = {
+            Direction.UP: (guard.x, guard.y - 1),
+            Direction.DOWN: (guard.x, guard.y + 1),
+            Direction.LEFT: (guard.x - 1, guard.y),
+            Direction.RIGHT: (guard.x + 1, guard.y),
+        }[guard.direction]
+        if new_pos[0] < 0 or new_pos[1] < 0:
+            break
+        if new_pos[0] >= board.size_x or new_pos[1] >= board.size_y:
+            break
+        if board.get(*new_pos) == "#":
+            guard.rotate()
+            continue
+        guard.x, guard.y = new_pos
+    return board.count("1")
+
+
+def part1_clever(board: Board):
     row_obstacles, col_obstacles, guard = find_things(board)
     board.grid[guard.y][guard.x] = "1"
     new_pos = find_obstacle(guard, row_obstacles, col_obstacles)
