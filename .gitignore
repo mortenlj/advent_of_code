@@ -264,5 +264,9 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
 session.cookie
 .aoc_tiles_cache
+.gitsecret/keys/random_seed
+!*.secret
+ibidem/advent_of_code/*/data/*.txt

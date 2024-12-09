@@ -5,6 +5,15 @@
 #
 # To enable this hook, rename this file to "pre-commit".
 
-# Redirect output to stderr.
+# Add new data files to git secret
+git secret add ibidem/advent_of_code/*/data/*
+
+# Hide secret files
+git secret hide 1>&2
+# Add secret files to commit
+git add ibidem/advent_of_code/*/data/ .gitsecret .gitignore
+
+# Generate AoC tiles and update README.rst
 poetry run python AoCTiles/create_aoc_tiles.py 1>&2
+# Add generated tiles and README to commit
 git add Media README.rst
