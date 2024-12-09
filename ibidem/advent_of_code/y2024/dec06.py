@@ -110,8 +110,9 @@ def find_obstacle(guard, row_obstacles, col_obstacles):
 
 def part1(board: Board):
     _, _, guard = find_things(board)
-    viz_config = Config(7, {"#": Images.Obstacle, "1": Images.Stone})
+    viz_config = Config({"#": Images.Obstacle, "1": Images.Stone})
     visualizer = visualize(board, viz_config)
+    visualizer.pause()
     while True:
         board.set(guard.x, guard.y, "1")
         new_pos = guard.direction.next_step(guard.x, guard.y)

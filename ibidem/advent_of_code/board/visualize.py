@@ -1,11 +1,15 @@
 import enum
+import os
 import threading
 from dataclasses import field, dataclass
 from importlib import resources
+from typing import Optional
 
 import pygame
 
 from . import Board
+
+_MARGIN = 20
 
 
 class Images(enum.Enum):
@@ -31,16 +35,31 @@ class Images(enum.Enum):
 
 @dataclass
 class Config:
-    scale_factor: int
     sprite_mapping: dict = field(repr=False, compare=False)
+    scale_factor: Optional[int] = field(default=None)
     exit_signal: threading.Event = field(default=threading.Event(), init=False, repr=False, compare=False)
+
+
+def _get_scale_factor(board, config):
+    desktop_sizes = pygame.display.get_desktop_sizes()
+    if config.scale_factor is None:
+        for ds in desktop_sizes:
+            scale_factor_x = (ds[0] - _MARGIN) // board.size_x
+            scale_factor_y = (ds[1] - _MARGIN) // board.size_y
+        scale_factor = min(scale_factor_x, scale_factor_y)
+    else:
+        scale_factor = config.scale_factor
+    return scale_factor
 
 
 class Visualizer:
     def __init__(self, board: Board, config: Config):
-        self.board = board
-        self.config = config
-        screen_x, screen_y = board.size_x * config.scale_factor, board.size_y * config.scale_factor
+        self._board = board
+        self._config = config
+        self._scale_factor = _get_scale_factor(board, config)
+        screen_x, screen_y = board.size_x * self._scale_factor, board.size_y * self._scale_factor
+        os.environ['SDL_VIDEO_CENTERED'] = '1'
+        pygame.display.set_caption("Advent of Code - Board Visualizer")
         self.screen = pygame.display.set_mode([screen_x, screen_y])
         sprite_size = Images.Grass.image.get_width()
         self.screen.fill((20, 20, 20))
@@ -49,14 +68,22 @@ class Visualizer:
                 self.screen.blit(Images.Grass.image, (x, y))
         pygame.display.flip()
 
+    def pause(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.close()
+                if event.type == pygame.KEYDOWN:
+                    return
+
     def run(self):
-        while not self.config.exit_signal.is_set():
+        while not self._config.exit_signal.is_set():
             self.draw_board()
         pygame.quit()
 
     def draw_board(self, board=None):
         if board is None:
-            board = self.board
+            board = self._board
         grid = board.grid.copy()
         for y, row in enumerate(grid):
             for x, value in enumerate(row):
@@ -65,28 +92,30 @@ class Visualizer:
         pygame.display.flip()
 
     def draw(self, x, y, value):
-        sprite = self.config.sprite_mapping.get(value)
+        sprite = self._config.sprite_mapping.get(value)
         if sprite is None:
             return
-        self.screen.blit(sprite.image, (x * self.config.scale_factor, y * self.config.scale_factor))
+        self.screen.blit(sprite.image, (x * self._scale_factor, y * self._scale_factor))
 
     def close(self):
-        self.config.exit_signal.set()
+        self._config.exit_signal.set()
         pygame.quit()
 
 
-def visualize(board: Board, config: Config):
+def visualize(board: Board, config: Config) -> Visualizer:
     """Step by step visaualization of the board."""
     initialize_and_display_splash()
+    scale_factor = _get_scale_factor(board, config)
     for image in Images:
-        image.load(config.scale_factor)
+        image.load(scale_factor)
     return Visualizer(board, config)
 
 
 def _visualize(board: Board, config: Config):
     initialize_and_display_splash()
+    scale_factor = _get_scale_factor(board, config)
     for image in Images:
-        image.load(config.scale_factor)
+        image.load(scale_factor)
     visualizer = Visualizer(board, config)
     visualizer.run()
 
