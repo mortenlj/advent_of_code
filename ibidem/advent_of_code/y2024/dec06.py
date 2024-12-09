@@ -5,11 +5,11 @@ import operator
 from collections import defaultdict
 from dataclasses import dataclass
 
+import numpy as np
 from alive_progress import alive_it
 
-import numpy as np
-
 from ibidem.advent_of_code.board import Board
+from ibidem.advent_of_code.board.visualize import Config, Images, visualize
 from ibidem.advent_of_code.util import get_input_name
 
 
@@ -110,6 +110,8 @@ def find_obstacle(guard, row_obstacles, col_obstacles):
 
 def part1(board: Board):
     _, _, guard = find_things(board)
+    viz_config = Config(7, {"#": Images.Obstacle, "1": Images.Stone})
+    visualizer = visualize(board, viz_config)
     while True:
         board.set(guard.x, guard.y, "1")
         new_pos = guard.direction.next_step(guard.x, guard.y)
@@ -121,6 +123,8 @@ def part1(board: Board):
             guard = guard.rotate()
             continue
         guard = Guard(*new_pos, guard.direction)
+        visualizer.draw_board()
+    visualizer.close()
     return board.count("1"), board
 
 

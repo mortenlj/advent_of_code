@@ -1,0 +1,10 @@
+Most of the images in this folder are from http://www.vickiwenderlich.com/2011/10/free-game-art-tanks-top-down-tiles/
+They are shared under a Creative Commons Attribution License (http://www.vickiwenderlich.com/free-art/licensing/)
+
+TODO: Remove unused images
+
+Created by me:
+
+- red_turret.png / turret.xcf
+- tombstone.png / tombstone.xcf
+
