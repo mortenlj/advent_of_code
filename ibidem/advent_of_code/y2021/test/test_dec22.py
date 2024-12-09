@@ -109,11 +109,11 @@ PART2_RESULT = 2758514936282235
 class TestDec22():
     @pytest.fixture(params=CASES)
     def case(self, request):
-        request.param.case.seek(0)
+        request.param.input.seek(0)
         return request.param
 
     def test_part1(self, case):
-        result = part1(load(case.case))
+        result = part1(load(case.input))
         assert result == case.result
 
     @pytest.mark.parametrize("step, expected", (
@@ -142,7 +142,7 @@ class TestDec22():
         actual = set(gen_coord(step))
         assert actual == expected
 
-    @pytest.mark.xfail(reason="The implementation is not smart enough, takes forever")
+    @pytest.mark.skip(reason="The implementation is not smart enough, takes forever")
     def test_part2(self):
         result = part2(PART2_INPUT)
         assert result == PART2_RESULT

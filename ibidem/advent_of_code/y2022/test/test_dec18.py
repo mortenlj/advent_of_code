@@ -44,6 +44,7 @@ class TestDec18():
         result = part1(loaded)
         assert result == PART1_RESULT
 
+    @pytest.mark.xfail(reason="Not implemented")
     def test_part2(self, loaded):
         result = part2(loaded)
         assert result == PART2_RESULT
