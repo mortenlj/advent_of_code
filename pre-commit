@@ -8,8 +8,8 @@
 # Add new data files to git secret
 git secret add ibidem/advent_of_code/*/data/*
 
-# Hide secret files
-git secret hide 1>&2
+# Hide modified secret files
+git secret hide -m 1>&2
 # Add secret files to commit
 git add ibidem/advent_of_code/*/data/ .gitsecret .gitignore
 
