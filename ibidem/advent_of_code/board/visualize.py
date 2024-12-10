@@ -12,25 +12,27 @@ from . import Board
 _MARGIN = 20
 
 
-class Images(enum.Enum):
-    Grass = (enum.auto(), "bg_grass.png")
-    Dirt = (enum.auto(), "bg_dirt.png")
-    Stone = (enum.auto(), "bg_stone.png")
-    Wall = (enum.auto(), "bg_wall.png")
-    Water = (enum.auto(), "bg_water.png")
-    Tree = (enum.auto(), "tree.png")
-    Obstacle = (enum.auto(), "obstacle.png")
-    Guard = (enum.auto(), "guard.png")
-
-    def __init__(self, value, filename):
-        self._value_ = value
-        self._filename = filename
-        self.image = None
+class ImageMixIn:
+    image: pygame.Surface
 
     def load(self, scale_factor):
-        binary = resources.open_binary("ibidem.advent_of_code.board.resources", self._filename)
+        binary = resources.open_binary("ibidem.advent_of_code.board.resources", self._value_)
         image = pygame.image.load(binary).convert_alpha()
         self.image = pygame.transform.scale(image, (scale_factor, scale_factor))
+
+
+class Tiles(ImageMixIn, enum.Enum):
+    Grass = "bg_grass.png"
+    Dirt = "bg_dirt.png"
+    Stone = "bg_stone.png"
+    Wall = "bg_wall.png"
+    Water = "bg_water.png"
+    Obstacle = "obstacle.png"
+
+
+class Sprites(ImageMixIn, enum.Enum):
+    Tree = "tree.png"
+    Guard = "guard.png"
 
 
 @dataclass
@@ -61,11 +63,11 @@ class Visualizer:
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.display.set_caption("Advent of Code - Board Visualizer")
         self.screen = pygame.display.set_mode([screen_x, screen_y])
-        sprite_size = Images.Grass.image.get_width()
+        sprite_size = Tiles.Grass.image.get_width()
         self.screen.fill((20, 20, 20))
         for x in range(0, screen_x, sprite_size):
             for y in range(0, screen_y, sprite_size):
-                self.screen.blit(Images.Grass.image, (x, y))
+                self.screen.blit(Tiles.Grass.image, (x, y))
         pygame.display.flip()
 
     def pause(self):
@@ -106,7 +108,7 @@ def visualize(board: Board, config: Config) -> Visualizer:
     """Step by step visaualization of the board."""
     initialize_and_display_splash()
     scale_factor = _get_scale_factor(board, config)
-    for image in Images:
+    for image in Tiles:
         image.load(scale_factor)
     return Visualizer(board, config)
 
@@ -114,7 +116,7 @@ def visualize(board: Board, config: Config) -> Visualizer:
 def _visualize(board: Board, config: Config):
     initialize_and_display_splash()
     scale_factor = _get_scale_factor(board, config)
-    for image in Images:
+    for image in Tiles:
         image.load(scale_factor)
     visualizer = Visualizer(board, config)
     visualizer.run()

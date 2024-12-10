@@ -9,7 +9,7 @@ import numpy as np
 from alive_progress import alive_it
 
 from ibidem.advent_of_code.board import Board
-from ibidem.advent_of_code.board.visualize import Config, Images, visualize
+from ibidem.advent_of_code.board.visualize import Config, Tiles, visualize
 from ibidem.advent_of_code.util import get_input_name
 
 
@@ -110,7 +110,7 @@ def find_obstacle(guard, row_obstacles, col_obstacles):
 
 def part1(board: Board):
     _, _, guard = find_things(board)
-    viz_config = Config({"#": Images.Obstacle, "1": Images.Stone})
+    viz_config = Config({"#": Tiles.Obstacle, "1": Tiles.Stone})
     visualizer = visualize(board, viz_config)
     visualizer.pause()
     while True:
