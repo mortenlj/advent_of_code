@@ -29,15 +29,27 @@ def blink(stones, iteration):
 
 
 def part1(stones: list[int]):
-    for i in track(range(25)):
-        stones = blink(stones, i + 1)
-    return len(stones)
+    num_stones = 0
+    for stone in stones:
+        num_stones += blink2(stone, 25)
+    return num_stones
+
+
+@lru_cache(maxsize=None)
+def blink2(stone, depth):
+    if depth == 0:
+        return 1
+    num_stones = 0
+    for stone in blink_stone(stone):
+        num_stones += blink2(stone, depth - 1)
+    return num_stones
 
 
 def part2(stones: list[int]):
-    for i in range(75):
-        stones = blink(stones, i + 1)
-    return len(stones)
+    num_stones = 0
+    for stone in stones:
+        num_stones += blink2(stone, 75)
+    return num_stones
 
 
 if __name__ == "__main__":

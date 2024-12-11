@@ -8,8 +8,8 @@ from ibidem.advent_of_code.y2024.dec11 import load, part1, part2
 
 Case = namedtuple('Case', 'part1 part2 input')
 
-TEST_INPUTS = [
-    Case(55312, NotImplemented, io.StringIO(textwrap.dedent("125 17"))),
+TEST_INPUTS = [ # Part 2 answer found by running test after code worked for real input
+    Case(55312, 65601038650482, io.StringIO(textwrap.dedent("125 17"))),
 ]
 
 
@@ -31,7 +31,6 @@ class TestDec11():
         result = part1(loaded)
         assert result == case.part1
 
-    @pytest.mark.skip("Takes forever, no target to compare to")
     def test_part2(self, loaded, case):
         result = part2(loaded)
         assert result == case.part2
