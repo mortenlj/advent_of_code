@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 import enum
 import re
-from collections import deque
 from dataclasses import dataclass
-from functools import lru_cache
+
+import sympy as sp
 
 from ibidem.advent_of_code.util import get_input_name
 
 
-class ButtonPress(enum.Enum):
+class ButtonCost(enum.Enum):
     A = 3
     B = 1
 
@@ -20,32 +20,17 @@ class Vector:
 
 
 @dataclass(frozen=True)
-class Coordinate:
-    x: int
-    y: int
-
-    def __add__(self, other):
-        return Coordinate(self.x + other.x, self.y + other.y)
-
-    def __sub__(self, other):
-        return Coordinate(self.x - other.x, self.y - other.y)
-
-    def __eq__(self, other):
-        return self.x == other.x and self.y == other.y
-
-
-@dataclass(frozen=True)
 class ClawMachine:
     button_a: Vector
     button_b: Vector
-    prize: Coordinate
-    _cache: dict[Coordinate, list[ButtonPress]]
+    prize: Vector
+    _cache: dict[Vector, list[ButtonCost]]
 
     _button_pattern = re.compile(r"Button [AB]: X\+(\d+), Y\+(\d+)")
     _prize_pattern = re.compile(r"Prize: X=(\d+), Y=(\d+)")
 
     @classmethod
-    def load(cls, input):
+    def load(cls, input, adjust=False):
         line = next(input)
         m = cls._button_pattern.search(line)
         button_a = Vector(int(m.group(1)), int(m.group(2)))
@@ -56,46 +41,30 @@ class ClawMachine:
 
         line = next(input)
         m = cls._prize_pattern.search(line)
-        prize = Coordinate(int(m.group(1)), int(m.group(2)))
+        prize_x = int(m.group(1))
+        price_y = int(m.group(2))
+        if adjust:
+            prize_x += 10000000000000
+            price_y += 10000000000000
+        prize = Vector(prize_x, price_y)
 
         return cls(button_a, button_b, prize, {})
 
-    def solve(self):
-        presses = self._solve(self.prize)
-        if presses is not None:
-            return sum(p.value for p in presses)
-        return None
-
-    def _solve(self, target, depth=0):
-        if target in self._cache:
-            return self._cache[target]
-        if target.x == 0 and target.y == 0:
-            return []
-        if target.x < 0 or target.y < 0:
-            return None
-        if depth > 200:
-            return None
-
-        result = None
-        result_cost = float("inf")
-        for press, button in ((ButtonPress.A, self.button_a), (ButtonPress.B, self.button_b)):
-            presses = self._solve(target - button, depth + 1)
-            if presses is not None:
-                presses = presses + [press]
-                presses_cost = sum(p.value for p in presses)
-                if result is None or presses_cost < result_cost:
-                    result = presses
-                    result_cost = presses_cost
-        self._cache[target] = result
-        return result
+    def solve_sympy(self):
+        a, b = sp.symbols("a b", integer=True, positive=True)
+        eq1 = sp.Eq(a * self.button_a.x + b * self.button_b.x, self.prize.x)
+        eq2 = sp.Eq(a * self.button_a.y + b * self.button_b.y, self.prize.y)
+        sol = sp.solve((eq1, eq2), (a, b))
+        if sol:
+            return sol[a] * ButtonCost.A.value + sol[b] * ButtonCost.B.value
 
 
-def load(fobj):
+def load(fobj, adjust=False):
     lines = iter(fobj)
     machines = []
     try:
         while True:
-            machines.append(ClawMachine.load(lines))
+            machines.append(ClawMachine.load(lines, adjust))
             next(lines)
     except StopIteration:
         pass
@@ -105,14 +74,19 @@ def load(fobj):
 def part1(machines: list[ClawMachine]):
     sum = 0
     for machine in machines:
-        cost = machine.solve()
+        cost = machine.solve_sympy()
         if cost is not None:
             sum += cost
     return sum
 
 
 def part2(machines):
-    return None
+    sum = 0
+    for machine in machines:
+        cost = machine.solve_sympy()
+        if cost is not None:
+            sum += cost
+    return sum
 
 
 if __name__ == "__main__":
@@ -120,5 +94,5 @@ if __name__ == "__main__":
         p1_result = part1(load(fobj))
         print(f"Part 1: {p1_result}")
     with open(get_input_name(13, 2024)) as fobj:
-        p2_result = part2(load(fobj))
+        p2_result = part2(load(fobj, adjust=True))
         print(f"Part 2: {p2_result}")

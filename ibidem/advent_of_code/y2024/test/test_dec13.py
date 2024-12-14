@@ -9,7 +9,8 @@ from ibidem.advent_of_code.y2024.dec13 import load, part1, part2, Vector, Coordi
 Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    Case(480, NotImplemented, io.StringIO(textwrap.dedent("""\
+    # Part 2 answer from own testing
+    Case(480, 875318608908, io.StringIO(textwrap.dedent("""\
         Button A: X+94, Y+34
         Button B: X+22, Y+67
         Prize: X=8400, Y=5400
@@ -39,6 +40,10 @@ class TestDec13():
     def loaded(self, case):
         return load(case.input)
 
+    @pytest.fixture
+    def adjusted(self, case):
+        return load(case.input, adjust=True)
+
     def test_load(self, loaded):
         assert len(loaded) == 4
         assert loaded[1].button_a == Vector(26, 66)
@@ -49,8 +54,8 @@ class TestDec13():
         result = part1(loaded)
         assert result == case.part1
 
-    def test_part2(self, loaded, case):
-        result = part2(loaded)
+    def test_part2(self, adjusted, case):
+        result = part2(adjusted)
         assert result == case.part2
 
     def test_solve(self):
