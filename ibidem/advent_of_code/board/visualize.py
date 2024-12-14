@@ -9,7 +9,7 @@ import pygame
 
 from . import Board
 
-_MARGIN = 20
+_MARGIN = 200
 
 
 class ImageMixIn:
@@ -63,11 +63,10 @@ class Visualizer:
         os.environ['SDL_VIDEO_CENTERED'] = '1'
         pygame.display.set_caption("Advent of Code - Board Visualizer")
         self.screen = pygame.display.set_mode([screen_x, screen_y])
-        sprite_size = Tiles.Grass.image.get_width()
         self.screen.fill((20, 20, 20))
-        for x in range(0, screen_x, sprite_size):
-            for y in range(0, screen_y, sprite_size):
-                self.screen.blit(Tiles.Grass.image, (x, y))
+        self._background = self.screen.copy()
+        self.draw_board()
+        self._background = self.screen.copy()
         pygame.display.flip()
 
     def pause(self):
@@ -84,6 +83,7 @@ class Visualizer:
         pygame.quit()
 
     def draw_board(self, board=None):
+        self.screen.blit(self._background, (0, 0))
         if board is None:
             board = self._board
         grid = board.grid.copy()
@@ -110,6 +110,8 @@ def visualize(board: Board, config: Config) -> Visualizer:
     scale_factor = _get_scale_factor(board, config)
     for image in Tiles:
         image.load(scale_factor)
+    for image in Sprites:
+        image.load(scale_factor)
     return Visualizer(board, config)
 
 
@@ -117,6 +119,8 @@ def _visualize(board: Board, config: Config):
     initialize_and_display_splash()
     scale_factor = _get_scale_factor(board, config)
     for image in Tiles:
+        image.load(scale_factor)
+    for image in Sprites:
         image.load(scale_factor)
     visualizer = Visualizer(board, config)
     visualizer.run()
