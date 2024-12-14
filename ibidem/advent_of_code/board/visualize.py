@@ -32,29 +32,26 @@ class Tiles(ImageMixIn, enum.Enum):
 
 class Sprites(ImageMixIn, enum.Enum):
     Tree = "tree.png"
-    Guard = "guard.png"
+    Tank = "tank_base.png"
+    RedTankTurret = "red_turret.png"
+    Tombstone = "tombstone.png"
 
 
 @dataclass
 class Config:
     sprite_mapping: dict = field(repr=False, compare=False)
-    scale_factor: Optional[int] = field(default=None)
     exit_signal: threading.Event = field(default=threading.Event(), init=False, repr=False, compare=False)
 
 
 def _get_scale_factor(board, config):
     desktop_sizes = pygame.display.get_desktop_sizes()
-    if config.scale_factor is None:
-        for ds in desktop_sizes:
-            scale_factor_x = (ds[0] - _MARGIN) // board.size_x
-            scale_factor_y = (ds[1] - _MARGIN) // board.size_y
-        scale_factor = min(scale_factor_x, scale_factor_y)
-    else:
-        scale_factor = config.scale_factor
-    return scale_factor
+    for ds in desktop_sizes:
+        scale_factor_x = (ds[0] - _MARGIN) // board.size_x
+        scale_factor_y = (ds[1] - _MARGIN) // board.size_y
+    return min(scale_factor_x, scale_factor_y)
 
 
-class Visualizer:
+class BoardVisualizer:
     def __init__(self, board: Board, config: Config):
         self._board = board
         self._config = config
@@ -79,8 +76,11 @@ class Visualizer:
 
     def run(self):
         while not self._config.exit_signal.is_set():
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    break
             self.draw_board()
-        pygame.quit()
+        self.close()
 
     def draw_board(self, board=None):
         self.screen.blit(self._background, (0, 0))
@@ -104,7 +104,7 @@ class Visualizer:
         pygame.quit()
 
 
-def visualize(board: Board, config: Config) -> Visualizer:
+def visualize(board: Board, config: Config) -> BoardVisualizer:
     """Step by step visaualization of the board."""
     initialize_and_display_splash()
     scale_factor = _get_scale_factor(board, config)
@@ -112,23 +112,7 @@ def visualize(board: Board, config: Config) -> Visualizer:
         image.load(scale_factor)
     for image in Sprites:
         image.load(scale_factor)
-    return Visualizer(board, config)
-
-
-def _visualize(board: Board, config: Config):
-    initialize_and_display_splash()
-    scale_factor = _get_scale_factor(board, config)
-    for image in Tiles:
-        image.load(scale_factor)
-    for image in Sprites:
-        image.load(scale_factor)
-    visualizer = Visualizer(board, config)
-    visualizer.run()
-
-
-def visualize_background(board, config):
-    """Launches a thread in the background which is responsible for visualizing the board."""
-    threading.Thread(target=_visualize, args=(board, config)).start()
+    return BoardVisualizer(board, config)
 
 
 def initialize_and_display_splash():

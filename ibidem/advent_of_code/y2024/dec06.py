@@ -110,7 +110,7 @@ def find_obstacle(guard, row_obstacles, col_obstacles):
 
 def part1(board: Board):
     _, _, guard = find_things(board)
-    viz_config = Config({"#": Tiles.Obstacle, "1": Tiles.Stone})
+    viz_config = Config({"#": Tiles.Obstacle, "1": Tiles.Stone, ".": Tiles.Grass})
     visualizer = visualize(board, viz_config)
     visualizer.pause()
     while True:
