@@ -1,7 +1,8 @@
 import enum
 import os
 import threading
-from dataclasses import field, dataclass
+from abc import ABCMeta, abstractmethod
+from dataclasses import dataclass
 from importlib import resources
 from typing import Optional
 
@@ -16,7 +17,7 @@ class ImageMixIn:
     image: pygame.Surface
 
     def load(self, scale_factor):
-        binary = resources.open_binary("ibidem.advent_of_code.board.resources", self._value_)
+        binary = resources.open_binary("ibidem.advent_of_code.board.resources", self.value)
         image = pygame.image.load(binary).convert_alpha()
         self.image = pygame.transform.scale(image, (scale_factor, scale_factor))
 
@@ -39,32 +40,43 @@ class Sprites(ImageMixIn, enum.Enum):
 
 @dataclass
 class Config:
-    sprite_mapping: dict = field(repr=False, compare=False)
-    exit_signal: threading.Event = field(default=threading.Event(), init=False, repr=False, compare=False)
+    size_x: Optional[int] = None
+    size_y: Optional[int] = None
 
 
-def _get_scale_factor(board, config):
+def _get_scale_factor(size_x, size_y):
     desktop_sizes = pygame.display.get_desktop_sizes()
-    for ds in desktop_sizes:
-        scale_factor_x = (ds[0] - _MARGIN) // board.size_x
-        scale_factor_y = (ds[1] - _MARGIN) // board.size_y
+    assert desktop_sizes, "No desktop sizes found"
+    ds = desktop_sizes.pop()
+    scale_factor_x = (ds[0] - _MARGIN) // size_x
+    scale_factor_y = (ds[1] - _MARGIN) // size_y
     return min(scale_factor_x, scale_factor_y)
 
 
-class BoardVisualizer:
-    def __init__(self, board: Board, config: Config):
-        self._board = board
+def load_images(scale_factor):
+    for image in Tiles:
+        image.load(scale_factor)
+    for image in Sprites:
+        image.load(scale_factor)
+
+
+class Visualizer(metaclass=ABCMeta):
+    def __init__(self, config: Config):
         self._config = config
-        self._scale_factor = _get_scale_factor(board, config)
-        screen_x, screen_y = board.size_x * self._scale_factor, board.size_y * self._scale_factor
+        self._scale_factor = _get_scale_factor(config.size_x, config.size_y)
+        screen_x, screen_y = config.size_x * self._scale_factor, config.size_y * self._scale_factor
+        load_images(self._scale_factor)
         os.environ['SDL_VIDEO_CENTERED'] = '1'
-        pygame.display.set_caption("Advent of Code - Board Visualizer")
+        pygame.display.set_caption("Advent of Code - Visualizer")
         self.screen = pygame.display.set_mode([screen_x, screen_y])
         self.screen.fill((20, 20, 20))
-        self._background = self.screen.copy()
-        self.draw_board()
+        self.draw_background()
         self._background = self.screen.copy()
         pygame.display.flip()
+
+    @abstractmethod
+    def draw_background(self):
+        pass
 
     def pause(self):
         while True:
@@ -74,13 +86,23 @@ class BoardVisualizer:
                 if event.type == pygame.KEYDOWN:
                     return
 
-    def run(self):
-        while not self._config.exit_signal.is_set():
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    break
-            self.draw_board()
-        self.close()
+    def draw(self, x, y, sprite: ImageMixIn):
+        self.screen.blit(sprite.image, (x * self._scale_factor, y * self._scale_factor))
+
+    def close(self):
+        pygame.quit()
+
+
+class BoardVisualizer(Visualizer):
+    def __init__(self, board: Board, sprite_mapping):
+        self._board = board
+        self._sprite_mapping = sprite_mapping
+        config = Config(board.size_x, board.size_y)
+        super().__init__(config)
+
+    def draw_background(self):
+        self._background = self.screen.copy()
+        self.draw_board()
 
     def draw_board(self, board=None):
         self.screen.blit(self._background, (0, 0))
@@ -90,29 +112,11 @@ class BoardVisualizer:
         for y, row in enumerate(grid):
             for x, value in enumerate(row):
                 if value is not None:
-                    self.draw(x, y, value)
+                    sprite = self._sprite_mapping.get(value)
+                    if sprite is None:
+                        continue
+                    self.draw(x, y, sprite)
         pygame.display.flip()
-
-    def draw(self, x, y, value):
-        sprite = self._config.sprite_mapping.get(value)
-        if sprite is None:
-            return
-        self.screen.blit(sprite.image, (x * self._scale_factor, y * self._scale_factor))
-
-    def close(self):
-        self._config.exit_signal.set()
-        pygame.quit()
-
-
-def visualize(board: Board, config: Config) -> BoardVisualizer:
-    """Step by step visaualization of the board."""
-    initialize_and_display_splash()
-    scale_factor = _get_scale_factor(board, config)
-    for image in Tiles:
-        image.load(scale_factor)
-    for image in Sprites:
-        image.load(scale_factor)
-    return BoardVisualizer(board, config)
 
 
 def initialize_and_display_splash():

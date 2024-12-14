@@ -9,7 +9,8 @@ import numpy as np
 from alive_progress import alive_it
 
 from ibidem.advent_of_code.board import Board
-from ibidem.advent_of_code.board.visualize import Config, Tiles, visualize
+from ibidem.advent_of_code.board.visualize import Tiles, initialize_and_display_splash, \
+    BoardVisualizer
 from ibidem.advent_of_code.util import get_input_name
 
 
@@ -110,8 +111,8 @@ def find_obstacle(guard, row_obstacles, col_obstacles):
 
 def part1(board: Board):
     _, _, guard = find_things(board)
-    viz_config = Config({"#": Tiles.Obstacle, "1": Tiles.Stone, ".": Tiles.Grass})
-    visualizer = visualize(board, viz_config)
+    initialize_and_display_splash()
+    visualizer = BoardVisualizer(board, {"#": Tiles.Obstacle, "1": Tiles.Stone, ".": Tiles.Grass})
     visualizer.pause()
     while True:
         board.set(guard.x, guard.y, "1")
