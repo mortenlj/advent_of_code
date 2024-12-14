@@ -1,14 +1,11 @@
 import enum
 import os
-import threading
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass
-from importlib import resources
+from importlib import resources as il_resources
 from typing import Optional
 
 import pygame
-
-from . import Board
 
 _MARGIN = 200
 
@@ -17,7 +14,7 @@ class ImageMixIn:
     image: pygame.Surface
 
     def load(self, scale_factor):
-        binary = resources.open_binary("ibidem.advent_of_code.board.resources", self.value)
+        binary = il_resources.open_binary("ibidem.advent_of_code.visualizer.resources", self.value)
         image = pygame.image.load(binary).convert_alpha()
         self.image = pygame.transform.scale(image, (scale_factor, scale_factor))
 
@@ -91,32 +88,6 @@ class Visualizer(metaclass=ABCMeta):
 
     def close(self):
         pygame.quit()
-
-
-class BoardVisualizer(Visualizer):
-    def __init__(self, board: Board, sprite_mapping):
-        self._board = board
-        self._sprite_mapping = sprite_mapping
-        config = Config(board.size_x, board.size_y)
-        super().__init__(config)
-
-    def draw_background(self):
-        self._background = self.screen.copy()
-        self.draw_board()
-
-    def draw_board(self, board=None):
-        self.screen.blit(self._background, (0, 0))
-        if board is None:
-            board = self._board
-        grid = board.grid.copy()
-        for y, row in enumerate(grid):
-            for x, value in enumerate(row):
-                if value is not None:
-                    sprite = self._sprite_mapping.get(value)
-                    if sprite is None:
-                        continue
-                    self.draw(x, y, sprite)
-        pygame.display.flip()
 
 
 def initialize_and_display_splash():

@@ -9,8 +9,8 @@ import numpy as np
 from alive_progress import alive_it
 
 from ibidem.advent_of_code.board import Board
-from ibidem.advent_of_code.board.visualize import Tiles, initialize_and_display_splash, \
-    BoardVisualizer
+from ibidem.advent_of_code.visualizer.board import BoardVisualizer
+from ibidem.advent_of_code.visualizer import Tiles, initialize_and_display_splash
 from ibidem.advent_of_code.util import get_input_name
 
 
