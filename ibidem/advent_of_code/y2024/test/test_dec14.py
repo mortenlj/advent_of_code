@@ -52,7 +52,7 @@ class TestDec14():
         result = part1(loaded)
         assert result == case.part1
 
-    @pytest.mark.skip(reason="No clue where to start")
+    @pytest.mark.skip(reason="Test case has no christmas tree")
     def test_part2(self, loaded, case):
         result = part2(loaded)
         assert result == case.part2

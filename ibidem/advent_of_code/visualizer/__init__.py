@@ -76,6 +76,7 @@ class Visualizer(metaclass=ABCMeta):
         pass
 
     def pause(self):
+        self.draw_message("Press any key to continue", 40)
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -88,6 +89,17 @@ class Visualizer(metaclass=ABCMeta):
 
     def close(self):
         pygame.quit()
+
+    def draw_message(self, msg, size):
+        rect = self.screen.get_rect()
+        font = pygame.font.Font(None, size)
+        text = font.render(msg, True, (255, 255, 255))
+        textRect = text.get_rect()
+        x = rect.centerx - (textRect.width // 2)
+        y = rect.centery - (textRect.height // 2)
+        textRect.topleft = (x, y)
+        self.screen.blit(text, textRect)
+        pygame.display.flip()
 
 
 def initialize_and_display_splash():

@@ -2,8 +2,13 @@
 import re
 from dataclasses import dataclass, field
 
+import numpy as np
+from rich.progress import track
+
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
+from ibidem.advent_of_code.visualizer import initialize_and_display_splash, Sprites, Tiles
+from ibidem.advent_of_code.visualizer.board import BoardVisualizer
 
 ROBOT_PATTERN = re.compile(r"p=(\d+),(\d+) v=(-?\d+),(-?\d+)")
 
@@ -43,16 +48,7 @@ def load(fobj, board_x, board_y):
 
 def part1(input):
     robots, board = input
-    mid_x = board.size_x // 2
-    mid_y = board.size_y // 2
-    for x in range(board.size_x):
-        for y in range(board.size_y):
-            if x == mid_x or y == mid_y:
-                board.set(x, y, ".")
-    for step in range(100):
-        for robot in robots:
-            robot.position.x = (robot.position.x + robot.velocity.x) % board.size_x
-            robot.position.y = (robot.position.y + robot.velocity.y) % board.size_y
+    mid_x, mid_y, _ = simulate(board, robots, 100)
     field = Field()
     for robot in robots:
         if robot.position.x < mid_x and robot.position.y < mid_y:
@@ -66,11 +62,59 @@ def part1(input):
     return field.safety_factor()
 
 
-def part2(input):
-    return None
+def simulate(board, robots, steps, check=lambda b: False):
+    mid_x = board.size_x // 2
+    mid_y = board.size_y // 2
+    for x in range(board.size_x):
+        for y in range(board.size_y):
+            if x == mid_x or y == mid_y:
+                board.set(x, y, ".")
+    blank_board = board.copy()
+    visualizer = None
+    if visualize:
+        initialize_and_display_splash()
+        visualizer = BoardVisualizer(board, {"#": Sprites.Tank, ".": Tiles.Stone, " ": Tiles.Grass})
+        if pause:
+            visualizer.pause()
+    for step in track(range(steps)):
+        board = blank_board.copy()
+        for robot in robots:
+            robot.position.x = (robot.position.x + robot.velocity.x) % board.size_x
+            robot.position.y = (robot.position.y + robot.velocity.y) % board.size_y
+            board.set(robot.position.x, robot.position.y, "#")
+        if visualizer:
+            visualizer.draw_board(board)
+        if check(board):
+            break
+    if pause and visualizer:
+        visualizer.pause()
+    return mid_x, mid_y, step+1
 
+
+def part2(input):
+    robots, board = input
+    needle = np.array(list("#" * 20))
+
+    def check(board):
+        for y in range(board.size_y):
+            for x in range(board.size_x - 20):
+                if np.array_equal(board.grid[y, x:x + 20], needle):
+                    return True
+
+    _, _, step = simulate(board, robots, 10000, check)
+    return step
+
+
+visualize = False
+pause = False
 
 if __name__ == "__main__":
+    import sys
+
+    if "--visualize" in sys.argv:
+        visualize = True
+    if "--pause" in sys.argv:
+        pause = True
     with open(get_input_name(14, 2024)) as fobj:
         p1_result = part1(load(fobj, 101, 103))
         print(f"Part 1: {p1_result}")
