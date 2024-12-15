@@ -22,7 +22,7 @@ class Direction(enum.StrEnum):
     Right = (">", Vector(1, 0))
 
     def __new__(cls, symbol: str, vector: Vector):
-        obj = str.__new__(cls)
+        obj = str.__new__(cls, symbol)
         obj._value_ = symbol
         obj.symbol = symbol
         obj.vector = vector
@@ -110,8 +110,35 @@ def part1(input):
     return sum(box.gps() for box in boxes.values())
 
 
+def widen_board(board):
+    wide_board = Board(board.size_x * 2, board.size_y,
+                       do_translate=board._do_translate,
+                       flip=board._flip,
+                       fill_value=board._fill_value,
+                       dtype=board.grid.dtype,
+                       growable=board._growable
+                       )
+    for y in range(board.size_y):
+        for x in range(board.size_x):
+            value = board.get(x, y)
+            wide_x = x * 2
+            if value == "#":
+                wide_board.set(wide_x, y, "#")
+                wide_board.set(wide_x + 1, y, "#")
+            if value == "O":
+                wide_board.set(wide_x, y, "[")
+                wide_board.set(wide_x + 1, y, "]")
+            if value == "@":
+                wide_board.set(wide_x, y, "@")
+    return wide_board
+
+
 def part2(input):
-    return None
+    board, moves = input
+    board = widen_board(board)
+    print()
+    board.print()
+    print("Eeeehhh ????")
 
 
 if __name__ == "__main__":
