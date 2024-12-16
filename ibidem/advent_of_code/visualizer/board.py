@@ -15,6 +15,12 @@ class BoardVisualizer(Visualizer):
         self._background = self.screen.copy()
         self.draw_board(skip_fill=False)
 
+    def draw_single(self, x, y, value):
+        sprite = self._sprite_mapping.get(value)
+        if sprite is None:
+            return
+        self.draw(x, y, sprite)
+
     def draw_board(self, board=None, skip_fill=True):
         self.screen.blit(self._background, (0, 0))
         if board is None:
@@ -25,10 +31,5 @@ class BoardVisualizer(Visualizer):
                 if value is not None:
                     if skip_fill and value == board._fill_value:
                         continue
-                    sprite = self._sprite_mapping.get(value)
-                    if sprite is None:
-                        continue
-                    self.draw(x, y, sprite)
+                    self.draw_single(x, y, value)
         pygame.display.flip()
-
-

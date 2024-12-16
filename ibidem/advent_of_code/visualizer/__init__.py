@@ -77,15 +77,21 @@ class Visualizer(metaclass=ABCMeta):
 
     def pause(self):
         self.draw_message("Press any key to continue", 40)
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.close()
-                if event.type == pygame.KEYDOWN:
-                    return
+        try:
+            while True:
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        self.close()
+                    if event.type == pygame.KEYDOWN:
+                        return
+        finally:
+            self.draw_background()
 
     def draw(self, x, y, sprite: ImageMixIn):
         self.screen.blit(sprite.image, (x * self._scale_factor, y * self._scale_factor))
+
+    def flip(self):
+        pygame.display.flip()
 
     def close(self):
         pygame.quit()
