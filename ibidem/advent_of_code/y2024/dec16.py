@@ -5,7 +5,7 @@ import pygame
 
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name, Vector, Direction
-from ibidem.advent_of_code.visualizer import Tiles, initialize_and_display_splash, Sprites
+from ibidem.advent_of_code.visualizer import Tiles, initialize_and_display_splash, Sprites, Colors
 from ibidem.advent_of_code.visualizer.board import BoardVisualizer
 
 
@@ -51,6 +51,7 @@ def a_star(start: Node, goal: Vector, board: Board):
         ".": Tiles.Grass, "#": Tiles.Wall,
         "X": Tiles.Stone, "O": Tiles.Dirt,
         "S": Sprites.Tank, "E": Sprites.Tombstone,
+        "R": Colors.Red,
     }
     visualizer = BoardVisualizer(board, sprite_mapping)
 
@@ -96,8 +97,11 @@ def a_star(start: Node, goal: Vector, board: Board):
         current = min(open_set, key=lambda x: f_score[x])
         visualizer.draw_single(current.pos.x, current.pos.y, str(current.direction))
         if current.pos == goal:
+            path = reconstruct_path(came_from, current)
+            for node in path:
+                visualizer.draw_single(node.pos.x, node.pos.y, "R")
             visualizer.pause()
-            return g_score[current]
+            return g_score[current], path
         open_set.remove(current)
         for neighbor in current.neighbors(board):
             # d(current,neighbor) is the weight of the edge from current to neighbor
@@ -117,21 +121,16 @@ def a_star(start: Node, goal: Vector, board: Board):
     return float("inf")
 
 
-def part1(board: Board):
+def solve(board: Board):
     start_y, start_x = board.find("S")[0]
     goal_y, goal_x = board.find("E")[0]
     start = Node(Vector(start_x, start_y), Direction.East)
-    return a_star(start, Vector(goal_x, goal_y), board)
-
-
-def part2(input):
-    return None
+    cost, path = a_star(start, Vector(goal_x, goal_y), board)
+    return cost, len(path)
 
 
 if __name__ == "__main__":
     with open(get_input_name(16, 2024)) as fobj:
-        p1_result = part1(load(fobj))
+        p1_result, p2_result = solve(load(fobj))
         print(f"Part 1: {p1_result}")
-    with open(get_input_name(16, 2024)) as fobj:
-        p2_result = part2(load(fobj))
         print(f"Part 2: {p2_result}")

@@ -35,6 +35,20 @@ class Sprites(ImageMixIn, enum.Enum):
     Tombstone = "tombstone.png"
 
 
+class Colors(enum.Enum):
+    Black = (0, 0, 0)
+    White = (255, 255, 255)
+    Red = (255, 0, 0)
+    Green = (0, 255, 0)
+    Blue = (0, 0, 255)
+
+    def load(self, scale_factor):
+        image = pygame.Surface((16, 16))
+        image.fill(self.value)
+        self.image = pygame.transform.scale(image, (scale_factor, scale_factor))
+
+
+
 @dataclass
 class Config:
     size_x: Optional[int] = None
@@ -51,10 +65,12 @@ def _get_scale_factor(size_x, size_y):
 
 
 def load_images(scale_factor):
-    for image in Tiles:
-        image.load(scale_factor)
-    for image in Sprites:
-        image.load(scale_factor)
+    for tile in Tiles:
+        tile.load(scale_factor)
+    for sprite in Sprites:
+        sprite.load(scale_factor)
+    for color in Colors:
+        color.load(scale_factor)
 
 
 class Visualizer(metaclass=ABCMeta):
