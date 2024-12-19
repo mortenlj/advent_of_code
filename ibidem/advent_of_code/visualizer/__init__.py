@@ -1,3 +1,4 @@
+import argparse
 import enum
 import os
 from abc import ABCMeta, abstractmethod
@@ -8,6 +9,11 @@ from typing import Optional
 import pygame
 
 _MARGIN = 200
+
+
+visualization_enabled = False
+pause_enabled = False
+fps = 0
 
 
 class ImageMixIn:
@@ -56,6 +62,8 @@ class Config:
 
 
 def _get_scale_factor(size_x, size_y):
+    if not visualization_enabled:
+        return 1
     desktop_sizes = pygame.display.get_desktop_sizes()
     assert desktop_sizes, "No desktop sizes found"
     ds = desktop_sizes.pop()
@@ -65,6 +73,8 @@ def _get_scale_factor(size_x, size_y):
 
 
 def load_images(scale_factor):
+    if not visualization_enabled:
+        return
     for tile in Tiles:
         tile.load(scale_factor)
     for sprite in Sprites:
@@ -75,6 +85,8 @@ def load_images(scale_factor):
 
 class Visualizer(metaclass=ABCMeta):
     def __init__(self, config: Config):
+        if not visualization_enabled:
+            return
         self._config = config
         self._scale_factor = _get_scale_factor(config.size_x, config.size_y)
         screen_x, screen_y = config.size_x * self._scale_factor, config.size_y * self._scale_factor
@@ -85,6 +97,7 @@ class Visualizer(metaclass=ABCMeta):
         self.screen.fill((20, 20, 20))
         self.draw_background()
         self._background = self.screen.copy()
+        self._clock = pygame.time.Clock()
         pygame.display.flip()
 
     @abstractmethod
@@ -92,9 +105,11 @@ class Visualizer(metaclass=ABCMeta):
         pass
 
     def pause(self):
+        if not visualization_enabled:
+            return
         self.draw_message("Press any key to continue", 40)
         try:
-            while True:
+            while pause_enabled:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
                         self.close()
@@ -104,15 +119,26 @@ class Visualizer(metaclass=ABCMeta):
             self.draw_background()
 
     def draw(self, x, y, sprite: ImageMixIn):
-        self.screen.blit(sprite.image, (x * self._scale_factor, y * self._scale_factor))
+        if visualization_enabled:
+            self.screen.blit(sprite.image, (x * self._scale_factor, y * self._scale_factor))
 
     def flip(self):
-        pygame.display.flip()
+        if visualization_enabled:
+            pygame.display.flip()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.close()
+            self._clock.tick(fps)
 
     def close(self):
-        pygame.quit()
+        global visualization_enabled
+        if visualization_enabled:
+            visualization_enabled = False
+            pygame.quit()
 
     def draw_message(self, msg, size):
+        if not visualization_enabled:
+            return
         rect = self.screen.get_rect()
         font = pygame.font.Font(None, size)
         text = font.render(msg, True, (255, 255, 255))
@@ -124,7 +150,22 @@ class Visualizer(metaclass=ABCMeta):
         pygame.display.flip()
 
 
+def parse_cmdline():
+    parser = argparse.ArgumentParser(description="Advent of Code")
+    parser.add_argument("--visualize", action="store_true", help="Visualize the solution")
+    parser.add_argument("--pause", action="store_true", help="Pause before start and after end")
+    parser.add_argument("--fps", type=int, default=0, help="Frames per second")
+    options, _ = parser.parse_known_args()
+    global visualization_enabled, pause_enabled, fps
+    visualization_enabled = options.visualize
+    pause_enabled = options.pause
+    fps = options.fps
+
+
 def initialize_and_display_splash():
+    parse_cmdline()
+    if not visualization_enabled:
+        return
     pygame.init()
     screen = pygame.display.set_mode((320, 200))
     rect = screen.get_rect()

@@ -73,7 +73,6 @@ def a_star(start: Node, goal: Vector, board: Board):
     f_score = {start: start.cost_to(goal)}
 
     visualizer.pause()
-    clock = pygame.time.Clock()
 
     current = None
     while open_set:
@@ -101,7 +100,6 @@ def a_star(start: Node, goal: Vector, board: Board):
                 add_g_score(neighbor, tentative_g_score)
                 f_score[neighbor] = tentative_g_score + neighbor.cost_to(goal)
         visualizer.flip()
-        clock.tick(15)
     visualizer.pause()
     # Open set is empty but goal was never reached
     return float("inf")
