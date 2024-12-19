@@ -23,12 +23,24 @@ class Node:
             if n_pos in candidates:
                 yield Node(n_pos, direction)
 
-    def cost_to(self, other: "Node"):
-        if self.pos + self.direction == other.pos:
-            return 1
-        if self.pos + self.direction.reverse() == other.pos:
-            return 2001
-        return 1001
+    def cost_to(self, target):
+        if isinstance(target, Node):
+            target = target.pos
+        distance = abs(self.pos.x - target.x) + abs(self.pos.y - target.y)
+        vector_to_target = target - self.pos
+        if vector_to_target.x != 0 and vector_to_target.y != 0:
+            return 1000 + distance
+        if self.direction in (Direction.Up, Direction.Down):
+            if vector_to_target.x != 0:
+                return 1000 + distance
+            if vector_to_target.y * self.direction.vector.y < 0:
+                return 2000 + distance
+        elif self.direction in (Direction.Left, Direction.Right):
+            if vector_to_target.y != 0:
+                return 1000 + distance
+            if vector_to_target.x * self.direction.vector.x < 0:
+                return 2000 + distance
+        return distance
 
 
 def load(fobj):
@@ -66,10 +78,6 @@ def a_star(start: Node, goal: Vector, board: Board):
 
     add_to_open_set(start)
 
-    def h(node: Node):
-        """h is the heuristic function. h(n) estimates the cost to reach goal from node n"""
-        return node.pos.distance(goal)
-
     # For node n, came_from[n] is the node immediately preceding it on the cheapest path from the start to n currently known.
     came_from = {}
 
@@ -84,7 +92,7 @@ def a_star(start: Node, goal: Vector, board: Board):
 
     # For node n, f_score[n] := g_score[n] + h(n). f_score[n] represents our current best guess as to
     # how cheap a path could be from start to finish if it goes through n.
-    f_score = {start: h(start)}
+    f_score = {start: start.cost_to(goal)}
 
     visualizer.pause()
     clock = pygame.time.Clock()
@@ -113,9 +121,9 @@ def a_star(start: Node, goal: Vector, board: Board):
                 if neighbor not in open_set:
                     add_to_open_set(neighbor)
                 add_g_score(neighbor, tentative_g_score)
-                f_score[neighbor] = tentative_g_score + h(neighbor)
+                f_score[neighbor] = tentative_g_score + neighbor.cost_to(goal)
         visualizer.flip()
-        clock.tick()
+        clock.tick(15)
     visualizer.pause()
     # Open set is empty but goal was never reached
     return float("inf")
