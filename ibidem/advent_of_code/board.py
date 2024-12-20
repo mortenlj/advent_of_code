@@ -117,7 +117,7 @@ class Board(object):
 
     def copy(self):
         b = Board(size_x=self.size_x, size_y=self.size_y, do_translate=self._do_translate,
-                  flip=self._flip, fill_value=self._fill_value, dtype=self.grid.dtype)
+                  flip=self._flip, fill_value=self._fill_value, dtype=self.grid.dtype, growable=self._growable)
         b.grid = self.grid.copy()
         return b
 
