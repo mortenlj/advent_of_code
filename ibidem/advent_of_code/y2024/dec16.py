@@ -11,6 +11,10 @@ class Node:
     pos: Vector
     direction: Direction
 
+    @property
+    def current_symbol(self):
+        return str(self.direction)
+
     def neighbors(self, board: Board):
         candidates = [Vector(nx, ny) for nx, ny in
                       board.adjacent_indexes(self.pos.x, self.pos.y, include_diagonal=False) if

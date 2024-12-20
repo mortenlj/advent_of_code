@@ -1,7 +1,5 @@
-from abc import ABCMeta, abstractmethod
+from functools import total_ordering
 from typing import Iterable
-
-import pygame
 
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import Vector
@@ -9,20 +7,46 @@ from ibidem.advent_of_code.visualizer import initialize_and_display_splash, Tile
 from ibidem.advent_of_code.visualizer.board import BoardVisualizer
 
 
-class Node(metaclass=ABCMeta):
-    """Node represents a position on the grid, and must be hashable"""
+@total_ordering
+class Node:
+    """Node represents a position on the grid, and must be hashable
+
+    This is a basic Node implementation, for special handling, override the methods
+    """
+    _pos: Vector
+
+    def __init__(self, pos: Vector):
+        self._pos = pos
+
+    def __repr__(self):
+        return f"Node({self._pos})"
+
+    def __hash__(self):
+        return hash(self._pos)
+
+    def __eq__(self, other):
+        return self._pos == other._pos
+
+    def __lt__(self, other):
+        return self._pos < other._pos
+
     @property
-    @abstractmethod
     def pos(self) -> Vector:
-        raise NotImplementedError
+        return self._pos
 
-    @abstractmethod
+    @property
+    def current_symbol(self) -> str:
+        return "S"
+
     def neighbors(self, board: Board) -> Iterable["Node"]:
-        raise NotImplementedError
+        for nx, ny in board.adjacent_indexes(self.pos.x, self.pos.y, include_diagonal=False):
+            if board.get(nx, ny) != "#":
+                yield Node(Vector(nx, ny))
 
-    @abstractmethod
     def cost_to(self, target) -> int:
-        raise NotImplementedError
+        if hasattr(target, "pos"):
+            return self.pos.distance(target.pos)
+        return self.pos.distance(target)
 
 
 def reconstruct_path(came_from, current):
@@ -80,7 +104,7 @@ def a_star(start: Node, goal: Vector, board: Board):
             visualizer.draw_single(current.pos.x, current.pos.y, "X")
         # This operation can occur in O(Log(N)) time if open_set is a min-heap or a priority queue
         current = min(open_set, key=lambda x: f_score[x])
-        visualizer.draw_single(current.pos.x, current.pos.y, str(current.direction))
+        visualizer.draw_single(current.pos.x, current.pos.y, current.current_symbol)
         if current.pos == goal:
             path = reconstruct_path(came_from, current)
             for node in path:

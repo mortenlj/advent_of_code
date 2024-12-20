@@ -152,8 +152,8 @@ class Visualizer(metaclass=ABCMeta):
 
 def parse_cmdline():
     parser = argparse.ArgumentParser(description="Advent of Code")
-    parser.add_argument("--visualize", action="store_true", help="Visualize the solution")
-    parser.add_argument("--pause", action="store_true", help="Pause before start and after end")
+    parser.add_argument("--visualize", action="store_true", default=True, help="Visualize the solution")
+    parser.add_argument("--pause", action="store_true", default=True, help="Pause before start and after end")
     parser.add_argument("--fps", type=int, default=0, help="Frames per second")
     options, _ = parser.parse_known_args()
     global visualization_enabled, pause_enabled, fps

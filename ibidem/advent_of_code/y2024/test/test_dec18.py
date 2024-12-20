@@ -9,7 +9,7 @@ from ibidem.advent_of_code.y2024.dec18 import load, part1, part2
 Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    Case(NotImplemented, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(22, NotImplemented, io.StringIO(textwrap.dedent("""\
         5,4
         4,2
         4,5
@@ -54,7 +54,6 @@ class TestDec18():
         assert len(loaded[0]) == 2
         assert loaded[0] == (5, 4)
 
-    @pytest.mark.skip(reason="TODO")
     def test_part1(self, loaded, case):
         result = part1(loaded, (7,7), 12)
         assert result == case.part1
