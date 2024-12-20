@@ -126,4 +126,4 @@ def a_star(start: Node, goal: Vector, board: Board):
         visualizer.flip()
     visualizer.pause()
     # Open set is empty but goal was never reached
-    return float("inf")
+    return float("inf"), None
