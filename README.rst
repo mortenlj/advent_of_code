@@ -44,7 +44,7 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
 
 .. AOC TILES BEGIN - 2024
 
-2024 - 42 ⭐
+2024 - 44 ⭐
 .............
 
 .. image:: Media/2024/01.png
@@ -147,17 +147,17 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
    :target: ibidem/advent_of_code/y2024/dec20.py
 
 
+.. image:: Media/2024/22.png
+   :width: 161px
+   :target: ibidem/advent_of_code/y2024/dec22.py
+
+
 .. image:: Media/2024/23.png
    :width: 161px
    :target: ibidem/advent_of_code/y2024/dec23.py
 
 
 .. image:: Media/2024/21.png
-   :width: 161px
-   :target: None
-
-
-.. image:: Media/2024/22.png
    :width: 161px
    :target: None
 
