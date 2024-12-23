@@ -10,7 +10,7 @@ from ibidem.advent_of_code.y2024.dec20 import load, part1, part2
 Case = namedtuple('Case', 'part1 part2 input')
 
 TEST_INPUTS = [
-    Case(5, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(5, 7, io.StringIO(textwrap.dedent("""\
         ###############
         #...#...#.....#
         #.#.#.#.#.###.#
@@ -47,7 +47,6 @@ class TestDec20():
         result = part1(loaded, 12)
         assert result == case.part1
 
-    @pytest.mark.skip("Not implemented")
     def test_part2(self, loaded, case):
-        result = part2(loaded)
+        result = part2(loaded, 74)
         assert result == case.part2
