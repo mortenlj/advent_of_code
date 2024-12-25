@@ -44,7 +44,7 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
 
 .. AOC TILES BEGIN - 2024
 
-2024 - 48 ⭐
+2024 - 41 ⭐
 .............
 
 .. image:: Media/2024/01.png
@@ -175,7 +175,7 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
 
 .. AOC TILES BEGIN - 2023
 
-2023 - 46 ⭐
+2023 - 38 ⭐
 .............
 
 .. image:: Media/2023/01.png
@@ -307,7 +307,7 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
 
 .. AOC TILES BEGIN - 2022
 
-2022 - 36 ⭐
+2022 - 32 ⭐
 .............
 
 .. image:: Media/2022/01.png
@@ -418,7 +418,7 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
 
 .. AOC TILES BEGIN - 2021
 
-2021 - 44 ⭐
+2021 - 41 ⭐
 .............
 
 .. image:: Media/2021/01.png
@@ -544,7 +544,7 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
 
 .. AOC TILES BEGIN - 2020
 
-2020 - 48 ⭐
+2020 - 40 ⭐
 .............
 
 .. image:: Media/2020/01.png
@@ -675,7 +675,7 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
 
 .. AOC TILES BEGIN - 2019
 
-2019 - 44 ⭐
+2019 - 37 ⭐
 .............
 
 .. image:: Media/2019/01.png

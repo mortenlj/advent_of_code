@@ -119,7 +119,7 @@ def get_font(size: int, path: str):
 main_font = functools.partial(get_font, path=AOC_TILES_SCRIPT_DIR / "fonts/PaytoneOne.ttf")
 secondary_font = functools.partial(get_font, path=AOC_TILES_SCRIPT_DIR / "fonts/SourceCodePro-Regular.otf")
 
-DayScores = namedtuple("DayScores", ["time1", "rank1", "score1", "time2", "rank2", "score2"], defaults=[None] * 3)
+DayScores = namedtuple("DayScores", ["time1", "rank1", "score1", "time2", "rank2", "score2"])
 
 
 def get_extension_to_colors():
@@ -167,7 +167,8 @@ def parse_leaderboard(leaderboard_path: Path) -> dict[str, DayScores]:
             day, *scores = re.split(r"\s+", line.strip())
             if not len(scores) in (3, 6):
                 raise InvalidNumberOfScoresException(f"Number scores for {day=} ({scores}) are not 3 or 6.")
-            leaderboard[day] = DayScores(*scores)
+            values = [None if score == "-" else score for score in scores]
+            leaderboard[day] = DayScores(*values)
         return leaderboard
 
 
