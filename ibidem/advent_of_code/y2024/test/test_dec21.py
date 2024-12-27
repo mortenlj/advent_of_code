@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import pytest
 
-from ibidem.advent_of_code.y2024.dec21 import load, part1, part2, make_sequence, Numeric, Directional
+from ibidem.advent_of_code.y2024.dec21 import load, part1, part2, make_sequence
 
 Case = namedtuple('Case', 'part1 part2 input')
 
@@ -33,36 +33,19 @@ class TestDec21():
         assert len(loaded) == 5
         assert loaded[0] == "029A"
 
-    def test_numeric(self):
-        n = Numeric()
-        output = [n.next_press(c) for c in "029A"]
-        assert "".join(output) == "<A^A>^^AvvvA"
-
-    @pytest.mark.parametrize("input, expected", [
-        ("<A^A>^^AvvvA", "<v<A>>^A<A>AvA<^AA>A<vAAA>^A"),
-        ("v<<A>>^A<A>AvA<^AA>A<vAAA>^A", "<vA<AA>>^AvAA<^A>A<v<A>>^AvA^A<vA>^A<v<A>^A>AAvA^A<v<A>A>^AAAvA<^A>A"),
+    @pytest.mark.parametrize("input, expected_complexity", [
+        ("029A", 68 * 29),
+        ("980A", 60 * 980),
+        ("179A", 68 * 179),
+        ("456A", 64 * 456),
+        ("379A", 64 * 379),
     ])
-    def test_directional(self, input, expected):
-        d = Directional()
-        output = [d.next_press(c) for c in input]
-        assert "".join(output) == expected
-
-    @pytest.mark.skip("Entierly wrong approach")
-    @pytest.mark.parametrize("input, expected", [
-        ("029A", "<vA<AA>>^AvAA<^A>A<v<A>>^AvA^A<vA>^A<v<A>^A>AAvA^A<v<A>A>^AAAvA<^A>A"),
-        ("980A", "<v<A>>^AAAvA^A<vA<AA>>^AvAA<^A>A<v<A>A>^AAAvA<^A>A<vA>^A<A>A"),
-        ("179A", "<v<A>>^A<vA<A>>^AAvAA<^A>A<v<A>>^AAvA^A<vA>^AA<A>A<v<A>A>^AAAvA<^A>A"),
-        ("456A", "<v<A>>^AA<vA<A>>^AAvAA<^A>A<vA>^A<A>A<vA>^A<A>A<v<A>A>^AAvA<^A>A"),
-        ("379A", "<v<A>>^AvA^A<vA<AA>>^AAvA<^A>AAvA^A<vA>^AA<A>A<v<A>A>^AAAvA<^A>A"),
-    ])
-    def test_make_sequence(self, input, expected):
+    def test_make_sequence(self, input, expected_complexity):
         output = make_sequence(input)
-        assert output == expected
         length = len(output)
         numeric = int(input[:-1])
-        assert length == numeric * len(input)
+        assert expected_complexity == length * numeric
 
-    @pytest.mark.skip("Entierly wrong approach")
     def test_part1(self, loaded, case):
         result = part1(loaded)
         assert result == case.part1

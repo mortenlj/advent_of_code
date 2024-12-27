@@ -3,57 +3,59 @@
 from ibidem.advent_of_code.util import get_input_name
 
 
-class Numeric:
-    _press_map = {
-        "A": {"A": "A", "0": "<A", "1": "^<<A", "2": "^<A", "3": "^A", "4": "^^<<A", "5": "^^<A", "6": "^^A",
-              "7": "^^^<<A", "8": "^^^<A", "9": "^^^A"},
-        "0": {"A": ">A", "0": "A", "1": "^<A", "2": "^A", "3": "^>A", "4": "^^<A", "5": "^^A", "6": "^^>A",
-              "7": "^^^<A", "8": "^^^A", "9": "^^^>A"},
-        "1": {"A": ">>vA", "0": ">vA", "1": "A", "2": ">A", "3": ">>A", "4": "^A", "5": "^>A", "6": "^>>A", "7": "^^A",
-              "8": "^^>A", "9": "^^>>A"},
-        "2": {"A": ">vA", "0": "vA", "1": "<A", "2": "A", "3": ">A", "4": "^<A", "5": "^A", "6": "^>A", "7": "^^<A",
-              "8": "^^A", "9": ">^^A"},
-        "3": {"A": "vA", "0": "v<A", "1": "<<A", "2": "<A", "3": "A", "4": "^<<A", "5": "^<A", "6": "^A", "7": "^^<<A",
-              "8": "^^<A", "9": "^^A"},
-        "4": {"A": ">>vvA", "0": ">vvA", "1": "vA", "2": "v>A", "3": "v>>A", "4": "A", "5": ">A", "6": ">>A", "7": "^A",
-              "8": "^>A", "9": "^>>A"},
-        "5": {"A": ">vvA", "0": "vvA", "1": "v<A", "2": "vA", "3": "v>A", "4": "<A", "5": "A", "6": ">A", "7": "^<A",
-              "8": "^A", "9": "^>A"},
-        "6": {"A": "vvA", "0": "vv<A", "1": "v<<A", "2": "v<A", "3": "vA", "4": "<<A", "5": "<A", "6": "A", "7": "^<<A",
-              "8": "^<A", "9": "^A"},
-        "7": {"A": ">>vvvA", "0": ">vvvA", "1": "vvA", "2": "vv>A", "3": "vv>>A", "4": "vA", "5": "v>A", "6": "v>>A",
-              "7": "A", "8": ">A", "9": ">>A"},
-        "8": {"A": ">vvvA", "0": "vvvA", "1": "vv<A", "2": "vvA", "3": "vv>A", "4": "v<A", "5": "vA", "6": "v>A",
-              "7": "<A", "8": "A", "9": ">A"},
-        "9": {"A": "vvvA", "0": "vvv<A", "1": "vv<<A", "2": "vv<A", "3": "vvA", "4": "v<<A", "5": "v<A", "6": "vA",
-              "7": "<<A", "8": "<A", "9": "A"},
-    }
+class Pad:
+    _coords: dict
+    _gap: tuple
 
     def __init__(self):
         self._position = "A"
 
     def next_press(self, value):
-        press = self._press_map[self._position][value]
+        r1, c1 = self._coords[self._position]
+        r2, c2 = self._coords[value]
         self._position = value
-        return press
+
+        ud = "v" * (r2 - r1) if r2 > r1 else "^" * (r1 - r2)
+        lr = ">" * (c2 - c1) if c2 > c1 else "<" * (c1 - c2)
+
+        # Safe to move vertically first if heading right and corner point isn't the gap
+        if c2 > c1 and (r2, c1) != self._gap:
+            return f"{ud}{lr}A"
+
+        # Safe to move horizontally first if corner point isn't the gap
+        if (r1, c2) != self._gap:
+            return f"{lr}{ud}A"
+
+        # Must be safe to move vertically first because we can't be in same column as gap.
+        return f"{ud}{lr}A"
 
 
-class Directional:
-    _press_map = {
-        "A": {"A": "A", "^": "<A", "<": "<v<A", ">": "vA", "v": "<vA"},
-        "^": {"A": ">A", "^": "A", "<": "v<A", ">": ">vA", "v": "vA"},
-        "<": {"A": ">>^A", "^": ">^A", "<": "A", ">": ">>A", "v": ">A"},
-        ">": {"A": "^A", "^": "<^A", "<": "<<A", ">": "A", "v": "<A"},
-        "v": {"A": ">^A", "^": "^A", "<": "<A", ">": ">A", "v": "A"},
+class Numeric(Pad):
+    _gap = (3, 0)
+    _coords = {
+        "7": (0, 0),
+        "8": (0, 1),
+        "9": (0, 2),
+        "4": (1, 0),
+        "5": (1, 1),
+        "6": (1, 2),
+        "1": (2, 0),
+        "2": (2, 1),
+        "3": (2, 2),
+        "0": (3, 1),
+        "A": (3, 2),
     }
 
-    def __init__(self):
-        self._position = "A"
 
-    def next_press(self, value):
-        press = self._press_map[self._position][value]
-        self._position = value
-        return press
+class Directional(Pad):
+    _gap = (0, 0)
+    _coords = {
+        "^": (0, 1),
+        "A": (0, 2),
+        "<": (1, 0),
+        "v": (1, 1),
+        ">": (1, 2),
+    }
 
 
 def load(fobj):
@@ -75,6 +77,7 @@ def part1(inputs):
     for input in inputs:
         sequence = make_sequence(input)
         complexity = len(sequence) * int(input[:-1])
+        print(f"{input}: {complexity} ({sequence})")
         result += complexity
     return result
 
