@@ -30,7 +30,7 @@ pygame = "^2.6.1"
 aoc = "ibidem.advent_of_code.cli:main"
 
 [tool.poetry.group.dev.dependencies]
-pytest = "8.4.0"
+pytest = "8.4.1"
 pytest-xdist = "3.7.0"
 pytest-sugar = "1.0.0"
 
