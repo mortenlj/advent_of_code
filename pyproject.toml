@@ -32,7 +32,7 @@ aoc = "ibidem.advent_of_code.cli:main"
 [tool.poetry.group.dev.dependencies]
 pytest = "8.4.1"
 pytest-xdist = "3.8.0"
-pytest-sugar = "1.1.0"
+pytest-sugar = "1.1.1"
 
 
 [tool.poetry.group.aoctiles.dependencies]
