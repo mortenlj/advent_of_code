@@ -42,6 +42,17 @@ To add a pre-commit hook that generates tiles, copy ``pre-commit`` to ``.git/hoo
 .. _AoCTiles: ./AoCTiles
 .. _LiquidFun: https://github.com/LiquidFun/adventofcode/tree/main/AoCTiles
 
+.. AOC TILES BEGIN - 2025
+
+2025 - 2 ⭐
+............
+
+.. image:: Media/2025/01.png
+   :width: 161px
+   :target: ibidem/advent_of_code/y2025/dec01.py
+
+.. AOC TILES END - 2025
+
 .. AOC TILES BEGIN - 2024
 
 2024 - 42 ⭐

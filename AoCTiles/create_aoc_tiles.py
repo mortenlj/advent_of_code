@@ -148,27 +148,34 @@ def get_paths_matching_regex(path: Path, pattern: str):
                 yield fpath
 
 
-def parse_leaderboard(leaderboard_path: Path) -> dict[str, DayScores]:
+def parse_leaderboard(leaderboard_path: Path, year: int) -> dict[str, DayScores]:
     no_stars = "You haven't collected any stars... yet."
-    start = '<span class="leaderboard-daydesc-both"> *Time *Rank *Score</span>\n'
+    if year < 2025:
+        start = '<span class="leaderboard-daydesc-both"> *Time *Rank *Score</span>\n'
+    else:
+        start = '<pre>Day   <span class="leaderboard-daydesc-first">-Part 1-</span>   <span class="leaderboard-daydesc-both">-Part 2-</span>\n'
     end = "</pre>"
     with open(leaderboard_path) as file:
         html = file.read()
         if no_stars in html:
             return {}
         matches = re.findall(rf"{start}(.*?){end}", html, re.DOTALL | re.MULTILINE)
-        if len(matches) == 0:
+        if len(matches) != 1:
             raise MissingLeaderboardException(f"Expected 1 leaderboard, got {len(matches)}")
-        if len(matches) > 1:
-            raise TooManyLeaderboardsException(f"Expected 1 leaderboard, got {len(matches)}")
         table_rows = matches[0].strip().split("\n")
         leaderboard = {}
         for line in table_rows:
             day, *scores = re.split(r"\s+", line.strip())
-            if not len(scores) in (3, 6):
-                raise InvalidNumberOfScoresException(f"Number scores for {day=} ({scores}) are not 3 or 6.")
-            values = [None if score == "-" else score for score in scores]
-            leaderboard[day] = DayScores(*values)
+            if year < 2025:
+                if not len(scores) in (3, 6):
+                    raise InvalidNumberOfScoresException(f"Number scores for {day=} ({scores}) are not 3 or 6.")
+                values = [None if score == "-" else score for score in scores]
+                leaderboard[day] = DayScores(*values)
+            else:
+                if not len(scores) in (1, 2):
+                    raise InvalidNumberOfScoresException(f"Number scores for {day=} ({scores}) are not 1 or 2.")
+                values = [None if score == "-" else score for score in scores]
+                leaderboard[day] = DayScores(values[0], None, None, values[1], None, None)
         return leaderboard
 
 
@@ -179,7 +186,7 @@ def request_leaderboard(year: int) -> dict[str, DayScores]:
         leaderboard_age = now - datetime.fromtimestamp(leaderboard_path.stat().st_mtime)
         if leaderboard_age < timedelta(minutes=10) or year < now.year:
             try:
-                leaderboard = parse_leaderboard(leaderboard_path)
+                leaderboard = parse_leaderboard(leaderboard_path, year)
                 has_no_none_values = all(itertools.chain(map(list, leaderboard.values())))
                 if has_no_none_values:
                     return leaderboard
@@ -191,7 +198,7 @@ def request_leaderboard(year: int) -> dict[str, DayScores]:
         leaderboard_path.parent.mkdir(exist_ok=True, parents=True)
         with open(leaderboard_path, "w") as file:
             file.write(data)
-    return parse_leaderboard(leaderboard_path)
+    return parse_leaderboard(leaderboard_path, year)
 
 
 def darker_color(c: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
@@ -255,9 +262,11 @@ def generate_day_tile_image(day: str, year: str, languages: list[str], day_score
                 drawer.line((160, 35 + y, 180, 15 + y), fill=font_color, width=2)
                 continue
             drawer.text((105, 25 + y), "time", fill=font_color, align="right", font=secondary_font(10))
-            drawer.text((105, 35 + y), "rank", fill=font_color, align="right", font=secondary_font(10))
+            if rank:
+                drawer.text((105, 35 + y), "rank", fill=font_color, align="right", font=secondary_font(10))
             drawer.text((143, 3 + y), format_time(time), fill=font_color, align="right", font=secondary_font(18))
-            drawer.text((133, 23 + y), f"{rank:>6}", fill=font_color, align="right", font=secondary_font(18))
+            if rank:
+                drawer.text((133, 23 + y), f"{rank:>6}", fill=font_color, align="right", font=secondary_font(18))
         else:
             drawer.line((140, 15 + y, 160, 35 + y), fill=font_color, width=2)
             drawer.line((140, 35 + y, 160, 15 + y), fill=font_color, width=2)
