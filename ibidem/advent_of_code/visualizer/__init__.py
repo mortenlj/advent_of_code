@@ -87,6 +87,7 @@ class Visualizer(metaclass=ABCMeta):
     def __init__(self, config: Config):
         if not visualization_enabled:
             return
+        self._clock = pygame.time.Clock()
         self._config = config
         self._scale_factor = _get_scale_factor(config.size_x, config.size_y)
         screen_x, screen_y = config.size_x * self._scale_factor, config.size_y * self._scale_factor
@@ -97,7 +98,6 @@ class Visualizer(metaclass=ABCMeta):
         self.screen.fill((20, 20, 20))
         self.draw_background()
         self._background = self.screen.copy()
-        self._clock = pygame.time.Clock()
         pygame.display.flip()
 
     @abstractmethod
@@ -158,14 +158,20 @@ def parse_cmdline():
     options, _ = parser.parse_known_args()
     global visualization_enabled, pause_enabled, fps
     visualization_enabled = options.visualize
+    if visualization_enabled:
+        print("Visualization enabled")
     pause_enabled = options.pause
+    if pause_enabled:
+        print("Pause enabled")
     fps = options.fps
+    if fps:
+        print(f"Set FPS to {fps}")
 
 
 def initialize_and_display_splash():
     parse_cmdline()
     if not visualization_enabled:
-        return
+        return False
     pygame.init()
     screen = pygame.display.set_mode((320, 200))
     rect = screen.get_rect()
@@ -178,3 +184,4 @@ def initialize_and_display_splash():
     screen.blit(text, textRect)
     pygame.display.flip()
     print("Display initialized")
+    return True

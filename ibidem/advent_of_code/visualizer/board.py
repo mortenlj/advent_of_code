@@ -1,5 +1,3 @@
-import pygame
-
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.visualizer import Config, Visualizer
 
@@ -32,4 +30,4 @@ class BoardVisualizer(Visualizer):
                     if skip_fill and value == board._fill_value:
                         continue
                     self.draw_single(x, y, value)
-        pygame.display.flip()
+        self.flip()

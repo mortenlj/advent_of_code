@@ -2,6 +2,8 @@
 
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
+from ibidem.advent_of_code.visualizer import initialize_and_display_splash, Tiles
+from ibidem.advent_of_code.visualizer.board import BoardVisualizer
 
 
 def load(fobj):
@@ -13,6 +15,11 @@ def part1(board: Board):
 
 
 def solve(board: Board, max_iterations: int):
+    visualizer = None
+    if initialize_and_display_splash():
+        print("Creating board visualizer")
+        visualizer = BoardVisualizer(board, {"@": Tiles.Obstacle, ".": Tiles.Stone, "x": Tiles.Stone})
+        visualizer.pause()
     movable = []
     for _ in range(max_iterations):
         for x in range(board.size_x):
@@ -23,10 +30,14 @@ def solve(board: Board, max_iterations: int):
                         movable.append((x, y))
         if len(movable) == 0:
             break
-        for x,y in movable:
+        for x, y in movable:
             board.set(x, y, "x")
+        if visualizer:
+            visualizer.draw_board()
         print(f"Moved {len(movable)} rolls")
         movable = []
+    if visualizer:
+        visualizer.pause()
     if movable:
         print("!!!!!!!!!!! NOT DONE, INCREASE MAX ITERATIONS !!!!!!!!!!!!!!!")
     return board.count("x")
