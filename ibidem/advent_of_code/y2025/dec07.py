@@ -29,8 +29,29 @@ def part1(board):
     return splits
 
 
-def part2(input):
-    return None
+def part2(board):
+    beams = {}
+    for x in range(board.size_x):
+        if board.get(x, 0) == "S":
+            beams[x] = 1
+            break
+    splits = 0
+    for y in range(1, board.size_y):
+        print(f"Assessing row {y}, with {len(beams.keys())} beams to assess")
+        new_beams = {}
+        for beam in beams.keys():
+            if board.get(beam, y) == "^":
+                splits += 1
+                if beam > 0:
+                    x = beam - 1
+                    new_beams[x] = new_beams.get(x, 0) + beams[beam]
+                if beam < board.size_x-1:
+                    x = beam + 1
+                    new_beams[x] = new_beams.get(x, 0) + beams[beam]
+            else:
+                new_beams[beam] = new_beams.get(beam, 0) + beams[beam]
+        beams = new_beams
+    return sum(beams.values())
 
 
 if __name__ == "__main__":
