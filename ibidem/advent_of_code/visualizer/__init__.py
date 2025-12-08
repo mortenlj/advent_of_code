@@ -10,7 +10,6 @@ import pygame
 
 _MARGIN = 200
 
-
 visualization_enabled = False
 pause_enabled = False
 fps = 0
@@ -39,6 +38,10 @@ class Sprites(ImageMixIn, enum.Enum):
     Tank = "tank_base.png"
     RedTankTurret = "red_turret.png"
     Tombstone = "tombstone.png"
+    Triangle = "triangle.png"
+
+    BeamNorth = "beam_n.png"
+    BeamNorthWest = "beam_nw.png"
 
 
 class Colors(enum.Enum):
@@ -52,7 +55,6 @@ class Colors(enum.Enum):
         image = pygame.Surface((16, 16))
         image.fill(self.value)
         self.image = pygame.transform.scale(image, (scale_factor, scale_factor))
-
 
 
 @dataclass
@@ -118,9 +120,13 @@ class Visualizer(metaclass=ABCMeta):
         finally:
             self.draw_background()
 
-    def draw(self, x, y, sprite: ImageMixIn):
+    def draw(self, x, y, sprite: ImageMixIn, angle: int = 0):
         if visualization_enabled:
-            self.screen.blit(sprite.image, (x * self._scale_factor, y * self._scale_factor))
+            if angle:
+                image = pygame.transform.rotate(sprite.image, angle)
+            else:
+                image = sprite.image
+            self.screen.blit(image, (x * self._scale_factor, y * self._scale_factor))
 
     def flip(self):
         if visualization_enabled:

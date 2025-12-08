@@ -9,6 +9,9 @@ class BoardVisualizer(Visualizer):
         config = Config(board.size_x, board.size_y)
         super().__init__(config)
 
+    def update_mapping(self, sprite_mapping):
+        self._sprite_mapping = sprite_mapping
+
     def draw_background(self):
         self._background = self.screen.copy()
         self.draw_board(skip_fill=False)
