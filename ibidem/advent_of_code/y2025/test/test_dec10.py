@@ -31,14 +31,15 @@ class TestDec10():
         assert len(loaded) == 3
         machine = loaded[0]
         assert isinstance(machine, Machine)
-        assert len(machine.buttons) == 6
         assert machine.target == 96
+        assert len(machine.buttons) == 6
         assert machine.buttons[0] == 16
         assert machine.buttons[1] == 80
         assert machine.buttons[2] == 32
         assert machine.buttons[3] == 48
         assert machine.buttons[4] == 160
         assert machine.buttons[5] == 192
+        assert machine.joltage == (3, 5, 4, 7)
 
     def test_part1(self, loaded, case):
         result = part1(loaded)
