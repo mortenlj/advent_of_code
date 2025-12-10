@@ -1,5 +1,5 @@
 from ibidem.advent_of_code.board import Board
-from ibidem.advent_of_code.visualizer import Config, Visualizer
+from ibidem.advent_of_code.visualizer import Config, Visualizer, visualization_enabled
 
 
 class BoardVisualizer(Visualizer):
@@ -13,16 +13,22 @@ class BoardVisualizer(Visualizer):
         self._sprite_mapping = sprite_mapping
 
     def draw_background(self):
+        if not visualization_enabled:
+            return
         self._background = self.screen.copy()
         self.draw_board(skip_fill=False)
 
     def draw_single(self, x, y, value):
+        if not visualization_enabled:
+            return
         sprite = self._sprite_mapping.get(value)
         if sprite is None:
             return
         self.draw(x, y, sprite)
 
     def draw_board(self, board=None, skip_fill=True):
+        if not visualization_enabled:
+            return
         self.screen.blit(self._background, (0, 0))
         if board is None:
             board = self._board
