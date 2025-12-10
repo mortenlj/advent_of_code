@@ -50,6 +50,9 @@ class Colors(enum.Enum):
     Red = (255, 0, 0)
     Green = (0, 255, 0)
     Blue = (0, 0, 255)
+    Yellow = (255, 255, 0)
+    Cyan = (0, 255, 255)
+    Pink = (255, 0, 255)
 
     def load(self, scale_factor):
         image = pygame.Surface((16, 16))
