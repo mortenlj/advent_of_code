@@ -108,10 +108,11 @@ class Line:
 class Polygon:
     def __init__(self, lines):
         self.lines = lines
+        self.min_y = min(min(l.start.y, l.end.y) for l in lines) - 1
 
     @lru_cache(maxsize=None)
     def __contains__(self, item):
-        exit_line = Line(item, Vector(item.x, 0))
+        exit_line = Line(item, Vector(item.x, self.min_y))
         count = 0
         for line in self.lines:
             if item == line.start or item == line.end:
