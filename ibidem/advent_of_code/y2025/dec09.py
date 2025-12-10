@@ -6,7 +6,7 @@ from heapq import heapify_max, heappush_max, heappop_max
 
 from rich.progress import track
 
-from ibidem.advent_of_code.util import get_input_name, gen_list, Vector
+from ibidem.advent_of_code.util import get_input_name, gen_list, Vector, time_this
 
 
 @gen_list
@@ -16,25 +16,28 @@ def load(fobj):
         yield Vector(*(int(c) for c in line.split(",")))
 
 
-def calculate_areas(red_tiles):
+@time_this
+def part1(red_tiles):
     areas = []
     heapify_max(areas)
     for v1, v2 in track(itertools.combinations(red_tiles, 2)):
         area = (abs(v1.x - v2.x) + 1) * (abs(v1.y - v2.y) + 1)
         heappush_max(areas, area)
-    return areas
-
-
-def part1(red_tiles):
-    areas = calculate_areas(red_tiles)
     return heappop_max(areas)
 
 
 def inside(poly, v1, v2):
-    for x in range(min(v1.x, v2.x), max(v1.x, v2.x) + 1):
-        for y in range(min(v1.y, v2.y), max(v1.y, v2.y) + 1):
-            if Vector(x, y) not in poly:
-                return False
+    min_x = min(v1.x, v2.x)
+    max_x = max(v1.x, v2.x)
+    length = max_x - min_x
+    min_y = min(v1.y, v2.y)
+    max_y = max(v1.y, v2.y)
+    width = max_y - min_y
+    total = length * width
+    for x, y in track(itertools.product(range(min_x, max_x + 1), range(min_y, max_y + 1)), transient=True, total=total,
+                      description=f"Checking {total} points"):
+        if Vector(x, y) not in poly:
+            return False
     return True
 
 
@@ -135,7 +138,9 @@ def make_poly(red_tiles):
 def part2(red_tiles):
     poly = make_poly(red_tiles)
     largest = 0
-    for v1, v2 in track(itertools.combinations(red_tiles, 2)):
+    total = len(list(itertools.combinations(red_tiles, 2)))
+    for v1, v2 in track(itertools.combinations(red_tiles, 2), total=total,
+                        description=f"Checking {total} possible areas"):
         area = (abs(v1.x - v2.x) + 1) * (abs(v1.y - v2.y) + 1)
         if area > largest and inside(poly, v1, v2):
             largest = area
