@@ -7,8 +7,11 @@ from typing import Tuple
 
 import bitstruct
 import numpy as np
+from rich.progress import track
 
 from ibidem.advent_of_code.util import get_input_name, gen_list
+
+BIG_NUMBER = 1000000000
 
 
 # From itertools documentation
@@ -32,13 +35,13 @@ class Machine:
         for button in self.buttons:
             buttons.append(
                 bitstruct.unpack("u1" * self.bit_length, button.to_bytes(length=math.ceil(self.bit_length / 8))))
-        return tuple(buttons)
+        return tuple(sorted(buttons, key=sum, reverse=True))
 
     def __repr__(self):
         target_lights = "".join("." if b == 0 else "#" for b in bitstruct.unpack("u1" * self.bit_length,
                                                                                  self.target.to_bytes(length=math.ceil(
                                                                                      self.bit_length / 8))))
-        return f"Machine({target_lights=}, {self.bit_length=})"
+        return f"Machine({target_lights=}, bit_length={self.bit_length}, joltage={self.joltage})"
 
 
 def parse_lights(lights):
@@ -93,25 +96,33 @@ def part1(machines):
 
 
 @lru_cache(maxsize=None)
-def solve_joltage(joltage, buttons):
+def solve_joltage(joltage, buttons, presses_so_far=0, best_so_far=BIG_NUMBER):
+    if presses_so_far > best_so_far:
+        return False, BIG_NUMBER
     joltage_a = np.array(joltage)
+    presses_so_far += 1
+    result = BIG_NUMBER
     for button in buttons:
         button_a = np.array(button)
         new_joltage_a = joltage_a - button_a
         if np.all(new_joltage_a == 0):
-            return True, 1
+            return True, presses_so_far
         if np.any(new_joltage_a < 0):
-            return False, 0
-        works, count = solve_joltage(tuple(new_joltage_a), buttons)
-        if works:
-            return True, count + 1
-    return False, 0
+            return False, BIG_NUMBER
+        works, count = solve_joltage(tuple(new_joltage_a), buttons, presses_so_far, best_so_far)
+        if works and count < best_so_far:
+            best_so_far = count
+            result = count
+    if result < BIG_NUMBER:
+        return True, result
+    return False, BIG_NUMBER
 
 def part2(machines):
     results = []
-    for machine in machines:
+    for machine in track(machines, description="Solving machines"):
         works, count = solve_joltage(machine.joltage, machine.joltage_buttons)
         if works:
+            print(f"{machine=} solved after {count} button presses")
             results.append(count)
         else:
             print(f"Unsolvable machine: {machine=}!")
