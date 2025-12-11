@@ -1,6 +1,7 @@
 #!/usr/bin/env python
+from functools import cache
+
 import networkx as nx
-from rich.progress import track
 
 from ibidem.advent_of_code.util import get_input_name
 
@@ -19,15 +20,26 @@ def part1(G: nx.Graph):
     return len(list(paths))
 
 
+@cache
+def count(start: str, G: nx.Graph, have_fft: bool = False, have_dac: bool = False) -> int:
+    next_nodes = list(G.neighbors(start))
+    if "out" in next_nodes and have_dac and have_fft:
+        return 1
+    elif "out" in next_nodes:
+        return 0
+    if start == "fft":
+        have_fft = True
+    elif start == "dac":
+        have_dac = True
+    path_count = 0
+    for node in next_nodes:
+        path_count += count(node, G, have_fft, have_dac)
+    return path_count
+
+
 def part2(G: nx.Graph):
-    paths = nx.all_simple_paths(G, "svr", "out")
-    count = 0
-    for path in track(paths, description="Generating paths"):
-        path = frozenset(path)
-        if "dac" in path and "fft" in path:
-            print(f"{path=} has both dac and fft")
-            count += 1
-    return count
+    assert nx.is_directed_acyclic_graph(G)
+    return count("svr", G)
 
 
 if __name__ == "__main__":
