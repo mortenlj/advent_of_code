@@ -40,3 +40,6 @@ description = "Build the project"
 
 [task_config]
 includes = [".config/mise-lib/virtual_tasks.toml", ".config/mise-lib"]
+
+[tools]
+poetry = "latest"
