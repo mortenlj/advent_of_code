@@ -54,9 +54,10 @@ class ClawMachine:
         a, b = sp.symbols("a b", integer=True, positive=True)
         eq1 = sp.Eq(a * self.button_a.x + b * self.button_b.x, self.prize.x)
         eq2 = sp.Eq(a * self.button_a.y + b * self.button_b.y, self.prize.y)
-        sol = sp.solve((eq1, eq2), (a, b))
+        sol = sp.solve((eq1, eq2), a, b)
         if sol:
             return sol[a] * ButtonCost.A.value + sol[b] * ButtonCost.B.value
+        return 0
 
 
 def load(fobj, adjust=False):

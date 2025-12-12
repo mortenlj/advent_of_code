@@ -4,7 +4,7 @@ from collections import namedtuple
 
 import pytest
 
-from ibidem.advent_of_code.y2024.dec13 import load, part1, part2, Vector, Coordinate, ClawMachine
+from ibidem.advent_of_code.y2024.dec13 import load, part1, part2, Vector, ClawMachine
 
 Case = namedtuple('Case', 'part1 part2 input')
 
@@ -48,8 +48,8 @@ class TestDec13():
         assert len(loaded) == 4
         assert loaded[1].button_a == Vector(26, 66)
         assert loaded[1].button_b == Vector(67, 21)
-        assert loaded[1].prize == Coordinate(12748, 12176)
-        
+        assert loaded[1].prize == Vector(12748, 12176)
+
     def test_part1(self, loaded, case):
         result = part1(loaded)
         assert result == case.part1
@@ -59,6 +59,6 @@ class TestDec13():
         assert result == case.part2
 
     def test_solve(self):
-        machine = ClawMachine(Vector(2, 0), Vector(3, 0), Coordinate(11, 0), {})
-        result = machine.solve()
+        machine = ClawMachine(Vector(2, 1), Vector(3, 1), Vector(11, 4), {})
+        result = machine.solve_sympy()
         assert result == 6
