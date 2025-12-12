@@ -10,6 +10,15 @@ for d in ibidem/advent_of_code/*; do
 done
 """
 
+[tasks.test-year]
+description = "Run tests for a given year"
+usage = """
+arg "<year>" help="Year to run tests for"
+"""
+run = """
+poetry run pytest "ibidem/advent_of_code/y${usage_year?}"
+"""
+
 [tasks.fmt]
 depends = ["python:fmt"]
 description = "Format source"
