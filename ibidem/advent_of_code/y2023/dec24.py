@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import itertools
 
-from Geometry3D import Point, Vector, HalfLine, set_sig_figures, set_eps
+from Geometry3D import Point, Vector, HalfLine, set_eps
 from rich.progress import track
 
 from ibidem.advent_of_code.util import get_input_name, gen_list
