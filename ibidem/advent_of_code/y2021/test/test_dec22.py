@@ -9,13 +9,21 @@ from ibidem.advent_of_code.y2021.dec22 import load, part1, part2, Step, gen_coor
 Case = namedtuple("Case", ("result", "input"))
 
 CASES = (
-    Case(39, io.StringIO(textwrap.dedent("""\
+    Case(
+        39,
+        io.StringIO(
+            textwrap.dedent("""\
         on x=10..12,y=10..12,z=10..12
         on x=11..13,y=11..13,z=11..13
         off x=9..11,y=9..11,z=9..11
         on x=10..10,y=10..10,z=10..10
-        """))),
-    Case(590784, io.StringIO(textwrap.dedent("""\
+        """)
+        ),
+    ),
+    Case(
+        590784,
+        io.StringIO(
+            textwrap.dedent("""\
         on x=-20..26,y=-36..17,z=-47..7
         on x=-20..33,y=-21..23,z=-26..28
         on x=-22..28,y=-29..23,z=-38..16
@@ -38,7 +46,9 @@ CASES = (
         on x=-41..9,y=-7..43,z=-33..15
         on x=-54112..-39298,y=-85059..-49293,z=-27449..7877
         on x=967..23432,y=45373..81175,z=27513..53682
-        """)))
+        """)
+        ),
+    ),
 )
 
 PART2_INPUT = io.StringIO("""\
@@ -106,7 +116,7 @@ off x=-93533..-4276,y=-16170..68771,z=-104985..-24507
 PART2_RESULT = 2758514936282235
 
 
-class TestDec22():
+class TestDec22:
     @pytest.fixture(params=CASES)
     def case(self, request):
         request.param.input.seek(0)
@@ -116,28 +126,37 @@ class TestDec22():
         result = part1(load(case.input))
         assert result == case.result
 
-    @pytest.mark.parametrize("step, expected", (
-            (Step(True, Range(1, 3), Range(1, 3), Range(1, 3)), {
-                (1, 1, 1),
-                (1, 1, 2),
-                (1, 2, 1),
-                (1, 2, 2),
-                (2, 1, 1),
-                (2, 1, 2),
-                (2, 2, 1),
-                (2, 2, 2)
-            }),
-            (Step(True, Range(0, 2), Range(1, 3), Range(2, 4)), {
-                (0, 1, 2),
-                (0, 1, 3),
-                (0, 2, 2),
-                (0, 2, 3),
-                (1, 1, 2),
-                (1, 1, 3),
-                (1, 2, 2),
-                (1, 2, 3),
-            }),
-    ))
+    @pytest.mark.parametrize(
+        "step, expected",
+        (
+            (
+                Step(True, Range(1, 3), Range(1, 3), Range(1, 3)),
+                {
+                    (1, 1, 1),
+                    (1, 1, 2),
+                    (1, 2, 1),
+                    (1, 2, 2),
+                    (2, 1, 1),
+                    (2, 1, 2),
+                    (2, 2, 1),
+                    (2, 2, 2),
+                },
+            ),
+            (
+                Step(True, Range(0, 2), Range(1, 3), Range(2, 4)),
+                {
+                    (0, 1, 2),
+                    (0, 1, 3),
+                    (0, 2, 2),
+                    (0, 2, 3),
+                    (1, 1, 2),
+                    (1, 1, 3),
+                    (1, 2, 2),
+                    (1, 2, 3),
+                },
+            ),
+        ),
+    )
     def test_gen_coord(self, step, expected):
         actual = set(gen_coord(step))
         assert actual == expected

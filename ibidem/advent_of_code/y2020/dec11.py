@@ -6,7 +6,7 @@ from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
 
 
-class Part2Stepper():
+class Part2Stepper:
     def __init__(self, board):
         self.board = board
         self._directions = list(self._generate_directions())

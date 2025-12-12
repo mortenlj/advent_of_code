@@ -30,7 +30,14 @@ def load(fobj):
     board = None
     for line in fobj:
         if not line.strip():
-            board = Board(x_max + 1, y_max + 1, do_translate=False, fill_value=0, dtype=int, growable=False)
+            board = Board(
+                x_max + 1,
+                y_max + 1,
+                do_translate=False,
+                fill_value=0,
+                dtype=int,
+                growable=False,
+            )
             continue
         if board:
             folds.append(fold(line))

@@ -63,9 +63,15 @@ class Disassembler(object):
         instruction = Instruction.from_opcode(opcode)
         params = []
         if instruction.size > 1:
-            modes = reversed("{:0{width}}".format(instruction_code // 100, width=instruction.size - 1))
+            modes = reversed(
+                "{:0{width}}".format(
+                    instruction_code // 100, width=instruction.size - 1
+                )
+            )
             for i, mode in enumerate(modes):
-                params.append(Parameter.from_mode(int(mode))(self.memory[ip + i + 1], self))
+                params.append(
+                    Parameter.from_mode(int(mode))(self.memory[ip + i + 1], self)
+                )
         return instruction(params)
 
     def _prepare(self):
@@ -98,10 +104,14 @@ class Disassembler(object):
 
     def _output_data(self, data_start, data_end):
         for i, chunk in enumerate(_chunks(self.memory[data_start:data_end], 10)):
-            print("{:05}: {}".format(data_start + i * 10, ", ".join("{:6}".format(v) for v in chunk)))
+            print(
+                "{:05}: {}".format(
+                    data_start + i * 10, ", ".join("{:6}".format(v) for v in chunk)
+                )
+            )
 
 
 def _chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
     for i in range(0, len(lst), n):
-        yield lst[i:i + n]
+        yield lst[i : i + n]

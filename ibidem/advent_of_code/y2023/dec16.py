@@ -33,7 +33,10 @@ def handle_up(beam, char):
         case "|" | ".":
             return [Beam(beam.x, beam.y - 1, beam.direction)]
         case "-":
-            return [Beam(beam.x - 1, beam.y, Direction.LEFT), Beam(beam.x + 1, beam.y, Direction.RIGHT)]
+            return [
+                Beam(beam.x - 1, beam.y, Direction.LEFT),
+                Beam(beam.x + 1, beam.y, Direction.RIGHT),
+            ]
         case "/":
             return [Beam(beam.x + 1, beam.y, Direction.RIGHT)]
         case "\\":
@@ -47,7 +50,10 @@ def handle_down(beam, char):
         case "|" | ".":
             return [Beam(beam.x, beam.y + 1, beam.direction)]
         case "-":
-            return [Beam(beam.x - 1, beam.y, Direction.LEFT), Beam(beam.x + 1, beam.y, Direction.RIGHT)]
+            return [
+                Beam(beam.x - 1, beam.y, Direction.LEFT),
+                Beam(beam.x + 1, beam.y, Direction.RIGHT),
+            ]
         case "/":
             return [Beam(beam.x - 1, beam.y, Direction.LEFT)]
         case "\\":
@@ -61,7 +67,10 @@ def handle_left(beam, char):
         case "-" | ".":
             return [Beam(beam.x - 1, beam.y, beam.direction)]
         case "|":
-            return [Beam(beam.x, beam.y - 1, Direction.UP), Beam(beam.x, beam.y + 1, Direction.DOWN)]
+            return [
+                Beam(beam.x, beam.y - 1, Direction.UP),
+                Beam(beam.x, beam.y + 1, Direction.DOWN),
+            ]
         case "/":
             return [Beam(beam.x, beam.y + 1, Direction.DOWN)]
         case "\\":
@@ -75,7 +84,10 @@ def handle_right(beam, char):
         case "-" | ".":
             return [Beam(beam.x + 1, beam.y, beam.direction)]
         case "|":
-            return [Beam(beam.x, beam.y - 1, Direction.UP), Beam(beam.x, beam.y + 1, Direction.DOWN)]
+            return [
+                Beam(beam.x, beam.y - 1, Direction.UP),
+                Beam(beam.x, beam.y + 1, Direction.DOWN),
+            ]
         case "/":
             return [Beam(beam.x, beam.y - 1, Direction.UP)]
         case "\\":
@@ -97,7 +109,7 @@ def handle_point(beam, char):
 
 
 def part1(input: Board):
-    start = (Beam(0, 0, Direction.RIGHT))
+    start = Beam(0, 0, Direction.RIGHT)
     return solve(input, start)
 
 

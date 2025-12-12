@@ -4,21 +4,34 @@ from collections import namedtuple
 
 import pytest
 
-from ibidem.advent_of_code.y2024.dec22 import load, part1, part2, next_secret_number, mix, prune
+from ibidem.advent_of_code.y2024.dec22 import (
+    load,
+    part1,
+    part2,
+    next_secret_number,
+    mix,
+    prune,
+)
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(37327623, 23, io.StringIO(textwrap.dedent("""\
+    Case(
+        37327623,
+        23,
+        io.StringIO(
+            textwrap.dedent("""\
         1
         10
         100
         2024
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec22():
+class TestDec22:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -35,32 +48,41 @@ class TestDec22():
         assert loaded[2] == 100
         assert loaded[3] == 2024
 
-    @pytest.mark.parametrize("num, expected", [
-        (123, 15887950),
-        (15887950, 16495136),
-        (16495136, 527345),
-        (527345, 704524),
-        (704524, 1553684),
-        (1553684, 12683156),
-        (12683156, 11100544),
-        (11100544, 12249484),
-        (12249484, 7753432),
-        (7753432, 5908254),
-    ])
+    @pytest.mark.parametrize(
+        "num, expected",
+        [
+            (123, 15887950),
+            (15887950, 16495136),
+            (16495136, 527345),
+            (527345, 704524),
+            (704524, 1553684),
+            (1553684, 12683156),
+            (12683156, 11100544),
+            (11100544, 12249484),
+            (12249484, 7753432),
+            (7753432, 5908254),
+        ],
+    )
     def test_next_secret_number(self, num, expected):
         result = next_secret_number(num)
         assert result == expected
 
-    @pytest.mark.parametrize("num, mixval, expected", [
-        (42, 15, 37),
-    ])
+    @pytest.mark.parametrize(
+        "num, mixval, expected",
+        [
+            (42, 15, 37),
+        ],
+    )
     def test_mix(self, num, mixval, expected):
         result = mix(num, mixval)
         assert result == expected
 
-    @pytest.mark.parametrize("value, expected", [
-        (100000000, 16113920),
-    ])
+    @pytest.mark.parametrize(
+        "value, expected",
+        [
+            (100000000, 16113920),
+        ],
+    )
     def test_prune(self, value, expected):
         result = prune(value)
         assert result == expected

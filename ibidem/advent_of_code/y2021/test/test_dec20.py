@@ -19,7 +19,7 @@ PART1_RESULT = 35
 PART2_RESULT = 3351
 
 
-class TestDec20():
+class TestDec20:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -35,14 +35,17 @@ class TestDec20():
         assert board.size_y == 5 + 9 * 2
         assert board.size_x == 5 + 9 * 2
 
-    @pytest.mark.parametrize("x, y, expected_corners", (
+    @pytest.mark.parametrize(
+        "x, y, expected_corners",
+        (
             (0, 0, (".", ".", ".", "f")),
             (1, 1, ("a", "i", "c", "k")),
             (1, 0, (".", "e", ".", "g")),
             (0, 1, (".", ".", "b", "j")),
             (2, 2, ("f", "n", "h", "p")),
             (3, 3, ("k", ".", ".", ".")),
-    ))
+        ),
+    )
     def test_pad(self, x, y, expected_corners):
         board = Board.from_string("abcd\nefgh\nijkl\nmnop\n", fill_value=".")
         view = board.adjacent_view(x, y)

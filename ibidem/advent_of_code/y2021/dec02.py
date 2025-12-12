@@ -41,7 +41,7 @@ def part2(commands):
         value = int(m.group(2))
         if cmd == "forward":
             horizontal += value
-            depth += (aim * value)
+            depth += aim * value
         if cmd == "up":
             aim -= value
         if cmd == "down":

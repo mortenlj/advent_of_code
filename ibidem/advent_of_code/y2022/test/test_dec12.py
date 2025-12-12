@@ -16,7 +16,7 @@ PART1_RESULT = 31
 PART2_RESULT = 29
 
 
-class TestDec12():
+class TestDec12:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)

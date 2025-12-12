@@ -165,7 +165,7 @@ PART2_RESULT = Board.from_string("""\
 """)
 
 
-class TestDec10():
+class TestDec10:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)

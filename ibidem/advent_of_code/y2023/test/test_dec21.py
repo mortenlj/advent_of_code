@@ -7,10 +7,14 @@ import pytest
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2023.dec21 import load, part1, part2
 
-Case = namedtuple('Case', 'steps result input')
+Case = namedtuple("Case", "steps result input")
 
 TEST_INPUTS = [
-    Case(6, 16, io.StringIO(textwrap.dedent("""\
+    Case(
+        6,
+        16,
+        io.StringIO(
+            textwrap.dedent("""\
         ...........
         .....###.#.
         .###.##..#.
@@ -22,11 +26,13 @@ TEST_INPUTS = [
         .##.#.####.
         .##..##.##.
         ...........
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec21():
+class TestDec21:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -38,7 +44,7 @@ class TestDec21():
 
     def test_load(self, loaded):
         assert isinstance(loaded, Board)
-        
+
     def test_part1(self, loaded, case):
         result = part1(loaded, case.steps)
         assert result == case.result

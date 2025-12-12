@@ -8,12 +8,12 @@ def load(fobj):
 
 
 def part1(board: Board, steps):
-    visit = board.find('S')
+    visit = board.find("S")
     for i in range(steps):
         new_visit = set()
         for x, y in visit:
             for nx, ny in board.adjacent_indexes(x, y, False):
-                if board.get(nx, ny) in 'S.':
+                if board.get(nx, ny) in "S.":
                     new_visit.add((nx, ny))
         visit = new_visit
     return len(visit)

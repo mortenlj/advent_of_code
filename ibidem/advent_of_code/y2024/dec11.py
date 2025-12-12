@@ -16,7 +16,7 @@ def blink_stone(stone) -> list[int]:
     if stone == 0:
         return [1]
     elif len(engraved) % 2 == 0:
-        left, right = engraved[:len(engraved) // 2], engraved[len(engraved) // 2:]
+        left, right = engraved[: len(engraved) // 2], engraved[len(engraved) // 2 :]
         return [int(left), int(right)]
     return [stone * 2024]
 

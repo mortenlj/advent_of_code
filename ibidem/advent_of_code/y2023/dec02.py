@@ -20,7 +20,11 @@ class Hand:
         return 0
 
     def subsetof(self, other):
-        return self.red <= other.red and self.blue <= other.blue and self.green <= other.green
+        return (
+            self.red <= other.red
+            and self.blue <= other.blue
+            and self.green <= other.green
+        )
 
     def power(self):
         return self.red * self.blue * self.green
@@ -42,7 +46,11 @@ def load(fobj):
 
 def part1(input):
     PART1_HAND = Hand("12 red, 13 green, 14 blue")
-    return sum(game.id for game in input if all(draw.subsetof(PART1_HAND) for draw in game.draws))
+    return sum(
+        game.id
+        for game in input
+        if all(draw.subsetof(PART1_HAND) for draw in game.draws)
+    )
 
 
 def part2(input):

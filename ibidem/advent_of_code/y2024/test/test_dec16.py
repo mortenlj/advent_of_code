@@ -7,10 +7,14 @@ import pytest
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2024.dec16 import load, solve
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(1024, 25, io.StringIO(textwrap.dedent("""\
+    Case(
+        1024,
+        25,
+        io.StringIO(
+            textwrap.dedent("""\
         ###############
         #............E#
         #.............#
@@ -26,8 +30,14 @@ TEST_INPUTS = [
         #.............#
         #S............#
         ###############
-    """))),
-    Case(2024, 25, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        2024,
+        25,
+        io.StringIO(
+            textwrap.dedent("""\
         ###############
         #............E#
         #........######
@@ -43,8 +53,14 @@ TEST_INPUTS = [
         #.............#
         #S............#
         ###############
-    """))),
-    Case(7036, 45, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        7036,
+        45,
+        io.StringIO(
+            textwrap.dedent("""\
         ###############
         #.......#....E#
         #.#.###.#.###.#
@@ -60,8 +76,14 @@ TEST_INPUTS = [
         #.###.#.#.#.#.#
         #S..#.....#...#
         ###############
-    """))),
-    Case(11048, 64, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        11048,
+        64,
+        io.StringIO(
+            textwrap.dedent("""\
         #################
         #...#...#...#..E#
         #.#.#.#.#.#.#.#.#
@@ -79,11 +101,13 @@ TEST_INPUTS = [
         #.#.#.#########.#
         #S#.............#
         #################
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec16():
+class TestDec16:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

@@ -37,9 +37,23 @@ def _calculate_view_distance(tree, x, y, input):
 
 
 def part2(input):
-    scenic_score = Board(input.size_x, input.size_y, do_translate=False, flip=True, fill_value=1, dtype=int)
+    scenic_score = Board(
+        input.size_x,
+        input.size_y,
+        do_translate=False,
+        flip=True,
+        fill_value=1,
+        dtype=int,
+    )
     for rotation in range(4):
-        view_distance = Board(input.size_x, input.size_y, do_translate=False, flip=True, fill_value=0, dtype=int)
+        view_distance = Board(
+            input.size_x,
+            input.size_y,
+            do_translate=False,
+            flip=True,
+            fill_value=0,
+            dtype=int,
+        )
         for y, row in enumerate(input.grid):
             for x, tree in enumerate(row):
                 view = _calculate_view_distance(tree, x, y, input)

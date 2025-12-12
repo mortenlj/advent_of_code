@@ -43,7 +43,7 @@ STEPS = [
     ##..#
     .....
     ##...
-    """)
+    """),
 ]
 
 
@@ -52,12 +52,15 @@ def make_board(string):
     return char_board.grid == "#"
 
 
-@pytest.mark.parametrize("start, end", (
+@pytest.mark.parametrize(
+    "start, end",
+    (
         (STEPS[0], STEPS[1]),
         (STEPS[1], STEPS[2]),
         (STEPS[2], STEPS[3]),
         (STEPS[3], STEPS[4]),
-))
+    ),
+)
 def test_gol(start, end):
     board = make_board(start)
     gol = GoL(board)

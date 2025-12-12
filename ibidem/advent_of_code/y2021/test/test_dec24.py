@@ -22,7 +22,7 @@ mul y 0
 PART1_RESULT = 89
 
 
-class TestDec24():
+class TestDec24:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)

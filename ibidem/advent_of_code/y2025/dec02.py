@@ -10,7 +10,7 @@ def load(fobj):
     result = []
     for rng in ranges:
         p = rng.split("-")
-        yield int(p[0]), int(p[1])+1
+        yield int(p[0]), int(p[1]) + 1
 
 
 def part1(ranges):

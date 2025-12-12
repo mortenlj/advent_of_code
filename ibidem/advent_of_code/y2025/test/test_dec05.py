@@ -6,10 +6,14 @@ import pytest
 
 from ibidem.advent_of_code.y2025.dec05 import load, part1, part2, Fresh
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(3, 14, io.StringIO(textwrap.dedent("""\
+    Case(
+        3,
+        14,
+        io.StringIO(
+            textwrap.dedent("""\
         3-5
         10-14
         16-20
@@ -21,29 +25,53 @@ TEST_INPUTS = [
         11
         17
         32
-    """))),
-    Case(0, 16, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        0,
+        16,
+        io.StringIO(
+            textwrap.dedent("""\
         3-5
         2-6
         10-14
         16-20
         12-18
-    """))),
-    Case(0, 15, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        0,
+        15,
+        io.StringIO(
+            textwrap.dedent("""\
         3-5
         2-5
         10-14
         16-20
         12-18
-    """))),
-    Case(0, 15, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        0,
+        15,
+        io.StringIO(
+            textwrap.dedent("""\
         3-5
         3-6
         10-14
         16-20
         12-18
-    """))),
-    Case(0, 18, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        0,
+        18,
+        io.StringIO(
+            textwrap.dedent("""\
         1-9
         5-9
         1-5
@@ -56,8 +84,14 @@ TEST_INPUTS = [
         12-18
         12-19
         11-18
-    """))),
-    Case(0, 18, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        0,
+        18,
+        io.StringIO(
+            textwrap.dedent("""\
         1-5
         1-8
         1-9
@@ -70,8 +104,14 @@ TEST_INPUTS = [
         2-8
         2-9
         5-9
-    """))),
-    Case(0, 19, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        0,
+        19,
+        io.StringIO(
+            textwrap.dedent("""\
         1-5
         1-8
         1-9
@@ -85,11 +125,13 @@ TEST_INPUTS = [
         2-9
         5-9
         1-19
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec05():
+class TestDec05:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

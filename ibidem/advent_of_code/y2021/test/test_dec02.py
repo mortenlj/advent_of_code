@@ -10,7 +10,7 @@ forward 2
 """.splitlines(keepends=False)
 
 
-class TestDec02():
+class TestDec02:
     def test_part1(self):
         result = part1(TEST_INPUT)
         assert result == 150

@@ -11,11 +11,7 @@ class Outcome(enum.IntEnum):
 
     @staticmethod
     def outcome(input):
-        return {
-            "X": Outcome.Loss,
-            "Y": Outcome.Draw,
-            "Z": Outcome.Win
-        }[input.strip()]
+        return {"X": Outcome.Loss, "Y": Outcome.Draw, "Z": Outcome.Win}[input.strip()]
 
 
 class Play(enum.IntEnum):
@@ -25,19 +21,11 @@ class Play(enum.IntEnum):
 
     @staticmethod
     def opponent(input):
-        return {
-            "A": Play.Rock,
-            "B": Play.Paper,
-            "C": Play.Scissors
-        }[input.strip()]
+        return {"A": Play.Rock, "B": Play.Paper, "C": Play.Scissors}[input.strip()]
 
     @staticmethod
     def player(input):
-        return {
-            "X": Play.Rock,
-            "Y": Play.Paper,
-            "Z": Play.Scissors
-        }[input.strip()]
+        return {"X": Play.Rock, "Y": Play.Paper, "Z": Play.Scissors}[input.strip()]
 
 
 def load1(fobj):

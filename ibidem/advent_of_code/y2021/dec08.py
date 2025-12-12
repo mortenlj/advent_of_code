@@ -11,14 +11,7 @@ class Case:
         self.digit_outputs = [frozenset(s) for s in digit_outputs.strip().split()]
 
 
-CANDIDATES = {
-    2: {1},
-    3: {7},
-    4: {4},
-    5: {2, 3, 5},
-    6: {0, 6, 9},
-    7: {8}
-}
+CANDIDATES = {2: {1}, 3: {7}, 4: {4}, 5: {2, 3, 5}, 6: {0, 6, 9}, 7: {8}}
 
 
 def load(fobj):
@@ -89,14 +82,20 @@ def solve_output(solution, digit_outputs):
 
 
 def solve_case(case):
-    patterns_to_candidates = {p: CANDIDATES[len(p)].copy() for p in case.signal_patterns}
+    patterns_to_candidates = {
+        p: CANDIDATES[len(p)].copy() for p in case.signal_patterns
+    }
     candidates_to_patterns = defaultdict(set)
     search = {}
     for pattern, candidates in patterns_to_candidates.items():
         candidates_to_patterns[frozenset(candidates)].add(pattern)
         for candidate in candidates:
             search[candidate] = candidates_to_patterns[frozenset(candidates)]
-    solution = {candidates.pop(): pattern for pattern, candidates in patterns_to_candidates.items() if len(candidates) == 1}
+    solution = {
+        candidates.pop(): pattern
+        for pattern, candidates in patterns_to_candidates.items()
+        if len(candidates) == 1
+    }
     solve_three(search, solution)
     solve_six(search, solution)
     solve_nine(search, solution)

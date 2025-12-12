@@ -112,7 +112,9 @@ def find_obstacle(guard, row_obstacles, col_obstacles):
 def part1(board: Board):
     _, _, guard = find_things(board)
     initialize_and_display_splash()
-    visualizer = BoardVisualizer(board, {"#": Tiles.Obstacle, "1": Tiles.Stone, ".": Tiles.Grass})
+    visualizer = BoardVisualizer(
+        board, {"#": Tiles.Obstacle, "1": Tiles.Stone, ".": Tiles.Grass}
+    )
     visualizer.pause()
     while True:
         board.set(guard.x, guard.y, "1")

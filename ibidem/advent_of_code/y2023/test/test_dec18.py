@@ -5,13 +5,25 @@ from collections import namedtuple
 import pytest
 from vectormath import Vector2 as V2
 
-from ibidem.advent_of_code.y2023.dec18 import load1, part1, part2, load2, poly_area, Direction, generate_path, \
-    Instruction
+from ibidem.advent_of_code.y2023.dec18 import (
+    load1,
+    part1,
+    part2,
+    load2,
+    poly_area,
+    Direction,
+    generate_path,
+    Instruction,
+)
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(62, 952408144115, io.StringIO(textwrap.dedent("""\
+    Case(
+        62,
+        952408144115,
+        io.StringIO(
+            textwrap.dedent("""\
         R 6 (#70c710)
         D 5 (#0dc571)
         L 2 (#5713f0)
@@ -26,11 +38,13 @@ TEST_INPUTS = [
         U 3 (#a77fa3)
         L 2 (#015232)
         U 2 (#7a21e3)
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec18():
+class TestDec18:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -60,22 +74,44 @@ class TestDec18():
         result = part1(loaded1)
         assert result == case.part1
 
-    @pytest.mark.parametrize("instructions, expected_path, expected_addition", [
-        (None,
-         [
-             V2(0, 0), V2(6, 0), V2(6, -5), V2(4, -5), V2(4, -7), V2(6, -7), V2(6, -9),
-             V2(1, -9), V2(1, -7), V2(0, -7), V2(0, -5), V2(2, -5), V2(2, -2), V2(0, -2)
-         ],
-         20
-         ),
-        (
-                [Instruction(Direction.RIGHT, 1), Instruction(Direction.DOWN, 1), Instruction(Direction.LEFT, 1),
-                 Instruction(Direction.UP, 1)],
+    @pytest.mark.parametrize(
+        "instructions, expected_path, expected_addition",
+        [
+            (
+                None,
+                [
+                    V2(0, 0),
+                    V2(6, 0),
+                    V2(6, -5),
+                    V2(4, -5),
+                    V2(4, -7),
+                    V2(6, -7),
+                    V2(6, -9),
+                    V2(1, -9),
+                    V2(1, -7),
+                    V2(0, -7),
+                    V2(0, -5),
+                    V2(2, -5),
+                    V2(2, -2),
+                    V2(0, -2),
+                ],
+                20,
+            ),
+            (
+                [
+                    Instruction(Direction.RIGHT, 1),
+                    Instruction(Direction.DOWN, 1),
+                    Instruction(Direction.LEFT, 1),
+                    Instruction(Direction.UP, 1),
+                ],
                 [V2(0, 0), V2(1, 0), V2(1, -1), V2(0, -1)],
-                3
-        ),
-    ])
-    def test_generate_path(self, loaded1, instructions, expected_path, expected_addition):
+                3,
+            ),
+        ],
+    )
+    def test_generate_path(
+        self, loaded1, instructions, expected_path, expected_addition
+    ):
         if instructions is None:
             instructions = loaded1
         actual_path, actual_addition = generate_path(instructions)
@@ -88,10 +124,30 @@ class TestDec18():
         result = part2(loaded2)
         assert result == case.part2
 
-    @pytest.mark.parametrize("path, expected", [
-        ([V2(0, 0), V2(0, 1), V2(1, 1), V2(1, 0)], 1),
-        ([V2(0, 0), V2(6, 0), V2(6, -5), V2(4, -5), V2(4, -7), V2(6, -7), V2(6, -9),
-          V2(1, -9), V2(1, -7), V2(0, -7), V2(0, -5), V2(2, -5), V2(2, -2), V2(0, -2)], 42),
-    ])
+    @pytest.mark.parametrize(
+        "path, expected",
+        [
+            ([V2(0, 0), V2(0, 1), V2(1, 1), V2(1, 0)], 1),
+            (
+                [
+                    V2(0, 0),
+                    V2(6, 0),
+                    V2(6, -5),
+                    V2(4, -5),
+                    V2(4, -7),
+                    V2(6, -7),
+                    V2(6, -9),
+                    V2(1, -9),
+                    V2(1, -7),
+                    V2(0, -7),
+                    V2(0, -5),
+                    V2(2, -5),
+                    V2(2, -2),
+                    V2(0, -2),
+                ],
+                42,
+            ),
+        ],
+    )
     def test_poly_area(self, path, expected):
         assert poly_area(path) == expected

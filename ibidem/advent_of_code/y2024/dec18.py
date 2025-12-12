@@ -9,11 +9,13 @@ from ibidem.advent_of_code.util import get_input_name, gen_list, Vector
 @gen_list
 def load(fobj):
     for line in fobj:
-        yield tuple(map(int, line.strip().split(',')))
+        yield tuple(map(int, line.strip().split(",")))
 
 
 def part1(positions, size, bytecount):
-    board = Board(size[0], size[1], do_translate=False, flip=False, fill_value=".", growable=False)
+    board = Board(
+        size[0], size[1], do_translate=False, flip=False, fill_value=".", growable=False
+    )
     for x, y in positions[:bytecount]:
         board.set(x, y, "#")
     cost, _ = a_star(Node(Vector(0, 0)), Vector(size[0] - 1, size[1] - 1), board)
@@ -23,11 +25,17 @@ def part1(positions, size, bytecount):
 def part2(positions, size, bytecount):
     current_bc = bytecount
     working_bytecount = 0
-    working_board = Board(size[0], size[1], do_translate=False, flip=False, fill_value=".", growable=False)
+    working_board = Board(
+        size[0], size[1], do_translate=False, flip=False, fill_value=".", growable=False
+    )
     while current_bc > 0:
-        this_bytecount, working_board = find_last_working_bytecount(current_bc, positions[working_bytecount:], size, working_board)
+        this_bytecount, working_board = find_last_working_bytecount(
+            current_bc, positions[working_bytecount:], size, working_board
+        )
         working_bytecount += this_bytecount
-        print(f"Stepping {current_bc}: Last working board at bytecount {working_bytecount}")
+        print(
+            f"Stepping {current_bc}: Last working board at bytecount {working_bytecount}"
+        )
         if current_bc == 1:
             break
         current_bc = current_bc // 2

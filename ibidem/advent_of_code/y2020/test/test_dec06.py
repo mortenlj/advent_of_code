@@ -23,7 +23,7 @@ b
 """
 
 
-class TestDec06():
+class TestDec06:
     @pytest.fixture
     def input(self, tmp_path):
         input_file = tmp_path / "input.txt"

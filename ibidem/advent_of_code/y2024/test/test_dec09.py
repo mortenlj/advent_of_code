@@ -6,14 +6,14 @@ import pytest
 
 from ibidem.advent_of_code.y2024.dec09 import load, part1, part2, Disk
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
     Case(1928, 2858, io.StringIO(textwrap.dedent("2333133121414131402"))),
 ]
 
 
-class TestDec09():
+class TestDec09:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

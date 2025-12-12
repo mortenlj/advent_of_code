@@ -20,8 +20,10 @@ def load_lines(lines):
     all2ing = defaultdict(set)
     for line in lines:
         ingredients, rest = line.strip().split("(")
-        allergens = rest[len("contains"):-1]
-        recipie = Recipie(set(ingredients.split()), set(allergens.replace(",", "").split()))
+        allergens = rest[len("contains") : -1]
+        recipie = Recipie(
+            set(ingredients.split()), set(allergens.replace(",", "").split())
+        )
         for ing in recipie.ingredients:
             counts[ing] += 1
             ing2all[ing].update(recipie.allergens)

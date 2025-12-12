@@ -28,8 +28,8 @@ class Line:
         y_end = max(self.start.y, self.end.y)
         x_start = min(self.start.x, self.end.x)
         x_end = max(self.start.x, self.end.x)
-        for y in range(y_start, y_end+1):
-            for x in range(x_start, x_end+1):
+        for y in range(y_start, y_end + 1):
+            for x in range(x_start, x_end + 1):
                 yield Pos(x, y)
 
     def __repr__(self):
@@ -43,7 +43,7 @@ class DiagonalLine(Line):
         cur = Pos(self.start.x, self.start.y)
         yield cur
         while cur.x != self.end.x and cur.y != self.end.y:
-            cur = Pos(cur.x+x_step, cur.y+y_step)
+            cur = Pos(cur.x + x_step, cur.y + y_step)
             yield cur
 
 
@@ -81,7 +81,7 @@ def part2(lines=None):
         lines = load(with_diagonal=True)
     return solve(lines)
 
-    
+
 if __name__ == "__main__":
     p1_result = part1()
     print(f"Part 1: {p1_result}")

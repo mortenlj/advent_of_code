@@ -10,13 +10,16 @@ from ibidem.advent_of_code.board import Board
 
 @pytest.fixture
 def adjacency_board():
-    return Board.from_string(textwrap.dedent("""\
+    return Board.from_string(
+        textwrap.dedent("""\
         abcd
         efgh
         ijkl
         mnop
         qrst
-        """), growable=False)
+        """),
+        growable=False,
+    )
 
 
 def test_board():
@@ -27,30 +30,35 @@ def test_board():
     b.set(-5, 5, "<")
     b.set(5, -5, ">")
 
-    assert (b.grid == [
-        ["<", " ", " ", " ", " ", " ", " ", " ", " ", " ", "7"],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", "0", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
-        ["/", " ", " ", " ", " ", " ", " ", " ", " ", " ", ">"],
-    ]).all()
+    assert (
+        b.grid
+        == [
+            ["<", " ", " ", " ", " ", " ", " ", " ", " ", " ", "7"],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", "0", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            [" ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " "],
+            ["/", " ", " ", " ", " ", " ", " ", " ", " ", " ", ">"],
+        ]
+    ).all()
     b.print()
 
 
 def test_from_string():
-    b = Board.from_string(textwrap.dedent("""\
+    b = Board.from_string(
+        textwrap.dedent("""\
         0.#.#########.1
         ..#...#...#....
         ..#.#.#4..#....
         ..#...#...#....
         3.#.#.#...####2
-    """))
+    """)
+    )
     assert b.get(0, 0) == "0"
     assert b.get(2, 0) == "#"
     assert b.get(14, 0) == "1"
@@ -89,21 +97,27 @@ def test_count():
     assert b.count(".") == 3
 
 
-@pytest.mark.parametrize("x, y, expected", (
+@pytest.mark.parametrize(
+    "x, y, expected",
+    (
         (1, 1, list("abcegijk")),
         (0, 0, list("bef")),
         (3, 3, list("klost")),
-))
+    ),
+)
 def test_adjacent(x, y, expected, adjacency_board):
     actual = adjacency_board.adjacent(x, y)
     assert actual == expected
 
 
-@pytest.mark.parametrize("x, y, expected", (
+@pytest.mark.parametrize(
+    "x, y, expected",
+    (
         (1, 1, list("begj")),
         (0, 0, list("be")),
         (3, 3, list("lot")),
-))
+    ),
+)
 def test_adjacent_without_diagonal(x, y, expected, adjacency_board):
     actual = adjacency_board.adjacent(x, y, include_diagonal=False)
     assert actual == expected

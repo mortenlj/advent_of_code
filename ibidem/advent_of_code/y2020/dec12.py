@@ -10,7 +10,7 @@ from ibidem.advent_of_code.util import get_input_name
 Command = namedtuple("Command", ("action", "value"))
 
 
-class Boat():
+class Boat:
     def __init__(self, pos, direction):
         self.pos = pos
         self.direction = direction

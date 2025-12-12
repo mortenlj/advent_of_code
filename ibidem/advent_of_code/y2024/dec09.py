@@ -93,7 +93,7 @@ class Disk:
             print("!!! Too many blocks to print.")
             return
         output = []
-        for block in range(last_block+1):
+        for block in range(last_block + 1):
             if block in self.free_blocks:
                 output.append(".")
             elif block in self.used_blocks:
@@ -107,7 +107,11 @@ def load(fobj):
     for i, nb in enumerate(fobj.read().strip()):
         num_blocks = int(nb)
         if i % 2 == 0:
-            file = File(i // 2, num_blocks, [b for b in range(cur_block, cur_block + num_blocks)])
+            file = File(
+                i // 2,
+                num_blocks,
+                [b for b in range(cur_block, cur_block + num_blocks)],
+            )
             disk.create_file(file)
         else:
             disk.free_blocks.extend(range(cur_block, cur_block + num_blocks))

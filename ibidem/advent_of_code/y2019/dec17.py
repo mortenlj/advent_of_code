@@ -37,7 +37,7 @@ def get_intersections(board):
 
 
 def calculate_alignments(intersections):
-    return sum(x*y for x, y in intersections)
+    return sum(x * y for x, y in intersections)
 
 
 def part1():

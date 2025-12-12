@@ -18,7 +18,7 @@ def part1(board):
             value = board.get(x, y)
             adjacent = board.adjacent(x, y, include_diagonal=False)
             if all(value < v for v in adjacent):
-                risk += (value + 1)
+                risk += value + 1
                 low_points.append((x, y))
     return risk, low_points
 

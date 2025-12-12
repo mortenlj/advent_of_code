@@ -26,7 +26,7 @@ class GoL(object):
             for j in range(BOARD_SIZE):
                 total = 0
                 for ni, nj in ((-1, 0), (1, 0), (0, -1), (0, 1)):
-                    total += int(self._board_value(i+ni, j+nj))
+                    total += int(self._board_value(i + ni, j + nj))
                 if self._board[i][j]:
                     if total != 1:
                         new_grid[i][j] = False
@@ -50,7 +50,7 @@ def part1():
         gol = GoL(board)
         while not gol.duplicate():
             gol.step()
-        bd_points = (2 ** np.arange(25))
+        bd_points = 2 ** np.arange(25)
         points = bd_points * gol._board.flatten()
         print("This board has a biodiversity of {}".format(np.sum(points)))
 

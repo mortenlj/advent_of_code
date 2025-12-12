@@ -22,7 +22,7 @@ class Module:
         self.output_deque = output_deque
 
     def pulse(self, input_pulse: Pulse, sender):
-        for (output_name, output_pulse) in self._process(input_pulse, sender):
+        for output_name, output_pulse in self._process(input_pulse, sender):
             self.output_deque.append((output_name, output_pulse, self.name))
 
     def _process(self, input_pulse, sender) -> Iterable[tuple[str, Pulse]]:
@@ -79,7 +79,11 @@ class Conjunction(Module):
 
     def _process(self, input_pulse, sender) -> Iterable[tuple[str, Pulse]]:
         self._input_map[sender] = input_pulse
-        pulse = Pulse.LOW if all(v == Pulse.HIGH for v in self._input_map.values()) else Pulse.HIGH
+        pulse = (
+            Pulse.LOW
+            if all(v == Pulse.HIGH for v in self._input_map.values())
+            else Pulse.HIGH
+        )
         return [(on, pulse) for on in self.outputs]
 
 

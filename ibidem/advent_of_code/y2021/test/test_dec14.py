@@ -29,7 +29,7 @@ PART1_RESULT = 1588
 PART2_RESULT = 2188189693529
 
 
-class TestDec14():
+class TestDec14:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -49,10 +49,16 @@ class TestDec14():
         result = part1(*loaded)
         assert result == PART1_RESULT
 
-    @pytest.mark.parametrize("template, result", (
+    @pytest.mark.parametrize(
+        "template, result",
+        (
             ("NBCCNBBBCBHCB", "NBBBCNCCNBBNBNBBCHBHHBCHB"),
-            ("NBBBCNCCNBBNBNBBCHBHHBCHB", "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB"),
-    ))
+            (
+                "NBBBCNCCNBBNBNBBCHBHHBCHB",
+                "NBBNBNBBCCNBCNCCNBBNBBNBBBNBBNBBCBHCBHHNHCBBCBHCB",
+            ),
+        ),
+    )
     def test_solve_step(self, template, result, loaded):
         _, rules = loaded
         actual = solve_step(0, seed(template), rules)

@@ -8,7 +8,7 @@ from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
 
 
-Point = namedtuple('Point', 'x y')
+Point = namedtuple("Point", "x y")
 
 
 def load(fobj):

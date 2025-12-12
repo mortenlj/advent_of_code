@@ -20,7 +20,9 @@ class Instruction(object):
         return rb
 
     def __repr__(self):
-        return "{}({})".format(self.__class__.__name__, ", ".join(repr(p) for p in self._params))
+        return "{}({})".format(
+            self.__class__.__name__, ", ".join(repr(p) for p in self._params)
+        )
 
     @classmethod
     def from_opcode(cls, opcode):
@@ -152,7 +154,7 @@ class AdjustRelativeBase(Instruction):
     _rb_adjust = 0
 
     def execute(self):
-        target, = self._params
+        (target,) = self._params
         self._rb_adjust = target.get()
 
     def rb_adjust(self, rb):

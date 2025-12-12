@@ -28,14 +28,14 @@ def load(fobj):
 def part1(input):
     result = 0
     for card in input:
-        result += int(pow(2, len(card.lotto())-1))
+        result += int(pow(2, len(card.lotto()) - 1))
     return result
 
 
 def part2(input):
     for i, card in enumerate(input):
         for j in range(len(card.lotto())):
-            input[i+1+j].count += card.count
+            input[i + 1 + j].count += card.count
     return sum(card.count for card in input)
 
 

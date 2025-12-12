@@ -32,7 +32,7 @@ def find_weakness(input, target):
 def find_weakness_range(input, target):
     for i, start in enumerate(input):
         sum = start
-        for j, end in enumerate(input[i + 1:]):
+        for j, end in enumerate(input[i + 1 :]):
             sum += end
             if sum == target:
                 return i, i + 1 + j

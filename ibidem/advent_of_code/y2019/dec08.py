@@ -17,7 +17,7 @@ class Image(object):
             self.layers.append(Layer(x, y, layerdata))
 
     def render(self):
-        rendered = Layer(self.x, self.y, "2"*self.x*self.y)
+        rendered = Layer(self.x, self.y, "2" * self.x * self.y)
         for layer in self.layers:
             rendered.merge(layer)
         print(rendered)
@@ -51,7 +51,7 @@ class Layer(object):
 def chunks(lst, n):
     """Yield successive n-sized chunks from lst."""
     for i in range(0, len(lst), n):
-        yield lst[i:i + n]
+        yield lst[i : i + n]
 
 
 def main():
@@ -67,7 +67,11 @@ def main():
                 best_layer = layer
         count1 = best_layer.data.count("1")
         count2 = best_layer.data.count("2")
-        print("Best layer has {} 1 digits, and {} 2 digits, yielding a result of {}".format(count1, count2, count1*count2))
+        print(
+            "Best layer has {} 1 digits, and {} 2 digits, yielding a result of {}".format(
+                count1, count2, count1 * count2
+            )
+        )
         image.render()
 
 

@@ -6,10 +6,14 @@ import pytest
 
 from ibidem.advent_of_code.y2024.dec18 import load, part1, part2
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(22, "6,1", io.StringIO(textwrap.dedent("""\
+    Case(
+        22,
+        "6,1",
+        io.StringIO(
+            textwrap.dedent("""\
         5,4
         4,2
         4,5
@@ -35,11 +39,13 @@ TEST_INPUTS = [
         0,5
         1,6
         2,0
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec18():
+class TestDec18:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -56,9 +62,9 @@ class TestDec18():
 
     @pytest.mark.skip("Not interested right now")
     def test_part1(self, loaded, case):
-        result = part1(loaded, (7,7), 12)
+        result = part1(loaded, (7, 7), 12)
         assert result == case.part1
 
     def test_part2(self, loaded, case):
-        result = part2(loaded, (7,7), 12)
+        result = part2(loaded, (7, 7), 12)
         assert result == case.part2

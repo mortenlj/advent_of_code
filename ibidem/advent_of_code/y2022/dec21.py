@@ -14,7 +14,6 @@ class Monkey:
 
 
 class ValueMonkey(Monkey):
-
     def __init__(self, name, value):
         super().__init__(name)
         self._value = value
@@ -24,7 +23,6 @@ class ValueMonkey(Monkey):
 
 
 class ExpressionMonkey(Monkey):
-
     def __init__(self, name, left_name, right_name, op):
         super().__init__(name)
         self.left_name = left_name
@@ -52,7 +50,9 @@ def load(fobj):
         if m := VALUE_PATTERN.search(line):
             monkies[m.group(1)] = ValueMonkey(m.group(1), int(m.group(2)))
         if m := EXPR_PATTERN.search(line):
-            monkies[m.group(1)] = ExpressionMonkey(m.group(1), m.group(2), m.group(4), op(m.group(3)))
+            monkies[m.group(1)] = ExpressionMonkey(
+                m.group(1), m.group(2), m.group(4), op(m.group(3))
+            )
     return monkies
 
 

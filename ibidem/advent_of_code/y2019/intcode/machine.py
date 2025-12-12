@@ -26,7 +26,13 @@ class IntCode(object):
         instruction = Instruction.from_opcode(opcode)
         params = []
         if instruction.size > 1:
-            modes = reversed("{:0{width}}".format(instruction_code // 100, width=instruction.size - 1))
+            modes = reversed(
+                "{:0{width}}".format(
+                    instruction_code // 100, width=instruction.size - 1
+                )
+            )
             for i, mode in enumerate(modes):
-                params.append(Parameter.from_mode(int(mode))(self.memory[self._ip + i + 1], self))
+                params.append(
+                    Parameter.from_mode(int(mode))(self.memory[self._ip + i + 1], self)
+                )
         return instruction(params, input_func=input_func, output_func=output_func)

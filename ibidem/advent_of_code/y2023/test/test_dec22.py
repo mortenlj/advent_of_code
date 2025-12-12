@@ -7,10 +7,14 @@ from Geometry3D import Point
 
 from ibidem.advent_of_code.y2023.dec22 import load, part1, part2
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(5, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(
+        5,
+        NotImplemented,
+        io.StringIO(
+            textwrap.dedent("""\
         1,0,1~1,2,1
         0,0,2~2,0,2
         0,2,3~2,2,3
@@ -18,11 +22,13 @@ TEST_INPUTS = [
         2,0,5~2,2,5
         0,1,6~2,1,6
         1,1,8~1,1,9
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec22():
+class TestDec22:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

@@ -9,7 +9,11 @@ from ibidem.advent_of_code.y2021.dec12 import load, part1, part2
 Case = namedtuple("Case", ("p1_result", "p2_result", "input"))
 
 TESTS = [
-    Case(10, 36, io.StringIO(textwrap.dedent("""\
+    Case(
+        10,
+        36,
+        io.StringIO(
+            textwrap.dedent("""\
         start-A
         start-b
         A-c
@@ -17,8 +21,14 @@ TESTS = [
         b-d
         A-end
         b-end
-        """))),
-    Case(19, 103, io.StringIO(textwrap.dedent("""\
+        """)
+        ),
+    ),
+    Case(
+        19,
+        103,
+        io.StringIO(
+            textwrap.dedent("""\
         dc-end
         HN-start
         start-kj
@@ -29,8 +39,14 @@ TESTS = [
         kj-sa
         kj-HN
         kj-dc
-        """))),
-    Case(226, 3509, io.StringIO(textwrap.dedent("""\
+        """)
+        ),
+    ),
+    Case(
+        226,
+        3509,
+        io.StringIO(
+            textwrap.dedent("""\
         fs-end
         he-DX
         fs-he
@@ -49,11 +65,13 @@ TESTS = [
         zg-he
         pj-fs
         start-RW
-        """))),
+        """)
+        ),
+    ),
 ]
 
 
-class TestDec12():
+class TestDec12:
     @pytest.mark.parametrize("case", TESTS)
     def test_part1(self, case):
         case.input.seek(0)

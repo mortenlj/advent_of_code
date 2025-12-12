@@ -50,7 +50,7 @@ def part2(input):
         f1 = fresh.pop()
         while fresh:
             f2 = fresh.pop()
-            if f1.start in f2 or (f1.end-1) in f2:
+            if f1.start in f2 or (f1.end - 1) in f2:
                 start = min(f1.start, f2.start)
                 end = max(f1.end, f2.end)
                 f1 = Fresh(start, end)

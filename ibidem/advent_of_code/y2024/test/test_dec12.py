@@ -7,23 +7,39 @@ import pytest
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2024.dec12 import load, solve
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(140, 80, io.StringIO(textwrap.dedent("""\
+    Case(
+        140,
+        80,
+        io.StringIO(
+            textwrap.dedent("""\
         AAAA
         BBCD
         BBCC
         EEEC
-    """))),
-    Case(772, 436, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        772,
+        436,
+        io.StringIO(
+            textwrap.dedent("""\
         OOOOO
         OXOXO
         OOOOO
         OXOXO
         OOOOO
-    """))),
-    Case(1930, 1206, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        1930,
+        1206,
+        io.StringIO(
+            textwrap.dedent("""\
         RRRRIICCFF
         RRRRIICCCF
         VVRRRCCFFF
@@ -34,26 +50,40 @@ TEST_INPUTS = [
         MIIIIIJJEE
         MIIISIJEEE
         MMMISSJEEE
-    """))),
-    Case(NotImplemented, 236, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        NotImplemented,
+        236,
+        io.StringIO(
+            textwrap.dedent("""\
         EEEEE
         EXXXX
         EEEEE
         EXXXX
         EEEEE
-    """))),
-    Case(NotImplemented, 368, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        NotImplemented,
+        368,
+        io.StringIO(
+            textwrap.dedent("""\
         AAAAAA
         AAABBA
         AAABBA
         ABBAAA
         ABBAAA
         AAAAAA
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec12():
+class TestDec12:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

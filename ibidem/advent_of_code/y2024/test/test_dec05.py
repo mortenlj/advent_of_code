@@ -6,10 +6,14 @@ import pytest
 
 from ibidem.advent_of_code.y2024.dec05 import load, part1, part2, Update
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(143, 123, io.StringIO(textwrap.dedent("""\
+    Case(
+        143,
+        123,
+        io.StringIO(
+            textwrap.dedent("""\
         47|53
         97|13
         97|61
@@ -38,11 +42,13 @@ TEST_INPUTS = [
         75,97,47,61,53
         61,13,29
         97,13,75,29,47
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec05():
+class TestDec05:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -61,11 +67,14 @@ class TestDec05():
         assert updates[0].page_numbers == [75, 47, 61, 53, 29]
         assert updates[0].middle_page == 61
 
-    @pytest.mark.parametrize("update,expected", [
-        (Update([75, 97, 47, 61, 53]), Update([97, 75, 47, 61, 53])),
-        (Update([61, 13, 29]), Update([61, 29, 13])),
-        (Update([97, 13, 75, 29, 47]), Update([97, 75, 47, 29, 13])),
-    ])
+    @pytest.mark.parametrize(
+        "update,expected",
+        [
+            (Update([75, 97, 47, 61, 53]), Update([97, 75, 47, 61, 53])),
+            (Update([61, 13, 29]), Update([61, 29, 13])),
+            (Update([97, 13, 75, 29, 47]), Update([97, 75, 47, 29, 13])),
+        ],
+    )
     def test_sort_update(self, loaded, update, expected):
         rules, _ = loaded
         update.sort(rules)

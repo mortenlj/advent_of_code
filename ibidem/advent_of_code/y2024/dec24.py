@@ -7,6 +7,7 @@ from ibidem.advent_of_code.util import get_input_name
 
 GATE_PATTERN = re.compile(r"(\w+) (AND|OR|XOR) (\w+) -> (\w+)")
 
+
 @dataclass
 class Wire:
     name: str
@@ -78,7 +79,9 @@ def part1(input):
         wires[out].input = gate
     for k, v in initial.items():
         wires[k].set(v)
-    outputs = [str(wires[k].value) for k in reversed(sorted(wires.keys())) if k.startswith("z")]
+    outputs = [
+        str(wires[k].value) for k in reversed(sorted(wires.keys())) if k.startswith("z")
+    ]
     return int("".join(outputs), base=2)
 
 

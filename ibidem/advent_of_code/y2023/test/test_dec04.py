@@ -17,7 +17,7 @@ PART1_RESULT = 13
 PART2_RESULT = 30
 
 
-class TestDec04():
+class TestDec04:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -36,7 +36,7 @@ class TestDec04():
     def test_part1(self, loaded):
         result = part1(loaded)
         assert result == PART1_RESULT
-        
+
     def test_part2(self, loaded):
         result = part2(loaded)
         assert result == PART2_RESULT

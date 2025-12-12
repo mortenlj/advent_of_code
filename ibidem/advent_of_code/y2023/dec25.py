@@ -9,7 +9,7 @@ def load(fobj):
     g = nx.Graph()
     for line in fobj:
         line = line.strip()
-        source, targets = line.split(':')
+        source, targets = line.split(":")
         for target in targets.split():
             g.add_edge(source, target)
     return g

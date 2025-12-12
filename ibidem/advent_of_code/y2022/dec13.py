@@ -52,7 +52,9 @@ def part1(pairs):
 
 def part2(pairs):
     packets = list(chain(DIVIDER_PACKAGES, *pairs))
-    packets = sorted(packets, key=cmp_to_key(lambda left, right: compare((left, right))))
+    packets = sorted(
+        packets, key=cmp_to_key(lambda left, right: compare((left, right)))
+    )
     indexes = []
     for i, packet in enumerate(packets):
         if packet in DIVIDER_PACKAGES:

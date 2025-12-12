@@ -7,20 +7,27 @@ from Geometry3D import HalfLine
 
 from ibidem.advent_of_code.y2023.dec24 import load, part1, part2
 
-Case = namedtuple('Case', 'part1 limit part2 input')
+Case = namedtuple("Case", "part1 limit part2 input")
 
 TEST_INPUTS = [
-    Case(2, (7, 27), NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(
+        2,
+        (7, 27),
+        NotImplemented,
+        io.StringIO(
+            textwrap.dedent("""\
         19, 13, 30 @ -2,  1, -2
         18, 19, 22 @ -1, -1, -2
         20, 25, 34 @ -2, -2, -4
         12, 31, 28 @ -1, -2, -1
         20, 19, 15 @  1, -5, -3
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec24():
+class TestDec24:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

@@ -61,7 +61,9 @@ def part1(board):
             case "v":
                 working.append(Node(node.x, node.y + 1, node))
             case _:
-                for x, y in board.adjacent_indexes(node.x, node.y, include_diagonal=False):
+                for x, y in board.adjacent_indexes(
+                    node.x, node.y, include_diagonal=False
+                ):
                     if node.parent and node.parent.coords == (x, y):
                         continue
                     value = board.get(x, y)

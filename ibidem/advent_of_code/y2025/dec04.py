@@ -18,7 +18,9 @@ def solve(board: Board, max_iterations: int):
     visualizer = None
     if initialize_and_display_splash():
         print("Creating board visualizer")
-        visualizer = BoardVisualizer(board, {"@": Tiles.Obstacle, ".": Tiles.Stone, "x": Tiles.Stone})
+        visualizer = BoardVisualizer(
+            board, {"@": Tiles.Obstacle, ".": Tiles.Stone, "x": Tiles.Stone}
+        )
         visualizer.pause()
     movable = []
     for _ in range(max_iterations):

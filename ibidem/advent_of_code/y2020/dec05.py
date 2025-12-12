@@ -3,7 +3,7 @@
 from ibidem.advent_of_code.util import get_input_name
 
 
-class BoardingPass():
+class BoardingPass:
     def __init__(self, s):
         s = s.translate(str.maketrans("FBLR", "0101"))
         self.row = int(s[:7], 2)

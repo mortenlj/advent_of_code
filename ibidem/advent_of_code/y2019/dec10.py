@@ -10,8 +10,16 @@ from vectormath import Vector2
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
 
-COLORS = [a for a in dir(Fore) if a.isupper() and a not in ("RESET", "BLACK", "LIGHTWHITE_EX", "WHITE")]
-STYLES = [(getattr(Fore, color), char) for char in "#@¤+*%$<>XOABCDEFGHIJKLMNPRSTUVWYZ" for color in COLORS]
+COLORS = [
+    a
+    for a in dir(Fore)
+    if a.isupper() and a not in ("RESET", "BLACK", "LIGHTWHITE_EX", "WHITE")
+]
+STYLES = [
+    (getattr(Fore, color), char)
+    for char in "#@¤+*%$<>XOABCDEFGHIJKLMNPRSTUVWYZ"
+    for color in COLORS
+]
 SENTINEL = object()
 UP = Vector2(0, -1)
 
@@ -114,7 +122,11 @@ def part2(station, board):
         vaporize(board, target)
         count += 1
         if count == 200:
-            print("{!r} was the 200th asteroid vaporized. Its value is {}".format(target, target.x*100+target.y))
+            print(
+                "{!r} was the 200th asteroid vaporized. Its value is {}".format(
+                    target, target.x * 100 + target.y
+                )
+            )
             break
 
 
@@ -123,7 +135,11 @@ def shoot(firing_order, station, board):
     firing_order.append(SENTINEL)
     for theta in itertools.cycle(firing_order):
         if theta == SENTINEL:
-            print("Completed one rotation, killed {} objects this round".format(count_last_rotation))
+            print(
+                "Completed one rotation, killed {} objects this round".format(
+                    count_last_rotation
+                )
+            )
             board.print()
             if count_last_rotation == 0:
                 break
@@ -154,7 +170,7 @@ def decide_firing_order(vectors):
 def angle_sort(v):
     angle = v.theta - UP.theta
     if angle < 0:
-        angle += 2*pi
+        angle += 2 * pi
     return angle
 
 

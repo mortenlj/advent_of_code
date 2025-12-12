@@ -25,7 +25,7 @@ def part1_solve_bank(bank: List[int]):
     first_idx = bank.index(first)
     if first_idx == len(bank) - 1:
         first, first_idx = find_second_largest(bank, first)
-    second = max(bank[first_idx + 1:])
+    second = max(bank[first_idx + 1 :])
     return second + first * 10
 
 
@@ -40,15 +40,15 @@ def part2_solve_bank(bank: List[int], wanted_length):
     if wanted_length == 0:
         return 0
     if wanted_length == len(bank):
-        return sum([d*(10**i) for i, d in enumerate(reversed(bank))])
+        return sum([d * (10**i) for i, d in enumerate(reversed(bank))])
     if wanted_length == 1:
         searched = bank
     else:
-        searched = bank[:-(wanted_length-1)]
+        searched = bank[: -(wanted_length - 1)]
     result = max(searched)
     result_idx = bank.index(result)
-    sub_result = part2_solve_bank(bank[result_idx + 1:], wanted_length - 1)
-    mul_result = result * 10**(wanted_length-1)
+    sub_result = part2_solve_bank(bank[result_idx + 1 :], wanted_length - 1)
+    mul_result = result * 10 ** (wanted_length - 1)
     return mul_result + sub_result
 
 

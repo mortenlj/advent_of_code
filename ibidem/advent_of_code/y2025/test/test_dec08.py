@@ -8,10 +8,14 @@ from vectormath import Vector3Array, Vector3
 
 from ibidem.advent_of_code.y2025.dec08 import load, part1, part2, distances
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(40, 25272, io.StringIO(textwrap.dedent("""\
+    Case(
+        40,
+        25272,
+        io.StringIO(
+            textwrap.dedent("""\
         162,817,812
         57,618,57
         906,360,560
@@ -32,11 +36,13 @@ TEST_INPUTS = [
         862,61,35
         984,92,344
         425,690,689
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec08():
+class TestDec08:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -50,21 +56,20 @@ class TestDec08():
         assert isinstance(loaded, Vector3Array)
         assert len(loaded) == 20
 
-
     def test_distances(self, loaded):
         heap = distances(loaded, 10)
         assert len(heap) == 10
         heapify(heap)
         min_distance, min_v1, min_v2 = heappop(heap)
-        expected_v1 = Vector3(162,817,812)
-        expected_v2 = Vector3(425,690,689)
+        expected_v1 = Vector3(162, 817, 812)
+        expected_v2 = Vector3(425, 690, 689)
         assert (expected_v1 == min_v1).all()
         assert (expected_v2 == min_v2).all()
 
     def test_part1(self, loaded, case):
         result = part1(loaded, 10)
         assert result == case.part1
-        
+
     def test_part2(self, loaded, case):
         result = part2(loaded)
         assert result == case.part2

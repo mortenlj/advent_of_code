@@ -61,7 +61,7 @@ def load():
     with open(get_input_name(19, 2020)) as fobj:
         for line in fobj:
             line = line.strip()
-            line = line.replace("\"", "")
+            line = line.replace('"', "")
             if not line:
                 line_parser = load_message
                 continue

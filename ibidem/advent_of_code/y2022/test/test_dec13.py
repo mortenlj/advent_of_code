@@ -34,7 +34,7 @@ PART1_RESULT = 13
 PART2_RESULT = 140
 
 
-class TestDec13():
+class TestDec13:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -57,7 +57,9 @@ class TestDec13():
         result = part2(loaded)
         assert result == PART2_RESULT
 
-    @pytest.mark.parametrize(("pair", "result"), (
+    @pytest.mark.parametrize(
+        ("pair", "result"),
+        (
             ((1, 1), 0),
             ((1, 2), -1),
             ((2, 1), 1),
@@ -68,7 +70,8 @@ class TestDec13():
             ((1, [1]), 0),
             ((1, [2]), -1),
             ((2, [1]), 1),
-    ))
+        ),
+    )
     def test_compare(self, pair, result):
         actual = compare(pair)
         assert actual == result

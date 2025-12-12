@@ -18,7 +18,11 @@ def part1(cubes):
     total_sides = len(cubes) * 6
     for l, r in itertools.combinations(cubes, 2):
         for idx in range(3):
-            if l[idx] in (r[idx] - 1, r[idx] + 1) and l[idx - 1] == r[idx - 1] and l[idx - 2] == r[idx - 2]:
+            if (
+                l[idx] in (r[idx] - 1, r[idx] + 1)
+                and l[idx - 1] == r[idx - 1]
+                and l[idx - 2] == r[idx - 2]
+            ):
                 total_sides -= 2
                 break
     return total_sides

@@ -8,7 +8,7 @@ from rich.progress import track
 from ibidem.advent_of_code.util import get_input_name, gen_list
 
 BRICK_PATTERN = re.compile(r"(\d+),(\d+),(\d+)~(\d+),(\d+),(\d+)")
-COLORS = ('b', 'g', 'r', 'c', 'm', 'y', 'k', 'w')
+COLORS = ("b", "g", "r", "c", "m", "y", "k", "w")
 
 
 class Brick:
@@ -33,7 +33,7 @@ class Brick:
     def high_point(self):
         return max(self.start.z, self.end.z)
 
-    def intersects(self, other: 'Brick'):
+    def intersects(self, other: "Brick"):
         if isinstance(self.geo_body, Point):
             if isinstance(other.geo_body, Point):
                 return self.geo_body == other.geo_body
@@ -98,7 +98,7 @@ def part1(bricks):
     sorted_bricks = sorted(bricks, key=lambda b: b.low_point())
     settled_bricks = settle(sorted_bricks)
     print("Bricks settled")
-    #show_bricks(settled_bricks)
+    # show_bricks(settled_bricks)
     count = 0
     for brick in settled_bricks:
         bricks = copy.deepcopy(settled_bricks)
@@ -112,7 +112,7 @@ def part1(bricks):
 
 
 def show_bricks(bricks):
-    r = Visualizer(backend='matplotlib')
+    r = Visualizer(backend="matplotlib")
     for i, brick in enumerate(bricks):
         r.add((brick.geo_body, COLORS[i % len(COLORS)], 10))
     r.show()

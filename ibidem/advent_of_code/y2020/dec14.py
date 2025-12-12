@@ -9,7 +9,7 @@ from ibidem.advent_of_code.util import get_input_name
 MEM_PATTERN = re.compile(r"mem\[(\d+)\] = (\d+)")
 
 
-class Program1():
+class Program1:
     def __init__(self):
         self.memory = {}
         self.where = None
@@ -40,7 +40,7 @@ class Program1():
         return sum(toint(v) for v in self.memory.values())
 
 
-class Program2():
+class Program2:
     def __init__(self):
         self.memory = {}
         self.floating_idx = None

@@ -20,7 +20,7 @@ PART1_RESULT = "CMZ"
 PART2_RESULT = "MCD"
 
 
-class TestDec05():
+class TestDec05:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -30,11 +30,14 @@ class TestDec05():
     def loaded(self, input):
         return load(input)
 
-    @pytest.mark.parametrize(["line", "count", "source", "target"], (
+    @pytest.mark.parametrize(
+        ["line", "count", "source", "target"],
+        (
             ("move 1 from 1 to 1", 1, 1, 1),
             ("move 2 from 2 to 1", 2, 2, 1),
             ("move 3 from 1 to 2", 3, 1, 2),
-    ))
+        ),
+    )
     def test_move(self, line, count, source, target):
         move = Move(line)
         assert move.count == count

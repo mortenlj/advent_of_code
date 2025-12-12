@@ -26,7 +26,6 @@ def is_valid(target, current, values, operators):
     return False
 
 
-
 def part1(input):
     result = 0
     for target, values in input:
@@ -42,7 +41,9 @@ def concat(a, b):
 def part2(input):
     result = 0
     for target, values in input:
-        if is_valid(target, values[0], values[1:], [operator.add, operator.mul, concat]):
+        if is_valid(
+            target, values[0], values[1:], [operator.add, operator.mul, concat]
+        ):
             result += target
     return result
 

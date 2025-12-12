@@ -22,10 +22,18 @@ class RangeMap:
         self._source_end = source_start + length
 
     def __eq__(self, other):
-        return (self.dest_start, self.source_start, self.length) == (other.dest_start, other.source_start, other.length)
+        return (self.dest_start, self.source_start, self.length) == (
+            other.dest_start,
+            other.source_start,
+            other.length,
+        )
 
     def __lt__(self, other):
-        return (self.dest_start, self.source_start, self.length) < (other.dest_start, other.source_start, other.length)
+        return (self.dest_start, self.source_start, self.length) < (
+            other.dest_start,
+            other.source_start,
+            other.length,
+        )
 
     def cut(self, range: Range) -> (Iterable[Range], Iterable[Range]):
         """Divide range into mapped and unmapped parts."""
@@ -33,19 +41,33 @@ class RangeMap:
             return [range], []
         if range.start > self._source_end:  # Range is fully after
             return [range], []
-        if range.start >= self.source_start and range.end <= self._source_end:  # Range is fully inside
-            return [], [Range(self.dest_start + range.start - self.source_start, range.length)]
+        if (
+            range.start >= self.source_start and range.end <= self._source_end
+        ):  # Range is fully inside
+            return [], [
+                Range(self.dest_start + range.start - self.source_start, range.length)
+            ]
 
-        if range.start < self.source_start and range.end < self._source_end:  # Range overlaps before
+        if (
+            range.start < self.source_start and range.end < self._source_end
+        ):  # Range overlaps before
             return [Range(range.start, self.source_start - range.start)], [
-                Range(self.dest_start, range.length - (self.source_start - range.start))]
-        if self.source_start <= range.start < self._source_end < range.end:  # Range overlaps after
+                Range(self.dest_start, range.length - (self.source_start - range.start))
+            ]
+        if (
+            self.source_start <= range.start < self._source_end < range.end
+        ):  # Range overlaps after
             return [Range(self._source_end, range.end - self._source_end)], [
-                Range(self.dest_start + range.start - self.source_start, self._source_end - range.start)]
+                Range(
+                    self.dest_start + range.start - self.source_start,
+                    self._source_end - range.start,
+                )
+            ]
         # Range completely contains
-        return [Range(range.start, self.source_start - range.start),
-                Range(self._source_end, range.end - self._source_end)], [
-            Range(self.dest_start, self.length)]
+        return [
+            Range(range.start, self.source_start - range.start),
+            Range(self._source_end, range.end - self._source_end),
+        ], [Range(self.dest_start, self.length)]
 
 
 class Lookup:
@@ -58,7 +80,11 @@ class Lookup:
 
     def lookup(self, value):
         for range_map in self.ranges:
-            if range_map.source_start <= value < range_map.source_start + range_map.length:
+            if (
+                range_map.source_start
+                <= value
+                < range_map.source_start + range_map.length
+            ):
                 return range_map.dest_start + value - range_map.source_start
         return value
 
@@ -109,7 +135,7 @@ def batched(iterable, n):
     """Batch data into tuples of length n. The last batch may be shorter."""
     # batched('ABCDEFG', 3) --> ABC DEF G
     if n < 1:
-        raise ValueError('n must be at least one')
+        raise ValueError("n must be at least one")
     it = iter(iterable)
     while batch := tuple(itertools.islice(it, n)):
         yield batch

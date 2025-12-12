@@ -34,8 +34,12 @@ def inside(poly, v1, v2):
     max_y = max(v1.y, v2.y)
     width = max_y - min_y
     total = length * width
-    for x, y in track(itertools.product(range(min_x, max_x + 1), range(min_y, max_y + 1)), transient=True, total=total,
-                      description=f"Checking {total} points"):
+    for x, y in track(
+        itertools.product(range(min_x, max_x + 1), range(min_y, max_y + 1)),
+        transient=True,
+        total=total,
+        description=f"Checking {total} points",
+    ):
         if Vector(x, y) not in poly:
             return False
     return True
@@ -47,8 +51,7 @@ def orientation(p: Vector, q: Vector, r: Vector):
     1 --> Clockwise
     2 --> Counterclockwise
     """
-    val = (q.y - p.y) * (r.x - q.x) - \
-          (q.x - p.x) * (r.y - q.y)
+    val = (q.y - p.y) * (r.x - q.x) - (q.x - p.x) * (r.y - q.y)
 
     # collinear
     if val == 0:
@@ -65,8 +68,9 @@ class Line:
     end: Vector
 
     def __contains__(self, point):
-        return (max(self.start.x, self.end.x) >= point.x >= min(self.start.x, self.end.x) and
-                max(self.start.y, self.end.y) >= point.y >= min(self.start.y, self.end.y))
+        return max(self.start.x, self.end.x) >= point.x >= min(
+            self.start.x, self.end.x
+        ) and max(self.start.y, self.end.y) >= point.y >= min(self.start.y, self.end.y)
 
     def intersects(self, other: Line):
         # find the four orientations needed
@@ -140,8 +144,11 @@ def part2(red_tiles):
     poly = make_poly(red_tiles)
     largest = 0
     total = len(list(itertools.combinations(red_tiles, 2)))
-    for v1, v2 in track(itertools.combinations(red_tiles, 2), total=total,
-                        description=f"Checking {total} possible areas"):
+    for v1, v2 in track(
+        itertools.combinations(red_tiles, 2),
+        total=total,
+        description=f"Checking {total} possible areas",
+    ):
         area = (abs(v1.x - v2.x) + 1) * (abs(v1.y - v2.y) + 1)
         if area > largest and inside(poly, v1, v2):
             largest = area

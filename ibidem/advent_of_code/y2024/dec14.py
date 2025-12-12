@@ -7,7 +7,11 @@ from rich.progress import track
 
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
-from ibidem.advent_of_code.visualizer import initialize_and_display_splash, Sprites, Tiles
+from ibidem.advent_of_code.visualizer import (
+    initialize_and_display_splash,
+    Sprites,
+    Tiles,
+)
 from ibidem.advent_of_code.visualizer.board import BoardVisualizer
 
 ROBOT_PATTERN = re.compile(r"p=(\d+),(\d+) v=(-?\d+),(-?\d+)")
@@ -41,7 +45,10 @@ def load(fobj, board_x, board_y):
     for line in fobj:
         m = ROBOT_PATTERN.search(line)
         if m:
-            robot = Robot(Vector(int(m.group(1)), int(m.group(2))), Vector(int(m.group(3)), int(m.group(4))))
+            robot = Robot(
+                Vector(int(m.group(1)), int(m.group(2))),
+                Vector(int(m.group(3)), int(m.group(4))),
+            )
             robots.append(robot)
     return robots, Board(board_x, board_y, do_translate=False, growable=False)
 
@@ -73,7 +80,9 @@ def simulate(board, robots, steps, check=lambda b: False):
     visualizer = None
     if visualize:
         initialize_and_display_splash()
-        visualizer = BoardVisualizer(board, {"#": Sprites.Tank, ".": Tiles.Stone, " ": Tiles.Grass})
+        visualizer = BoardVisualizer(
+            board, {"#": Sprites.Tank, ".": Tiles.Stone, " ": Tiles.Grass}
+        )
         if pause:
             visualizer.pause()
     for step in track(range(steps)):
@@ -88,7 +97,7 @@ def simulate(board, robots, steps, check=lambda b: False):
             break
     if pause and visualizer:
         visualizer.pause()
-    return mid_x, mid_y, step+1
+    return mid_x, mid_y, step + 1
 
 
 def part2(input):
@@ -98,7 +107,7 @@ def part2(input):
     def check(board):
         for y in range(board.size_y):
             for x in range(board.size_x - 20):
-                if np.array_equal(board.grid[y, x:x + 20], needle):
+                if np.array_equal(board.grid[y, x : x + 20], needle):
                     return True
 
     _, _, step = simulate(board, robots, 10000, check)

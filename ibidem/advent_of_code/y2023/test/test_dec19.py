@@ -5,12 +5,25 @@ from collections import namedtuple
 
 import pytest
 
-from ibidem.advent_of_code.y2023.dec19 import load, part1, part2, parse_step, Step, true_func, parse_part, Part
+from ibidem.advent_of_code.y2023.dec19 import (
+    load,
+    part1,
+    part2,
+    parse_step,
+    Step,
+    true_func,
+    parse_part,
+    Part,
+)
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(19114, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(
+        19114,
+        NotImplemented,
+        io.StringIO(
+            textwrap.dedent("""\
         px{a<2006:qkq,m>2090:A,rfg}
         pv{a>1716:R,A}
         lnx{m>1548:A,A}
@@ -28,11 +41,13 @@ TEST_INPUTS = [
         {x=2036,m=264,a=79,s=2244}
         {x=2461,m=1339,a=466,s=291}
         {x=2127,m=1623,a=2188,s=1013}
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec19():
+class TestDec19:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -47,19 +62,29 @@ class TestDec19():
         assert len(workflows) == 11
         assert len(parts) == 5
 
-    @pytest.mark.parametrize("step,expected", [
-        ("s>2770:qs", Step("s", operator.gt, 2770, "qs")),
-        ("m<1801:hdj", Step("m", operator.lt, 1801, "hdj")),
-        ("R", Step("x", true_func, 0, "R")),
-    ])
+    @pytest.mark.parametrize(
+        "step,expected",
+        [
+            ("s>2770:qs", Step("s", operator.gt, 2770, "qs")),
+            ("m<1801:hdj", Step("m", operator.lt, 1801, "hdj")),
+            ("R", Step("x", true_func, 0, "R")),
+        ],
+    )
     def test_parse_step(self, step, expected):
         assert parse_step(step) == expected
 
-    @pytest.mark.parametrize("part,expected,rating", [
-        ("{x=787,m=2655,a=1222,s=2876}", Part(x=787, m=2655, a=1222, s=2876), 7540),
-        ("{x=2036,m=264,a=79,s=2244}", Part(x=2036, m=264, a=79, s=2244), 4623),
-        ("{x=2127,m=1623,a=2188,s=1013}", Part(x=2127, m=1623, a=2188, s=1013), 6951),
-    ])
+    @pytest.mark.parametrize(
+        "part,expected,rating",
+        [
+            ("{x=787,m=2655,a=1222,s=2876}", Part(x=787, m=2655, a=1222, s=2876), 7540),
+            ("{x=2036,m=264,a=79,s=2244}", Part(x=2036, m=264, a=79, s=2244), 4623),
+            (
+                "{x=2127,m=1623,a=2188,s=1013}",
+                Part(x=2127, m=1623, a=2188, s=1013),
+                6951,
+            ),
+        ],
+    )
     def test_parse_part(self, part, expected, rating):
         actual = parse_part(part)
         assert actual == expected

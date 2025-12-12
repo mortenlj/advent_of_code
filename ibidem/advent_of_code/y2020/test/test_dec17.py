@@ -1,3 +1,3 @@
-class TestDec17():
+class TestDec17:
     def test_load(self):
         pass

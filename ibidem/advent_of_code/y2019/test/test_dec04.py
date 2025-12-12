@@ -6,26 +6,34 @@ import pytest
 from ..dec04 import decreasing, no_double, just_double
 
 
-@pytest.mark.parametrize("s, result", (
-    ("111111", False),
-    ("123456", False),
-    ("111110", True),
-))
+@pytest.mark.parametrize(
+    "s, result",
+    (
+        ("111111", False),
+        ("123456", False),
+        ("111110", True),
+    ),
+)
 def test_decreasing(s, result):
     assert decreasing(s) == result
 
 
-@pytest.mark.parametrize("s, result", (
+@pytest.mark.parametrize(
+    "s, result",
+    (
         ("111111", False),
         ("123456", True),
         ("122345", False),
         ("123455", False),
-))
+    ),
+)
 def test_no_double(s, result):
     assert no_double(s) == result
 
 
-@pytest.mark.parametrize("s, result", (
+@pytest.mark.parametrize(
+    "s, result",
+    (
         ("111111", False),
         ("123456", False),
         ("122345", True),
@@ -33,7 +41,8 @@ def test_no_double(s, result):
         ("111122", True),
         ("112222", True),
         ("111233", True),
-))
+    ),
+)
 def test_just_double(s, result):
     assert just_double(s) == result
 

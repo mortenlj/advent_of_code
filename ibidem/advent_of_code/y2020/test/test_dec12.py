@@ -10,7 +10,7 @@ PART1_ROUTE = [
 ]
 
 
-class TestDec12():
+class TestDec12:
     def test_part1(self):
         actual = part1(PART1_ROUTE)
         assert actual == PART1_RESULT

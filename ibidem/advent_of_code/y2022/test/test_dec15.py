@@ -25,7 +25,7 @@ PART1_RESULT = 26
 PART2_RESULT = 56000011
 
 
-class TestDec15():
+class TestDec15:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -52,7 +52,9 @@ class TestDec15():
         result = part2(loaded, max=20)
         assert result == PART2_RESULT
 
-    @pytest.mark.parametrize("cut, expected", (
+    @pytest.mark.parametrize(
+        "cut, expected",
+        (
             ((0, 4), [(5, 15)]),
             ((0, 5), [(6, 15)]),
             ((0, 6), [(7, 15)]),
@@ -67,13 +69,16 @@ class TestDec15():
             ((10, 16), [(5, 9)]),
             ((10, 15), [(5, 9)]),
             ((10, 14), [(5, 9), (15, 15)]),
-    ))
+        ),
+    )
     def test_remove_single(self, cut, expected):
         line = [(5, 15)]
         actual = remove(line, cut)
         assert actual == expected
 
-    @pytest.mark.parametrize("cut, expected", (
+    @pytest.mark.parametrize(
+        "cut, expected",
+        (
             ((0, 4), [(5, 10), (15, 20)]),
             ((0, 5), [(6, 10), (15, 20)]),
             ((0, 6), [(7, 10), (15, 20)]),
@@ -89,7 +94,8 @@ class TestDec15():
             ((10, 15), [(5, 9), (16, 20)]),
             ((10, 14), [(5, 9), (15, 20)]),
             ((0, 20), []),
-    ))
+        ),
+    )
     def test_remove_multi(self, cut, expected):
         line = [(5, 10), (15, 20)]
         actual = remove(line, cut)

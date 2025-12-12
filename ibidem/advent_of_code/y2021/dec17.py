@@ -36,7 +36,10 @@ def calculate_highest(vel, target):
         heights.append(pos.y)
         vel.x = max(vel.x - 1, 0)
         vel.y -= 1
-        if target.upper_left.x <= pos.x <= target.lower_right.x and target.lower_right.y <= pos.y <= target.upper_left.y:
+        if (
+            target.upper_left.x <= pos.x <= target.lower_right.x
+            and target.lower_right.y <= pos.y <= target.upper_left.y
+        ):
             return max(heights)
         if vel.x == 0 and pos.x < target.upper_left.x:
             raise TooShort

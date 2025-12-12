@@ -142,7 +142,9 @@ def run_program(program):
     for generation, inst in enumerate(program):
         new_states = {}
         if isinstance(inst, Inp):
-            print(f"Processing instruction {generation} (which is an input instruction)")
+            print(
+                f"Processing instruction {generation} (which is an input instruction)"
+            )
             for state_key in alive_it(states):
                 state = State.unpack(state_key)
                 for value in range(1, 10):
@@ -150,7 +152,9 @@ def run_program(program):
                     inputs = states[state_key].inputs * 10 + value
                     if new_state.pack() in states:
                         old_max = states.get(new_state.pack(), BLANK_RESULT).inputs
-                        states[new_state.pack()] = Result(generation, max(inputs, old_max))
+                        states[new_state.pack()] = Result(
+                            generation, max(inputs, old_max)
+                        )
                     else:
                         new_states[new_state.pack()] = Result(generation, inputs)
         else:

@@ -17,12 +17,16 @@ class Parameter(object):
         raise NotImplementedError("Must be implemented")
 
     def __repr__(self):
-        return "{}(value={}, evaled={})".format(self.__class__.__name__, self._value, self.get())
+        return "{}(value={}, evaled={})".format(
+            self.__class__.__name__, self._value, self.get()
+        )
 
     @classmethod
     def from_mode(cls, mode):
         if cls._parameters is None:
-            cls._parameters = {p.mode: p for p in cls.__subclasses__() if p.mode is not None}
+            cls._parameters = {
+                p.mode: p for p in cls.__subclasses__() if p.mode is not None
+            }
         if mode not in cls._parameters:
             raise ValueError("Invalid mode {} for Parameter".format(mode))
         return cls._parameters[mode]

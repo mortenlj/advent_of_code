@@ -47,9 +47,15 @@ def load(fobj):
 
 
 def solve(board: Board):
-    perimeters = Board(size_x=board.size_x + 1, size_y=board.size_y + 1,
-                       do_translate=False, flip=False, fill_value=None,
-                       dtype=Parcel, growable=False)
+    perimeters = Board(
+        size_x=board.size_x + 1,
+        size_y=board.size_y + 1,
+        do_translate=False,
+        flip=False,
+        fill_value=None,
+        dtype=Parcel,
+        growable=False,
+    )
     start_x, start_y = board.size_x, board.size_y
     unclaimed = set()
     for y in range(start_y):

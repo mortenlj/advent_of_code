@@ -7,10 +7,14 @@ import pytest
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2024.dec14 import load, part1, part2, Vector
 
-Case = namedtuple('Case', 'part1 part2 input, board_x, board_y')
+Case = namedtuple("Case", "part1 part2 input, board_x, board_y")
 
 TEST_INPUTS = [
-    Case(12, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(
+        12,
+        NotImplemented,
+        io.StringIO(
+            textwrap.dedent("""\
         p=0,4 v=3,-3
         p=6,3 v=-1,-3
         p=10,3 v=-1,2
@@ -23,11 +27,15 @@ TEST_INPUTS = [
         p=7,3 v=-1,2
         p=2,4 v=2,-3
         p=9,5 v=-3,-3
-    """)), 11, 7),
+    """)
+        ),
+        11,
+        7,
+    ),
 ]
 
 
-class TestDec14():
+class TestDec14:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

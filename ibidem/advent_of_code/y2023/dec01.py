@@ -38,7 +38,7 @@ def parse_line(line):
         if c.isdigit():
             yield c
         else:
-            word = line[:i + 1]
+            word = line[: i + 1]
             for number in NUMBERS.keys():
                 if word.endswith(number):
                     yield NUMBERS[number]

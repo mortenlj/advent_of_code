@@ -53,16 +53,18 @@ def get_bin_str(data):
 
 
 def parse_header(data, offset):
-    return bitstruct.unpack_from_dict(">u3u3>", ["version", "type_id"], data, offset), offset + 6
+    return bitstruct.unpack_from_dict(
+        ">u3u3>", ["version", "type_id"], data, offset
+    ), offset + 6
 
 
 def parse_literal(data, offset):
     bstr = get_bin_str(data)
-    cont, b = bstr[offset], bstr[offset + 1:offset + 5]
+    cont, b = bstr[offset], bstr[offset + 1 : offset + 5]
     bits = [b]
     offset += 5
     while cont == "1":
-        cont, b = bstr[offset], bstr[offset + 1:offset + 5]
+        cont, b = bstr[offset], bstr[offset + 1 : offset + 5]
         bits.append(b)
         offset += 5
     value = int("".join(bits), 2)

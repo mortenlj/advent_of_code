@@ -30,7 +30,7 @@ PART1_RESULT = 13
 PART2_RESULT = 36
 
 
-class TestDec09():
+class TestDec09:
     @pytest.fixture
     def input1(self):
         TEST1_INPUT.seek(0)

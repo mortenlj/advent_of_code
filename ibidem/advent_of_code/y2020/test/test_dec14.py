@@ -11,10 +11,10 @@ PART2_PROGRAM = [
 PAR2_EXPECTED = 208
 
 
-class TestDec14():
-    @pytest.mark.parametrize("instructions, expected", (
-            (PART2_PROGRAM, PAR2_EXPECTED),
-    ))
+class TestDec14:
+    @pytest.mark.parametrize(
+        "instructions, expected", ((PART2_PROGRAM, PAR2_EXPECTED),)
+    )
     def test_program2(self, instructions, expected):
         program = Program2()
         program.process(instructions)

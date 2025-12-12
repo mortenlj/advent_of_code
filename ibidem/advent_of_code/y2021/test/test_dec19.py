@@ -147,7 +147,7 @@ PART1_RESULT = 79
 PART2_RESULT = NotImplemented
 
 
-class TestDec19():
+class TestDec19:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)

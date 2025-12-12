@@ -1,6 +1,3 @@
-
-import pytest
-
 from ibidem.advent_of_code.y2021.dec03 import *
 
 TEST_INPUT = """\
@@ -22,12 +19,12 @@ PART1_RESULT = 198
 PART2_RESULT = 230
 
 
-class TestDec03():
+class TestDec03:
     def test_part1(self):
         board = Board.from_string(TEST_INPUT, fill_value=0, dtype=np.int_)
         result = part1(board)
         assert result == PART1_RESULT
-        
+
     def test_part2(self):
         board = Board.from_string(TEST_INPUT, fill_value=0, dtype=np.int_)
         result = part2(board)

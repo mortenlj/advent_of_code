@@ -26,7 +26,7 @@ PART1_RESULT = 4512
 PART2_RESULT = 1924
 
 
-class TestDec04():
+class TestDec04:
     def test_load_input(self):
         actual_numbers, actual_boards = _load_input(TEST_INPUT)
         assert len(actual_numbers) == 27

@@ -42,9 +42,9 @@ class Vector(namedtuple("Vector", ("x", "y"))):
         (x, y) rotated 90 degrees around (0, 0) is (-y, x)
         rotate clockwise, you simply do it the other way around, getting (y, -x)."""
         if direction == 0:
-            return Vector(-1*self.y, self.x)
+            return Vector(-1 * self.y, self.x)
         elif direction == 1:
-            return Vector(self.y, -1*self.x)
+            return Vector(self.y, -1 * self.x)
         raise ValueError("Direction can only be 0 or 1")
 
     def char(self):

@@ -15,6 +15,7 @@ Then install the requirements as listed in the requirements.txt:
 Then run the script:
     python create_aoc_tiles.py
 """
+
 import functools
 import itertools
 import os
@@ -116,10 +117,16 @@ def get_font(size: int, path: str):
 
 # Fonts, note that the fonts sizes are specifically adjusted to the following fonts, if you change the fonts
 # you might need to adjust the font sizes and text locations in the rest of the script.
-main_font = functools.partial(get_font, path=AOC_TILES_SCRIPT_DIR / "fonts/PaytoneOne.ttf")
-secondary_font = functools.partial(get_font, path=AOC_TILES_SCRIPT_DIR / "fonts/SourceCodePro-Regular.otf")
+main_font = functools.partial(
+    get_font, path=AOC_TILES_SCRIPT_DIR / "fonts/PaytoneOne.ttf"
+)
+secondary_font = functools.partial(
+    get_font, path=AOC_TILES_SCRIPT_DIR / "fonts/SourceCodePro-Regular.otf"
+)
 
-DayScores = namedtuple("DayScores", ["time1", "rank1", "score1", "time2", "rank2", "score2"])
+DayScores = namedtuple(
+    "DayScores", ["time1", "rank1", "score1", "time2", "rank2", "score2"]
+)
 
 
 def get_extension_to_colors():
@@ -127,7 +134,11 @@ def get_extension_to_colors():
     with open(GITHUB_LANGUAGES_PATH) as file:
         github_languages = yaml.load(file, Loader=yaml.FullLoader)
         for language, data in github_languages.items():
-            if "color" in data and "extensions" in data and data["type"] == "programming":
+            if (
+                "color" in data
+                and "extensions" in data
+                and data["type"] == "programming"
+            ):
                 for extension in data["extensions"]:
                     extension_to_color[extension.lower()] = data["color"]
     return extension_to_color
@@ -138,7 +149,8 @@ extension_to_color: dict[str, str] = get_extension_to_colors()
 
 def get_paths_matching_regex(path: Path, pattern: str):
     for dirpath, dirnames, filenames in os.walk(path):
-        if "advent_of_code/." in dirpath: continue
+        if "advent_of_code/." in dirpath:
+            continue
         if re.search(pattern, str(dirpath)):
             yield Path(dirpath)
             continue
@@ -161,21 +173,29 @@ def parse_leaderboard(leaderboard_path: Path, year: int) -> dict[str, DayScores]
             return {}
         matches = re.findall(rf"{start}(.*?){end}", html, re.DOTALL | re.MULTILINE)
         if len(matches) != 1:
-            raise MissingLeaderboardException(f"Expected 1 leaderboard, got {len(matches)}")
+            raise MissingLeaderboardException(
+                f"Expected 1 leaderboard, got {len(matches)}"
+            )
         table_rows = matches[0].strip().split("\n")
         leaderboard = {}
         for line in table_rows:
             day, *scores = re.split(r"\s+", line.strip())
             if year < 2025:
                 if not len(scores) in (3, 6):
-                    raise InvalidNumberOfScoresException(f"Number scores for {day=} ({scores}) are not 3 or 6.")
+                    raise InvalidNumberOfScoresException(
+                        f"Number scores for {day=} ({scores}) are not 3 or 6."
+                    )
                 values = [None if score == "-" else score for score in scores]
                 leaderboard[day] = DayScores(*values)
             else:
                 if not len(scores) in (1, 2):
-                    raise InvalidNumberOfScoresException(f"Number scores for {day=} ({scores}) are not 1 or 2.")
+                    raise InvalidNumberOfScoresException(
+                        f"Number scores for {day=} ({scores}) are not 1 or 2."
+                    )
                 values = [None if score == "-" else score for score in scores]
-                leaderboard[day] = DayScores(values[0], None, None, values[1], None, None)
+                leaderboard[day] = DayScores(
+                    values[0], None, None, values[1], None, None
+                )
         return leaderboard
 
 
@@ -187,14 +207,19 @@ def request_leaderboard(year: int) -> dict[str, DayScores]:
         if leaderboard_age < timedelta(minutes=10) or year < now.year:
             try:
                 leaderboard = parse_leaderboard(leaderboard_path, year)
-                has_no_none_values = all(itertools.chain(map(list, leaderboard.values())))
+                has_no_none_values = all(
+                    itertools.chain(map(list, leaderboard.values()))
+                )
                 if has_no_none_values:
                     return leaderboard
             except InvalidLeaderboardFileException:
                 pass
     with open(SESSION_COOKIE_PATH) as cookie_file:
         session_cookie = cookie_file.read().strip()
-        data = requests.get(PERSONAL_LEADERBOARD_URL.format(year=year), cookies={"session": session_cookie}).text
+        data = requests.get(
+            PERSONAL_LEADERBOARD_URL.format(year=year),
+            cookies={"session": session_cookie},
+        ).text
         leaderboard_path.parent.mkdir(exist_ok=True, parents=True)
         with open(leaderboard_path, "w") as file:
             file.write(data)
@@ -205,7 +230,9 @@ def darker_color(c: tuple[int, int, int, int]) -> tuple[int, int, int, int]:
     return c[0] - 10, c[1] - 10, c[2] - 10, 255
 
 
-def get_alternating_background(languages, both_parts_completed=True, *, stripe_width=20):
+def get_alternating_background(
+    languages, both_parts_completed=True, *, stripe_width=20
+):
     colors = [ImageColor.getrgb(extension_to_color[language]) for language in languages]
     if len(colors) == 1:
         colors.append(darker_color(colors[0]))
@@ -237,9 +264,13 @@ def format_time(time: str) -> str:
     return f"{formatted:>5}"
 
 
-def generate_day_tile_image(day: str, year: str, languages: list[str], day_scores: DayScores | None) -> Path:
+def generate_day_tile_image(
+    day: str, year: str, languages: list[str], day_scores: DayScores | None
+) -> Path:
     """Saves a graphic for a given day and year. Returns the path to it."""
-    image = get_alternating_background(languages, not (day_scores is None or day_scores.time2 is None))
+    image = get_alternating_background(
+        languages, not (day_scores is None or day_scores.time2 is None)
+    )
     drawer = ImageDraw(image)
     font_color = "white"
 
@@ -249,24 +280,63 @@ def generate_day_tile_image(day: str, year: str, languages: list[str], day_score
     # Calculate font size based on number of characters, because it might overflow
     lang_as_str = " ".join(languages)
     lang_font_size = max(6, int(18 - max(0, len(lang_as_str) - 8) * 1.3))
-    drawer.text((0, 74), lang_as_str, fill=font_color, align="left", font=secondary_font(lang_font_size))
+    drawer.text(
+        (0, 74),
+        lang_as_str,
+        fill=font_color,
+        align="left",
+        font=secondary_font(lang_font_size),
+    )
 
     # === Right side (P1 & P2) ===
     for part in (1, 2):
         y = 50 if part == 2 else 0
-        time, rank = getattr(day_scores, f"time{part}", None), getattr(day_scores, f"rank{part}", None)
+        time, rank = (
+            getattr(day_scores, f"time{part}", None),
+            getattr(day_scores, f"rank{part}", None),
+        )
         if day_scores is not None and time is not None:
-            drawer.text((104, -5 + y), f"P{part} ", fill=font_color, align="left", font=main_font(25))
+            drawer.text(
+                (104, -5 + y),
+                f"P{part} ",
+                fill=font_color,
+                align="left",
+                font=main_font(25),
+            )
             if SHOW_CHECKMARK_INSTEAD_OF_TIME_RANK:
                 drawer.line((160, 35 + y, 150, 25 + y), fill=font_color, width=2)
                 drawer.line((160, 35 + y, 180, 15 + y), fill=font_color, width=2)
                 continue
-            drawer.text((105, 25 + y), "time", fill=font_color, align="right", font=secondary_font(10))
+            drawer.text(
+                (105, 25 + y),
+                "time",
+                fill=font_color,
+                align="right",
+                font=secondary_font(10),
+            )
             if rank:
-                drawer.text((105, 35 + y), "rank", fill=font_color, align="right", font=secondary_font(10))
-            drawer.text((143, 3 + y), format_time(time), fill=font_color, align="right", font=secondary_font(18))
+                drawer.text(
+                    (105, 35 + y),
+                    "rank",
+                    fill=font_color,
+                    align="right",
+                    font=secondary_font(10),
+                )
+            drawer.text(
+                (143, 3 + y),
+                format_time(time),
+                fill=font_color,
+                align="right",
+                font=secondary_font(18),
+            )
             if rank:
-                drawer.text((133, 23 + y), f"{rank:>6}", fill=font_color, align="right", font=secondary_font(18))
+                drawer.text(
+                    (133, 23 + y),
+                    f"{rank:>6}",
+                    fill=font_color,
+                    align="right",
+                    font=secondary_font(18),
+                )
         else:
             drawer.line((140, 15 + y, 160, 35 + y), fill=font_color, width=2)
             drawer.line((140, 35 + y, 160, 15 + y), fill=font_color, width=2)
@@ -284,7 +354,13 @@ def generate_day_tile_image(day: str, year: str, languages: list[str], day_score
     return path
 
 
-def handle_day(day: int, year: int, day_path: Path, content: list[str], day_scores: DayScores | None):
+def handle_day(
+    day: int,
+    year: int,
+    day_path: Path,
+    content: list[str],
+    day_scores: DayScores | None,
+):
     languages = []
     solution_file_path = None
     if day_path is not None:
@@ -297,10 +373,16 @@ def handle_day(day: int, year: int, day_path: Path, content: list[str], day_scor
     if DEBUG:
         if day == 25:
             languages = []
-    day_graphic_path = generate_day_tile_image(f"{day:02}", f"{year:04}", languages, day_scores)
+    day_graphic_path = generate_day_tile_image(
+        f"{day:02}", f"{year:04}", languages, day_scores
+    )
     day_graphic_path = day_graphic_path.relative_to(AOC_DIR)
 
-    day_content = IMAGE_LINK.format(link=str(solution_file_path), image_path=str(day_graphic_path), width=TILE_WIDTH_PX)
+    day_content = IMAGE_LINK.format(
+        link=str(solution_file_path),
+        image_path=str(day_graphic_path),
+        width=TILE_WIDTH_PX,
+    )
     content.append(day_content)
 
 
@@ -316,16 +398,24 @@ def handle_year(year_path: Path, year: int):
     content = []
 
     # Add year header
-    stars = sum((ds.time1 is not None) + (ds.time2 is not None) for ds in leaderboard.values() if ds is not None)
+    stars = sum(
+        (ds.time1 is not None) + (ds.time2 is not None)
+        for ds in leaderboard.values()
+        if ds is not None
+    )
     title = f"{year} - {stars} ⭐"
     content.extend(("", title, "." * len(title.encode("utf-8"))))
 
-    days_with_filled_gaps = {find_first_number(p.name): p for p in
-                             sorted(get_paths_matching_regex(year_path, DAY_PATTERN))}
+    days_with_filled_gaps = {
+        find_first_number(p.name): p
+        for p in sorted(get_paths_matching_regex(year_path, DAY_PATTERN))
+    }
     if not CREATE_ALL_DAYS and len(days_with_filled_gaps) == 0:
         print(f"Year {year} is empty!")
         return
-    max_day = 25 if CREATE_ALL_DAYS else max(*days_with_filled_gaps, *map(int, leaderboard))
+    max_day = (
+        25 if CREATE_ALL_DAYS else max(*days_with_filled_gaps, *map(int, leaderboard))
+    )
     for day in range(1, max_day + 1):
         if day not in days_with_filled_gaps:
             days_with_filled_gaps[day] = None
@@ -345,7 +435,9 @@ def handle_year(year_path: Path, year: int):
 
 
 def main():
-    for year_path in sorted(get_paths_matching_regex(AOC_DIR, YEAR_PATTERN), reverse=True):
+    for year_path in sorted(
+        get_paths_matching_regex(AOC_DIR, YEAR_PATTERN), reverse=True
+    ):
         year = find_first_number(year_path.name)
         print(f"=== Generating table for year {year} ===")
         handle_year(year_path, year)

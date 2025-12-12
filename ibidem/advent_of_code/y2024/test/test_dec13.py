@@ -6,11 +6,15 @@ import pytest
 
 from ibidem.advent_of_code.y2024.dec13 import load, part1, part2, Vector, ClawMachine
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
     # Part 2 answer from own testing
-    Case(480, 875318608908, io.StringIO(textwrap.dedent("""\
+    Case(
+        480,
+        875318608908,
+        io.StringIO(
+            textwrap.dedent("""\
         Button A: X+94, Y+34
         Button B: X+22, Y+67
         Prize: X=8400, Y=5400
@@ -26,11 +30,13 @@ TEST_INPUTS = [
         Button A: X+69, Y+23
         Button B: X+27, Y+71
         Prize: X=18641, Y=10279
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec13():
+class TestDec13:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

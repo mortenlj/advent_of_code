@@ -10,10 +10,10 @@ def load(fobj):
 
 
 def adjacent_view(grid, x, y):
-    x_min = max(x-1, 0)
-    y_min = max(y-1, 0)
-    x_max = min(x+2, grid.shape[1])
-    y_max = min(y+2, grid.shape[0])
+    x_min = max(x - 1, 0)
+    y_min = max(y - 1, 0)
+    x_max = min(x + 2, grid.shape[1])
+    y_max = min(y + 2, grid.shape[0])
     return grid[(slice(y_min, y_max), slice(x_min, x_max))]
 
 

@@ -6,10 +6,14 @@ import pytest
 
 from ibidem.advent_of_code.y2023.dec17 import load, part1, part2
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(102, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(
+        102,
+        NotImplemented,
+        io.StringIO(
+            textwrap.dedent("""\
         2413432311323
         3215453535623
         3255245654254
@@ -23,11 +27,13 @@ TEST_INPUTS = [
         1224686865563
         2546548887735
         4322674655533
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec17():
+class TestDec17:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

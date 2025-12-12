@@ -2,7 +2,14 @@ import io
 
 import pytest
 
-from ibidem.advent_of_code.y2023.dec05 import load, part1, part2, RangeMap, Range, Lookup
+from ibidem.advent_of_code.y2023.dec05 import (
+    load,
+    part1,
+    part2,
+    RangeMap,
+    Range,
+    Lookup,
+)
 
 TEST_INPUT = io.StringIO("""\
 seeds: 79 14 55 13
@@ -44,7 +51,7 @@ PART1_RESULT = 35
 PART2_RESULT = 46
 
 
-class TestDec05():
+class TestDec05:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -136,5 +143,5 @@ class TestLookup:
             Range(6, 1),
             Range(7, 2),
             Range(9, 1),
-            Range(10, 1)
+            Range(10, 1),
         ]

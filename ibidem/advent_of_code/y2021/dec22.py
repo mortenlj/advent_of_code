@@ -10,7 +10,9 @@ from tqdm import tqdm
 
 from ibidem.advent_of_code.util import get_input_name
 
-PATTERN = re.compile(r"(on|off) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)")
+PATTERN = re.compile(
+    r"(on|off) x=(-?\d+)..(-?\d+),y=(-?\d+)..(-?\d+),z=(-?\d+)..(-?\d+)"
+)
 
 Step = namedtuple("Step", ("action", "x_range", "y_range", "z_range"))
 
@@ -44,7 +46,9 @@ def load(fobj, bounds=50):
         y_range = Range(int(m.group(4)) + bounds, int(m.group(5)) + 1 + bounds)
         z_range = Range(int(m.group(6)) + bounds, int(m.group(7)) + 1 + bounds)
         if not all(
-                0 <= s.start <= bounds * 2 + 1 and 0 <= s.stop <= bounds * 2 + 1 for s in (x_range, y_range, z_range)):
+            0 <= s.start <= bounds * 2 + 1 and 0 <= s.stop <= bounds * 2 + 1
+            for s in (x_range, y_range, z_range)
+        ):
             continue
         yield Step(action == "on", x_range, y_range, z_range)
 
@@ -52,7 +56,9 @@ def load(fobj, bounds=50):
 def part1(steps):
     g = np.zeros((101, 101, 101), dtype=bool)
     for step in steps:
-        g[step.z_range.as_slice(), step.y_range.as_slice(), step.x_range.as_slice()] = step.action
+        g[step.z_range.as_slice(), step.y_range.as_slice(), step.x_range.as_slice()] = (
+            step.action
+        )
     flat = g.flatten()
     return flat.sum()
 

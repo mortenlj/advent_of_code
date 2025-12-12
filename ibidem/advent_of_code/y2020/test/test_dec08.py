@@ -13,10 +13,14 @@ TEST_PROGRAM = [
 ]
 
 
-class TestDec08():
+class TestDec08:
     def test_load_program(self):
         handheld = Handheld(["acc +5", "nop +0", "jmp -1"])
-        assert handheld.program == [Instruction("acc", 5), Instruction("nop", 0), Instruction("jmp", -1)]
+        assert handheld.program == [
+            Instruction("acc", 5),
+            Instruction("nop", 0),
+            Instruction("jmp", -1),
+        ]
 
     def test_execute(self):
         handheld = Handheld(TEST_PROGRAM)

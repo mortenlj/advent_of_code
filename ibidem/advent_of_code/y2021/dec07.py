@@ -9,15 +9,19 @@ def load(fobj):
 
 
 def part1(input):
-    residuals = np.arange(np.min(input), np.max(input)+1)
-    work = np.rot90(np.broadcast_to(residuals, (input.shape[0], residuals.shape[0])), -1)
+    residuals = np.arange(np.min(input), np.max(input) + 1)
+    work = np.rot90(
+        np.broadcast_to(residuals, (input.shape[0], residuals.shape[0])), -1
+    )
     res = work - input
     return np.min(np.sum(np.abs(res), axis=1))
 
 
 def part2(input):
-    residuals = np.arange(np.min(input), np.max(input)+1)
-    work = np.rot90(np.broadcast_to(residuals, (input.shape[0], residuals.shape[0])), -1)
+    residuals = np.arange(np.min(input), np.max(input) + 1)
+    work = np.rot90(
+        np.broadcast_to(residuals, (input.shape[0], residuals.shape[0])), -1
+    )
     res = work - input
     simple_cost = np.abs(res)
     cost = (simple_cost * (simple_cost + 1)) / 2

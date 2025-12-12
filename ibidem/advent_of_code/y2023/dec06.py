@@ -18,7 +18,6 @@ def load2(fobj):
     return time, distance
 
 
-
 def part1(input):
     results = []
     for time, distance in input:

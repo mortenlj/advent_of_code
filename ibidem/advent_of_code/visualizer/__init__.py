@@ -19,7 +19,9 @@ class ImageMixIn:
     image: pygame.Surface
 
     def load(self, scale_factor):
-        binary = il_resources.open_binary("ibidem.advent_of_code.visualizer.resources", self.value)
+        binary = il_resources.open_binary(
+            "ibidem.advent_of_code.visualizer.resources", self.value
+        )
         image = pygame.image.load(binary).convert_alpha()
         self.image = pygame.transform.scale(image, (scale_factor, scale_factor))
 
@@ -95,9 +97,12 @@ class Visualizer(metaclass=ABCMeta):
         self._clock = pygame.time.Clock()
         self._config = config
         self._scale_factor = _get_scale_factor(config.size_x, config.size_y)
-        screen_x, screen_y = config.size_x * self._scale_factor, config.size_y * self._scale_factor
+        screen_x, screen_y = (
+            config.size_x * self._scale_factor,
+            config.size_y * self._scale_factor,
+        )
         load_images(self._scale_factor)
-        os.environ['SDL_VIDEO_CENTERED'] = '1'
+        os.environ["SDL_VIDEO_CENTERED"] = "1"
         pygame.display.set_caption("Advent of Code - Visualizer")
         self.screen = pygame.display.set_mode([screen_x, screen_y])
         self.screen.fill((20, 20, 20))
@@ -161,8 +166,15 @@ class Visualizer(metaclass=ABCMeta):
 
 def parse_cmdline():
     parser = argparse.ArgumentParser(description="Advent of Code")
-    parser.add_argument("--visualize", action="store_true", default=False, help="Visualize the solution")
-    parser.add_argument("--pause", action="store_true", default=False, help="Pause before start and after end")
+    parser.add_argument(
+        "--visualize", action="store_true", default=False, help="Visualize the solution"
+    )
+    parser.add_argument(
+        "--pause",
+        action="store_true",
+        default=False,
+        help="Pause before start and after end",
+    )
     parser.add_argument("--fps", type=int, default=0, help="Frames per second")
     options, _ = parser.parse_known_args()
     global visualization_enabled, pause_enabled, fps

@@ -57,14 +57,22 @@ def part1():
     with open(get_input_name(16, 2019)) as fobj:
         data = fobj.read().strip()
     result = process(data, offset=0)
-    print("After 100 phases, the cleaned signal starts with these 8 digits: {}".format(result))
+    print(
+        "After 100 phases, the cleaned signal starts with these 8 digits: {}".format(
+            result
+        )
+    )
 
 
 def part2():
     with open(get_input_name(16, 2019)) as fobj:
         data = fobj.read().strip()
     result = process(data, repetitions=10000)
-    print("After 100 phases, the cleaned signal starts with these 8 digits: {}".format(result))
+    print(
+        "After 100 phases, the cleaned signal starts with these 8 digits: {}".format(
+            result
+        )
+    )
 
 
 if __name__ == "__main__":

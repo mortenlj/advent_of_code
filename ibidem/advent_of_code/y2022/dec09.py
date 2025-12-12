@@ -40,21 +40,21 @@ def load(fobj):
 def calculate_tail_move(tail, head):
     offset = head - tail
     match tuple(offset):
-        case (0., 2.):
+        case (0.0, 2.0):
             return Moves.Up
-        case (0., -2.):
+        case (0.0, -2.0):
             return Moves.Down
-        case (2., 0.):
+        case (2.0, 0.0):
             return Moves.Right
-        case (-2., 0.):
+        case (-2.0, 0.0):
             return Moves.Left
-        case (1., 2.) | (2., 1.) | (2., 2.):
+        case (1.0, 2.0) | (2.0, 1.0) | (2.0, 2.0):
             return Moves.UpRight
-        case (-1., 2.) | (-2., 1.) | (-2., 2.):
+        case (-1.0, 2.0) | (-2.0, 1.0) | (-2.0, 2.0):
             return Moves.UpLeft
-        case (1., -2.) | (2., -1.) | (2., -2.):
+        case (1.0, -2.0) | (2.0, -1.0) | (2.0, -2.0):
             return Moves.DownRight
-        case (-1., -2.) | (-2., -1.) | (-2., -2.):
+        case (-1.0, -2.0) | (-2.0, -1.0) | (-2.0, -2.0):
             return Moves.DownLeft
     return Moves.Stay
 

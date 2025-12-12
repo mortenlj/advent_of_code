@@ -22,7 +22,8 @@ LLR
 AAA = (BBB, BBB)
 BBB = (AAA, ZZZ)
 ZZZ = (ZZZ, ZZZ)
-""")]
+"""),
+]
 
 PART2_INPUT = io.StringIO("""\
 LR
@@ -42,7 +43,7 @@ PART1_RESULTS = [2, 6]
 PART2_RESULT = 6
 
 
-class TestDec08():
+class TestDec08:
     @pytest.fixture
     def input(self):
         inputs = []

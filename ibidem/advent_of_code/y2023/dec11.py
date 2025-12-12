@@ -32,7 +32,7 @@ def part1(input):
                 galaxies.append(Coordinate(x, y))
     distances = []
     for a, b in itertools.combinations(galaxies, 2):
-        distances.append((a-b).manhattan())
+        distances.append((a - b).manhattan())
     return sum(distances)
 
 
@@ -49,10 +49,10 @@ def part2(input, expand):
         distance = (a - b).manhattan()
         for col in cols:
             if a.x < col < b.x or b.x < col < a.x:
-                distance += expand-1
+                distance += expand - 1
         for row in rows:
             if a.y < row < b.y or b.y < row < a.y:
-                distance += expand-1
+                distance += expand - 1
         distances.append(distance)
     return sum(distances)
 

@@ -66,7 +66,8 @@ def part2():
     handheld = Handheld(load())
     patched_ip = handheld.execute_patcher()
     print(
-        f"Patched program stopped with an accumulator value of {handheld.acc}, after patching instruction at {patched_ip}")
+        f"Patched program stopped with an accumulator value of {handheld.acc}, after patching instruction at {patched_ip}"
+    )
 
 
 if __name__ == "__main__":

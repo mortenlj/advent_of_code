@@ -22,9 +22,9 @@ def find_mirror(grid):
     """For each column, take all columns up to it and compare to flipped version of same shape on other side."""
     length = grid.shape[1]
     for c in range(1, length):
-        width = c if c < length/2 else length - c
-        left = grid[:, c-width:c]
-        right = grid[:, c:c + width]
+        width = c if c < length / 2 else length - c
+        left = grid[:, c - width : c]
+        right = grid[:, c : c + width]
         right_flipped = np.fliplr(right)
         if np.array_equal(left, right_flipped):
             return c

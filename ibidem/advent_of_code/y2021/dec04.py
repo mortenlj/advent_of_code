@@ -15,7 +15,9 @@ class BingoBoard(Board):
     def from_space_separated_strings(cls, lines):
         size_y = len(lines)
         size_x = len(cls._SPACE.split(lines[0].strip()))
-        board = cls(size_x, size_y, do_translate=False, flip=False, fill_value=-1, dtype=np.int_)
+        board = cls(
+            size_x, size_y, do_translate=False, flip=False, fill_value=-1, dtype=np.int_
+        )
         for y, row in enumerate(lines):
             for x, value in enumerate(cls._SPACE.split(row.strip())):
                 board.set(x, y, int(value))
@@ -27,7 +29,9 @@ class BingoBoard(Board):
         self.grid[where] = np.ma.masked
 
     def won(self):
-        return np.any(np.all(self.grid.mask, axis=0)) or np.any(np.all(self.grid.mask, axis=1))
+        return np.any(np.all(self.grid.mask, axis=0)) or np.any(
+            np.all(self.grid.mask, axis=1)
+        )
 
     def score(self):
         return np.sum(self.grid)

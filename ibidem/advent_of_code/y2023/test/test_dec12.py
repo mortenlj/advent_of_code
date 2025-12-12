@@ -17,7 +17,7 @@ PART1_RESULT = 21
 PART2_RESULT = 525152
 
 
-class TestDec12():
+class TestDec12:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -42,22 +42,33 @@ class TestDec12():
         result = part2(loaded)
         assert result == PART2_RESULT
 
-    @pytest.mark.parametrize("maprow,groups,expected", [
-        ("???.###", (1, 1, 3), 1),
-        (".??..??...?##.", (1, 1, 3), 4),
-        ("?#?#?#?#?#?#?#?", (1, 3, 1, 6), 1),
-        ("????.#...#...", (4, 1, 1), 1),
-        ("????.######..#####.", (1, 6, 5), 4),
-        ("?###????????", (3, 2, 1), 10),
-    ])
+    @pytest.mark.parametrize(
+        "maprow,groups,expected",
+        [
+            ("???.###", (1, 1, 3), 1),
+            (".??..??...?##.", (1, 1, 3), 4),
+            ("?#?#?#?#?#?#?#?", (1, 3, 1, 6), 1),
+            ("????.#...#...", (4, 1, 1), 1),
+            ("????.######..#####.", (1, 6, 5), 4),
+            ("?###????????", (3, 2, 1), 10),
+        ],
+    )
     def test_arrangements(self, maprow, groups, expected):
         actual = arrangements(maprow, groups)
         assert actual == expected
 
-    @pytest.mark.parametrize("maprow,groups,expected_row,expected_groups", [
-        (".#", (1,), ".#?.#?.#?.#?.#", (1, 1, 1, 1, 1)),
-        ("???.###", (1, 1, 3), "???.###????.###????.###????.###????.###", (1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3))
-    ])
+    @pytest.mark.parametrize(
+        "maprow,groups,expected_row,expected_groups",
+        [
+            (".#", (1,), ".#?.#?.#?.#?.#", (1, 1, 1, 1, 1)),
+            (
+                "???.###",
+                (1, 1, 3),
+                "???.###????.###????.###????.###????.###",
+                (1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3, 1, 1, 3),
+            ),
+        ],
+    )
     def test_unfold(self, maprow, groups, expected_row, expected_groups):
         actual_row, actual_groups = unfold(maprow, groups)
         assert actual_row == expected_row

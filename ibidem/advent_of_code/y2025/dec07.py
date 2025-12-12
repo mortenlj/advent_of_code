@@ -2,7 +2,11 @@
 
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import get_input_name
-from ibidem.advent_of_code.visualizer import initialize_and_display_splash, Tiles, Sprites
+from ibidem.advent_of_code.visualizer import (
+    initialize_and_display_splash,
+    Tiles,
+    Sprites,
+)
 from ibidem.advent_of_code.visualizer.board import BoardVisualizer
 
 
@@ -12,7 +16,9 @@ def load(fobj):
 
 def part1(board):
     visualizing = initialize_and_display_splash()
-    visualizer = BoardVisualizer(board, {"S": Tiles.Stone, ".": Tiles.Stone, "^": Tiles.Stone})
+    visualizer = BoardVisualizer(
+        board, {"S": Tiles.Stone, ".": Tiles.Stone, "^": Tiles.Stone}
+    )
     visualizer.pause()
     if visualizing:
         for x in range(board.size_x):

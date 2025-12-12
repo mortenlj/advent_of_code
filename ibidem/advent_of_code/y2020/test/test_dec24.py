@@ -27,7 +27,7 @@ eeeeeeeeeeeeeeeeeee
 """
 
 
-class TestDec24():
+class TestDec24:
     @pytest.fixture
     def tile_flips(self):
         return list(parse_line(l.strip()) for l in INPUT.splitlines(keepends=False))

@@ -6,7 +6,9 @@ from alive_progress import alive_it
 
 from ibidem.advent_of_code.util import get_input_name, time_this
 
-INPUT_PATTERN = re.compile(r"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)")
+INPUT_PATTERN = re.compile(
+    r"Sensor at x=(-?\d+), y=(-?\d+): closest beacon is at x=(-?\d+), y=(-?\d+)"
+)
 TUNING_FREQ_MULTIPLIER = 4000000
 
 

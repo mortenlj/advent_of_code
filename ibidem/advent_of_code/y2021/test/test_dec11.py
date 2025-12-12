@@ -16,7 +16,8 @@ TEST_INPUT = io.StringIO("""\
 5283751526
 """)
 
-STEP1 = load(io.StringIO("""\
+STEP1 = load(
+    io.StringIO("""\
 6594254334
 3856965822
 6375667284
@@ -27,9 +28,11 @@ STEP1 = load(io.StringIO("""\
 7993992245
 5957959665
 6394862637
-"""))
+""")
+)
 
-STEP2 = load(io.StringIO("""\
+STEP2 = load(
+    io.StringIO("""\
 8807476555
 5089087054
 8597889608
@@ -40,13 +43,14 @@ STEP2 = load(io.StringIO("""\
 0000007456
 9000000876
 8700006848
-"""))
+""")
+)
 
 PART1_RESULT = 1656
 PART2_RESULT = 195
 
 
-class TestDec11():
+class TestDec11:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -71,7 +75,7 @@ class TestDec11():
     def test_part1(self, loaded):
         result = part1(loaded)
         assert result == PART1_RESULT
-        
+
     def test_part2(self, loaded):
         result = part2(loaded)
         assert result == PART2_RESULT

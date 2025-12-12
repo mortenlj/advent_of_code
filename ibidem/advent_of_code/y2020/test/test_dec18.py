@@ -16,7 +16,7 @@ TEST_HOMEWORK = "\n".join(EXPRESSIONS)
 TEST_RESULT = sum(RESULTS)
 
 
-class TestDec18():
+class TestDec18:
     @pytest.fixture(autouse=True)
     def input(self, tmp_path):
         input_file = tmp_path / "input.txt"
@@ -37,14 +37,17 @@ class TestDec18():
         assert actual[3].type == tokenize.OP
         assert actual[3].string == "+"
 
-    @pytest.mark.parametrize("line, expected", (
+    @pytest.mark.parametrize(
+        "line, expected",
+        (
             ("2", 2),
             ("2 + 2", 4),
             (EXPRESSIONS[0], RESULTS[0]),
             (EXPRESSIONS[1], RESULTS[1]),
             (EXPRESSIONS[2], RESULTS[2]),
             (EXPRESSIONS[3], RESULTS[3]),
-    ))
+        ),
+    )
     def test_solve_expression(self, line, expected):
         expression = tokenize_line(line)
         actual = solve_expression(expression)

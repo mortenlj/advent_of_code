@@ -68,11 +68,15 @@ def calculate_transfers(planets):
     san_path = reversed(find_path_to_com(planets["SAN"]))
     you_short = []
     san_short = []
-    for y, s in itertools.dropwhile(lambda t: t[0] == t[1],
-                                    itertools.zip_longest(you_path, san_path, fillvalue=None)):
+    for y, s in itertools.dropwhile(
+        lambda t: t[0] == t[1],
+        itertools.zip_longest(you_path, san_path, fillvalue=None),
+    ):
         you_short.append(y)
         san_short.append(s)
-    transfers = len(list(itertools.chain((p for p in you_short if p), (p for p in san_short if p))))
+    transfers = len(
+        list(itertools.chain((p for p in you_short if p), (p for p in san_short if p)))
+    )
     return transfers
 
 

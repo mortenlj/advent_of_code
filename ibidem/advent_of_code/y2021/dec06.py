@@ -28,7 +28,7 @@ def part2(fobj):
     for day in range(256):
         new = defaultdict(int)
         for i in range(8):
-            new[i] = counters[i+1]
+            new[i] = counters[i + 1]
         new[8] = counters[0]
         new[6] += counters[0]
         counters = new

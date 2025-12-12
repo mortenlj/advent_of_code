@@ -18,7 +18,7 @@ PART1_RESULT = 3
 PART2_RESULT = 1623178306
 
 
-class TestDec20():
+class TestDec20:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -45,7 +45,9 @@ class TestDec20():
         result = part2(loaded)
         assert result == PART2_RESULT
 
-    @pytest.mark.parametrize(("item_value", "target_value"), (
+    @pytest.mark.parametrize(
+        ("item_value", "target_value"),
+        (
             (-3, 0),
             (-2, 2),
             (0, -2),
@@ -53,7 +55,8 @@ class TestDec20():
             (2, 3),
             (3, 4),
             (4, 3),
-    ))
+        ),
+    )
     def test_insert_after(self, item_value, target_value, loaded: list[Element]):
         item = Element(item_value)
         target = loaded[0].find_first(target_value)

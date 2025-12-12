@@ -29,7 +29,8 @@ fold along y=7
 fold along x=5
 """)
 
-INITIAL_BOARD = Board.from_string("""\
+INITIAL_BOARD = Board.from_string(
+    """\
 00010010010
 00001000000
 00000000000
@@ -45,12 +46,16 @@ INITIAL_BOARD = Board.from_string("""\
 00000010001
 10000000000
 10100000000
-""", fill_value=0, dtype=int, growable=False)
+""",
+    fill_value=0,
+    dtype=int,
+    growable=False,
+)
 
 PART1_RESULT = 17
 
 
-class TestDec13():
+class TestDec13:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)

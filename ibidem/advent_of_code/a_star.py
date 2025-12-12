@@ -3,7 +3,12 @@ from typing import Iterable
 
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.util import Vector
-from ibidem.advent_of_code.visualizer import initialize_and_display_splash, Tiles, Sprites, Colors
+from ibidem.advent_of_code.visualizer import (
+    initialize_and_display_splash,
+    Tiles,
+    Sprites,
+    Colors,
+)
 from ibidem.advent_of_code.visualizer.board import BoardVisualizer
 
 
@@ -13,6 +18,7 @@ class Node:
 
     This is a basic Node implementation, for special handling, override the methods
     """
+
     _pos: Vector
 
     def __init__(self, pos: Vector):
@@ -39,7 +45,9 @@ class Node:
         return "S"
 
     def neighbors(self, board: Board) -> Iterable["Node"]:
-        for nx, ny in board.adjacent_indexes(self.pos.x, self.pos.y, include_diagonal=False):
+        for nx, ny in board.adjacent_indexes(
+            self.pos.x, self.pos.y, include_diagonal=False
+        ):
             if board.get(nx, ny) != "#":
                 yield Node(Vector(nx, ny))
 
@@ -62,9 +70,12 @@ def a_star(start: Node, goal: Vector, board: Board):
 
     initialize_and_display_splash()
     sprite_mapping = {
-        ".": Tiles.Grass, "#": Tiles.Wall,
-        "X": Tiles.Stone, "O": Tiles.Dirt,
-        "S": Sprites.Tank, "E": Sprites.Tombstone,
+        ".": Tiles.Grass,
+        "#": Tiles.Wall,
+        "X": Tiles.Stone,
+        "O": Tiles.Dirt,
+        "S": Sprites.Tank,
+        "E": Sprites.Tombstone,
         "R": Colors.Red,
     }
     visualizer = BoardVisualizer(board, sprite_mapping)
@@ -115,7 +126,9 @@ def a_star(start: Node, goal: Vector, board: Board):
         for neighbor in current.neighbors(board):
             # d(current,neighbor) is the weight of the edge from current to neighbor
             # tentative_g_score is the distance from start to the neighbor through current
-            tentative_g_score = g_score.get(current, float("inf")) + current.cost_to(neighbor)
+            tentative_g_score = g_score.get(current, float("inf")) + current.cost_to(
+                neighbor
+            )
             if tentative_g_score < g_score.get(neighbor, float("inf")):
                 # This path to neighbor is better than any previous one. Record it!
                 came_from[neighbor] = current

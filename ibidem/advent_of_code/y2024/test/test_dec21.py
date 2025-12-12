@@ -6,20 +6,26 @@ import pytest
 
 from ibidem.advent_of_code.y2024.dec21 import load, part1, part2, make_sequence
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(126384, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(
+        126384,
+        NotImplemented,
+        io.StringIO(
+            textwrap.dedent("""\
         029A
         980A
         179A
         456A
         379A
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec21():
+class TestDec21:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -33,13 +39,16 @@ class TestDec21():
         assert len(loaded) == 5
         assert loaded[0] == "029A"
 
-    @pytest.mark.parametrize("input, expected_complexity", [
-        ("029A", 68 * 29),
-        ("980A", 60 * 980),
-        ("179A", 68 * 179),
-        ("456A", 64 * 456),
-        ("379A", 64 * 379),
-    ])
+    @pytest.mark.parametrize(
+        "input, expected_complexity",
+        [
+            ("029A", 68 * 29),
+            ("980A", 60 * 980),
+            ("179A", 68 * 179),
+            ("456A", 64 * 456),
+            ("379A", 64 * 379),
+        ],
+    )
     def test_make_sequence(self, input, expected_complexity):
         output = make_sequence(input)
         length = len(output)

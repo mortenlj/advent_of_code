@@ -7,10 +7,14 @@ import pytest
 
 from ibidem.advent_of_code.y2025.dec01 import load, part1, part2
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(3, 6, io.StringIO(textwrap.dedent("""\
+    Case(
+        3,
+        6,
+        io.StringIO(
+            textwrap.dedent("""\
         L68
         L30
         R48
@@ -21,11 +25,13 @@ TEST_INPUTS = [
         L99
         R14
         L82
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec01():
+class TestDec01:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -45,7 +51,7 @@ class TestDec01():
     def test_part1(self, loaded, case):
         result = part1(loaded)
         assert result == case.part1
-        
+
     def test_part2(self, loaded, case):
         result = part2(loaded)
         assert result == case.part2

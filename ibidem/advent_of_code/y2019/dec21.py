@@ -39,7 +39,7 @@ def part1():
         "AND C T",
         "NOT T J",
         "AND D J",
-        "WALK"
+        "WALK",
     ]
     run(instructions)
 
@@ -59,7 +59,7 @@ def part2():
         "NOT A T",
         "OR T J",
         "AND D J",
-        "RUN"
+        "RUN",
     ]
     run(instructions)
 

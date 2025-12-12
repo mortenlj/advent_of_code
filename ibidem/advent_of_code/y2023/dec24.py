@@ -10,7 +10,7 @@ from ibidem.advent_of_code.util import get_input_name, gen_list
 @gen_list
 def load(fobj):
     for line in fobj:
-        coords, velocity = line.split('@')
+        coords, velocity = line.split("@")
         position = Point(ignore_z(coords))
         speed = Vector(ignore_z(velocity))
         yield HalfLine(position, speed)

@@ -64,7 +64,7 @@ class AdvOperator(Operator):
     operand_type = OperandType.Combo
 
     def __call__(self, operand):
-        self.machine.a.value = self.machine.a.value // 2 ** operand.value
+        self.machine.a.value = self.machine.a.value // 2**operand.value
         return self.machine.ip + 1
 
 
@@ -119,7 +119,7 @@ class BdvOperator(Operator):
     operand_type = OperandType.Combo
 
     def __call__(self, operand):
-        self.machine.b.value = self.machine.a.value // 2 ** operand.value
+        self.machine.b.value = self.machine.a.value // 2**operand.value
         return self.machine.ip + 1
 
 
@@ -128,7 +128,7 @@ class CdvOperator(Operator):
     operand_type = OperandType.Combo
 
     def __call__(self, operand):
-        self.machine.c.value = self.machine.a.value // 2 ** operand.value
+        self.machine.c.value = self.machine.a.value // 2**operand.value
         return self.machine.ip + 1
 
 

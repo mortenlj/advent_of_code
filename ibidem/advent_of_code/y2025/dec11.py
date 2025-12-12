@@ -21,7 +21,9 @@ def part1(G: nx.Graph):
 
 
 @cache
-def count(start: str, G: nx.Graph, have_fft: bool = False, have_dac: bool = False) -> int:
+def count(
+    start: str, G: nx.Graph, have_fft: bool = False, have_dac: bool = False
+) -> int:
     next_nodes = list(G.neighbors(start))
     if "out" in next_nodes and have_dac and have_fft:
         return 1

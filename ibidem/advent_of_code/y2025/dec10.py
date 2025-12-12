@@ -19,7 +19,9 @@ def powerset(iterable):
     "Subsequences of the iterable from shortest to longest."
     # powerset([1,2,3]) → () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)
     s = list(iterable)
-    return itertools.chain.from_iterable(itertools.combinations(s, r) for r in range(len(s) + 1))
+    return itertools.chain.from_iterable(
+        itertools.combinations(s, r) for r in range(len(s) + 1)
+    )
 
 
 @dataclasses.dataclass
@@ -34,13 +36,21 @@ class Machine:
         buttons = []
         for button in self.buttons:
             buttons.append(
-                bitstruct.unpack("u1" * self.bit_length, button.to_bytes(length=math.ceil(self.bit_length / 8))))
+                bitstruct.unpack(
+                    "u1" * self.bit_length,
+                    button.to_bytes(length=math.ceil(self.bit_length / 8)),
+                )
+            )
         return tuple(sorted(buttons, key=sum, reverse=True))
 
     def __repr__(self):
-        target_lights = "".join("." if b == 0 else "#" for b in bitstruct.unpack("u1" * self.bit_length,
-                                                                                 self.target.to_bytes(length=math.ceil(
-                                                                                     self.bit_length / 8))))
+        target_lights = "".join(
+            "." if b == 0 else "#"
+            for b in bitstruct.unpack(
+                "u1" * self.bit_length,
+                self.target.to_bytes(length=math.ceil(self.bit_length / 8)),
+            )
+        )
         return f"Machine({target_lights=}, bit_length={self.bit_length}, joltage={self.joltage})"
 
 
@@ -109,13 +119,16 @@ def solve_joltage(joltage, buttons, presses_so_far=0, best_so_far=BIG_NUMBER):
             return True, presses_so_far
         if np.any(new_joltage_a < 0):
             return False, BIG_NUMBER
-        works, count = solve_joltage(tuple(new_joltage_a), buttons, presses_so_far, best_so_far)
+        works, count = solve_joltage(
+            tuple(new_joltage_a), buttons, presses_so_far, best_so_far
+        )
         if works and count < best_so_far:
             best_so_far = count
             result = count
     if result < BIG_NUMBER:
         return True, result
     return False, BIG_NUMBER
+
 
 def part2(machines):
     results = []

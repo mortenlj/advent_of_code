@@ -9,7 +9,9 @@ def load(fobj):
     algo_str = fobj.readline().strip()
     fobj.readline()
     board = Board.from_string(fobj.read(), fill_value=".")
-    board.grid = np.pad(board.grid, ((9, 9), (9, 9)), mode="constant", constant_values=".")
+    board.grid = np.pad(
+        board.grid, ((9, 9), (9, 9)), mode="constant", constant_values="."
+    )
     return algo_str, board
 
 
@@ -20,7 +22,12 @@ def pad(view, x, y, parent):
     right_pad = 1 if x == parent.shape[1] - 1 else 0
     top_pad = 1 if y == 0 else 0
     bottom_pad = 1 if y == parent.shape[0] - 1 else 0
-    padded = np.pad(view, ((top_pad, bottom_pad), (left_pad, right_pad)), mode="constant", constant_values=".")
+    padded = np.pad(
+        view,
+        ((top_pad, bottom_pad), (left_pad, right_pad)),
+        mode="constant",
+        constant_values=".",
+    )
     assert padded.shape == (3, 3)
     return padded
 
@@ -49,7 +56,9 @@ def enhance(algo, board, size_x, size_y):
 
 
 def part2(algo, board):
-    board.grid = np.pad(board.grid, ((200, 200), (200, 200)), mode="constant", constant_values=".")
+    board.grid = np.pad(
+        board.grid, ((200, 200), (200, 200)), mode="constant", constant_values="."
+    )
     size_x, size_y = board.size_x, board.size_y
     for i in range(50):
         enhance(algo, board, size_x, size_y)
@@ -65,7 +74,8 @@ if __name__ == "__main__":
         p1_result = part1(*load(fobj))
         print(f"Part 1: {p1_result}")
         print(
-            "Three corners are wrong on some inputs, but \"obvious\" in the printout, so subtract 3 when that happens")
+            'Three corners are wrong on some inputs, but "obvious" in the printout, so subtract 3 when that happens'
+        )
     with open(get_input_name(20, 2021)) as fobj:
         p2_result = part2(*load(fobj))
         print(f"Part 2: {p2_result}")

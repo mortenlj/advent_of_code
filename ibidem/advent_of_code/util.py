@@ -76,7 +76,7 @@ def time_this(f):
             return f(*args, **kwargs)
         finally:
             end = time.monotonic_ns()
-            delta = (end - start)
+            delta = end - start
             print(f"Spent {format_delta(delta)} in call")
 
     return wrapper

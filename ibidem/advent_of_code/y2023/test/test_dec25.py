@@ -7,10 +7,14 @@ import pytest
 
 from ibidem.advent_of_code.y2023.dec25 import load, part1, part2
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(54, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(
+        54,
+        NotImplemented,
+        io.StringIO(
+            textwrap.dedent("""\
         jqt: rhn xhk nvd
         rsh: frs pzl lsr
         xhk: hfx
@@ -24,11 +28,13 @@ TEST_INPUTS = [
         lsr: lhk
         rzs: qnr cmg lsr rsh
         frs: qnr lhk lsr
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec25():
+class TestDec25:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -40,7 +46,7 @@ class TestDec25():
 
     def test_load(self, loaded):
         assert isinstance(loaded, nx.Graph)
-        
+
     def test_part1(self, loaded, case):
         result = part1(loaded)
         assert result == case.part1

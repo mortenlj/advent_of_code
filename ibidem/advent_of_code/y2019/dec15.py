@@ -83,7 +83,12 @@ class Complete(Exception):
 class Mapper(object):
     def __init__(self, intcode):
         self._board = Board(SIZE, SIZE)
-        self._nodes = Board(SIZE, SIZE, fill_value=Node(0, NodeType.UNKNOWN, None, 9999), dtype=np.object_)
+        self._nodes = Board(
+            SIZE,
+            SIZE,
+            fill_value=Node(0, NodeType.UNKNOWN, None, 9999),
+            dtype=np.object_,
+        )
         for y in range(SIZE):
             for x in range(SIZE):
                 self._nodes.grid[y][x] = Node(0, NodeType.UNKNOWN, None, 9999)
@@ -157,7 +162,9 @@ class Mapper(object):
             self._board.set(self._x, self._y, node.type.value)
         self._counter += 1
         if self._counter % 5 == 0:
-            prev = self._board.set(self._x, self._y, Fore.RED + self._current_direction.char + Fore.RESET)
+            prev = self._board.set(
+                self._x, self._y, Fore.RED + self._current_direction.char + Fore.RESET
+            )
             self._board.print()
             self._board.set(self._x, self._y, prev)
         if self.is_map_complete():

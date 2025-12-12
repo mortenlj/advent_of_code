@@ -1,6 +1,12 @@
 import pytest
 
-from ibidem.advent_of_code.y2020.dec07 import parse_color, TARGET, parse_network, count_children, find_containers
+from ibidem.advent_of_code.y2020.dec07 import (
+    parse_color,
+    TARGET,
+    parse_network,
+    count_children,
+    find_containers,
+)
 
 RULES = """\
 light red bags contain 1 bright white bag, 2 muted yellow bags.
@@ -28,14 +34,17 @@ VALID_BAGS = {"bright white", "muted yellow", "dark orange", "light red"}
 
 
 class TestDec07:
-    @pytest.mark.parametrize("spec, color", (
+    @pytest.mark.parametrize(
+        "spec, color",
+        (
             ("light red bags", "light red"),
             ("1 bright white bag", "bright white"),
             ("2 muted yellow bags.", "muted yellow"),
             ("dark orange bags", "dark orange"),
             ("3 bright white bags", "bright white"),
             ("4 muted yellow bags.", "muted yellow"),
-    ))
+        ),
+    )
     def test_parse_color(self, spec, color):
         assert parse_color(spec)[1] == color
 
@@ -46,12 +55,21 @@ class TestDec07:
         colors = find_containers(RULES, TARGET)
         assert VALID_BAGS == set(colors)
 
-    @pytest.mark.parametrize("rules, target, count", (
+    @pytest.mark.parametrize(
+        "rules, target, count",
+        (
             (RULES, TARGET, 32),
-            (["faded blue bags contain no other bags.",
-              "muted yellow bags contain 9 faded blue bags."], "muted yellow", 9),
+            (
+                [
+                    "faded blue bags contain no other bags.",
+                    "muted yellow bags contain 9 faded blue bags.",
+                ],
+                "muted yellow",
+                9,
+            ),
             (ALTERNATE_RULES, TARGET, 126),
-    ))
+        ),
+    )
     def test_count_children(self, rules, target, count):
         g = parse_network(rules)
         assert (count_children(g, target) - 1) == count

@@ -13,7 +13,7 @@ PART1_RESULT = 739785
 PART2_RESULT = NotImplemented
 
 
-class TestDec21():
+class TestDec21:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -30,7 +30,9 @@ class TestDec21():
         assert player1.pos == 4
         assert player2.pos == 8
 
-    @pytest.mark.parametrize("player, moves, expected", (
+    @pytest.mark.parametrize(
+        "player, moves, expected",
+        (
             (Player(4, 0), 6, Player(10, 10)),
             (Player(8, 0), 15, Player(3, 3)),
             (Player(10, 10), 24, Player(4, 14)),
@@ -39,7 +41,8 @@ class TestDec21():
             (Player(6, 9), 16 + 17 + 18, Player(7, 16)),
             (Player(6, 20), 19 + 20 + 21, Player(6, 26)),
             (Player(7, 16), 22 + 23 + 24, Player(6, 22)),
-    ))
+        ),
+    )
     def test_move(self, player, moves, expected):
         actual = move(player, moves)
         assert actual == expected

@@ -10,7 +10,7 @@ PART1_RESULT = 45
 PART2_RESULT = 112
 
 
-class TestDec17():
+class TestDec17:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -30,9 +30,9 @@ class TestDec17():
         result = part1(loaded)
         assert result == PART1_RESULT
 
-    @pytest.mark.parametrize("input, expected", (
-            (io.StringIO("target area: x=269..292, y=-68..-44"), 2278),
-    ))
+    @pytest.mark.parametrize(
+        "input, expected", ((io.StringIO("target area: x=269..292, y=-68..-44"), 2278),)
+    )
     def test_part1_realdata(self, input, expected):
         loaded = load(input)
         result = part1(loaded)

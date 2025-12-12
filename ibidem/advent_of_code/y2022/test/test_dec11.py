@@ -2,7 +2,13 @@ import io
 
 import pytest
 
-from ibidem.advent_of_code.y2022.dec11 import load, part1, part2, make_operation, play_monkey_round
+from ibidem.advent_of_code.y2022.dec11 import (
+    load,
+    part1,
+    part2,
+    make_operation,
+    play_monkey_round,
+)
 
 TEST_INPUT = io.StringIO("""\
 Monkey 0:
@@ -38,7 +44,7 @@ PART1_RESULT = 10605
 PART2_RESULT = 2713310158
 
 
-class TestDec11():
+class TestDec11:
     @pytest.fixture
     def input(self):
         TEST_INPUT.seek(0)
@@ -62,11 +68,14 @@ class TestDec11():
         result = part2(loaded)
         assert result == PART2_RESULT
 
-    @pytest.mark.parametrize(["left", "op", "right", "doc", "result"], [
-        ("old", "*", "old", "is multiplied by itself", 100),
-        ("old", "*", "19", "is multiplied by 19", 190),
-        ("old", "+", "6", "increases by 6", 16),
-    ])
+    @pytest.mark.parametrize(
+        ["left", "op", "right", "doc", "result"],
+        [
+            ("old", "*", "old", "is multiplied by itself", 100),
+            ("old", "*", "19", "is multiplied by 19", 190),
+            ("old", "+", "6", "increases by 6", 16),
+        ],
+    )
     def test_make_operation(self, left, op, right, doc, result):
         func = make_operation(left, op, right)
         actual = func(10)

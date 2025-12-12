@@ -5,13 +5,25 @@ from collections import namedtuple
 import pytest
 
 from ibidem.advent_of_code.board import Board
-from ibidem.advent_of_code.y2024.dec06 import load, part1, part2, find_things, Direction, Guard, distance_to_edge, \
-    find_obstacle
+from ibidem.advent_of_code.y2024.dec06 import (
+    load,
+    part1,
+    part2,
+    find_things,
+    Direction,
+    Guard,
+    distance_to_edge,
+    find_obstacle,
+)
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(41, 6, io.StringIO(textwrap.dedent("""\
+    Case(
+        41,
+        6,
+        io.StringIO(
+            textwrap.dedent("""\
         ....#.....
         .........#
         ..........
@@ -22,8 +34,14 @@ TEST_INPUTS = [
         ........#.
         #.........
         ......#...
-    """))),
-    Case(11, 2, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        11,
+        2,
+        io.StringIO(
+            textwrap.dedent("""\
         .#........
         ...#......
         #^........
@@ -34,11 +52,13 @@ TEST_INPUTS = [
         ..........
         ..........
         ..........
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec06():
+class TestDec06:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -75,27 +95,35 @@ class TestDec06():
         assert guard.y == 6
         assert guard.direction == Direction.UP
 
-    @pytest.mark.parametrize("guard, expected", [
-        (Guard(4, 6, Direction.UP), 6),
-        (Guard(4, 6, Direction.DOWN), 3),
-        (Guard(4, 6, Direction.LEFT), 4),
-        (Guard(4, 6, Direction.RIGHT), 5),
-        (Guard(7, 7, Direction.DOWN), 2),
-    ], ids=str)
+    @pytest.mark.parametrize(
+        "guard, expected",
+        [
+            (Guard(4, 6, Direction.UP), 6),
+            (Guard(4, 6, Direction.DOWN), 3),
+            (Guard(4, 6, Direction.LEFT), 4),
+            (Guard(4, 6, Direction.RIGHT), 5),
+            (Guard(7, 7, Direction.DOWN), 2),
+        ],
+        ids=str,
+    )
     def test_distance_to_edge(self, loaded, guard, expected):
         actual = distance_to_edge(guard, loaded)
         assert actual == expected
 
-    @pytest.mark.parametrize("guard, expected", [
-        (Guard(4, 6, Direction.UP), (4, 1)),
-        (Guard(4, 6, Direction.DOWN), None),
-        (Guard(4, 6, Direction.LEFT), (2, 6)),
-        (Guard(4, 6, Direction.RIGHT), None),
-        (Guard(2, 1, Direction.UP), None),
-        (Guard(2, 1, Direction.DOWN), (2, 2)),
-        (Guard(2, 1, Direction.LEFT), None),
-        (Guard(2, 1, Direction.RIGHT), (8, 1)),
-    ], ids=str)
+    @pytest.mark.parametrize(
+        "guard, expected",
+        [
+            (Guard(4, 6, Direction.UP), (4, 1)),
+            (Guard(4, 6, Direction.DOWN), None),
+            (Guard(4, 6, Direction.LEFT), (2, 6)),
+            (Guard(4, 6, Direction.RIGHT), None),
+            (Guard(2, 1, Direction.UP), None),
+            (Guard(2, 1, Direction.DOWN), (2, 2)),
+            (Guard(2, 1, Direction.LEFT), None),
+            (Guard(2, 1, Direction.RIGHT), (8, 1)),
+        ],
+        ids=str,
+    )
     def test_find_obstacle(self, things, guard, expected):
         row_obstacles, col_obstacles, _ = things
         if len(row_obstacles) == 4:

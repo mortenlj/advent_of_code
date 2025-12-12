@@ -18,6 +18,7 @@ FALSE_PAT = re.compile(r"If false: throw to monkey (\d+)")
 
 def make_operation(left, op, right):
     if left == right == "old":
+
         def multiplied_by_itself(item):
             return item * item
 
@@ -76,13 +77,19 @@ class Monkey:
             item = self.operation(item)
             logging.debug(f"    Worry level {self.operation.__doc__} to {item}.")
             item = worry_level_adjustment(item)
-            logging.debug(f"    Monkey gets bored with item. Worry level is adjusted to {item}.")
+            logging.debug(
+                f"    Monkey gets bored with item. Worry level is adjusted to {item}."
+            )
             divisible = item % self.test_divisor == 0
             if divisible:
-                logging.debug(f"    Current worry level is divisible by {self.test_divisor}.")
+                logging.debug(
+                    f"    Current worry level is divisible by {self.test_divisor}."
+                )
                 target = self.true_target
             else:
-                logging.debug(f"    Current worry level is not divisible by {self.test_divisor}.")
+                logging.debug(
+                    f"    Current worry level is not divisible by {self.test_divisor}."
+                )
                 target = self.false_target
             logging.debug(f"    Item with worry level 26 is thrown to monkey {target}.")
             self.inspected += 1
@@ -115,7 +122,9 @@ def part2(monkeys):
     logging.basicConfig(level=logging.INFO)
     multiplier = math.prod((m.test_divisor for m in monkeys))
     for _ in alive_progress.alive_it(range(10000), total=10000):
-        play_monkey_round(monkeys, worry_level_adjustment=lambda item: item % multiplier)
+        play_monkey_round(
+            monkeys, worry_level_adjustment=lambda item: item % multiplier
+        )
     most_active = list(sorted((m.inspected for m in monkeys), reverse=True))
     return most_active[0] * most_active[1]
 

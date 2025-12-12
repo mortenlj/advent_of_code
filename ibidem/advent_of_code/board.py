@@ -10,12 +10,21 @@ GROW_SIZE = 200
 
 class TooSmall(Exception):
     """The current grid is too small for the wanted operation"""
+
     pass
 
 
 class Board(object):
-    def __init__(self, size_x=None, size_y=None, do_translate=True, flip=False, fill_value=" ", dtype="<U15",
-                 growable=True):
+    def __init__(
+        self,
+        size_x=None,
+        size_y=None,
+        do_translate=True,
+        flip=False,
+        fill_value=" ",
+        dtype="<U15",
+        growable=True,
+    ):
         size_x = 10 if size_x is None else size_x
         size_y = 10 if size_y is None else size_y
         self.grid = np.full((size_y, size_x), fill_value, dtype)
@@ -37,8 +46,15 @@ class Board(object):
         lines = string.strip().splitlines()
         size_y = len(lines)
         size_x = len(lines[0].strip())
-        board = cls(size_x, size_y, do_translate=False, flip=False, fill_value=fill_value, dtype=dtype,
-                    growable=growable)
+        board = cls(
+            size_x,
+            size_y,
+            do_translate=False,
+            flip=False,
+            fill_value=fill_value,
+            dtype=dtype,
+            growable=growable,
+        )
         for y, row in enumerate(lines):
             for x, char in enumerate(row):
                 board.set(x, y, char)
@@ -92,7 +108,9 @@ class Board(object):
                 pad = ((0, 0), (0, GROW_SIZE))
             else:
                 pad = ((0, GROW_SIZE), (0, 0))
-        self.grid = np.pad(self.grid, pad, mode="constant", constant_values=self._fill_value)
+        self.grid = np.pad(
+            self.grid, pad, mode="constant", constant_values=self._fill_value
+        )
 
     def _translate(self, x, y):
         if not self._do_translate:
@@ -116,8 +134,15 @@ class Board(object):
         return sum((row == v).sum() for row in self.grid)
 
     def copy(self):
-        b = Board(size_x=self.size_x, size_y=self.size_y, do_translate=self._do_translate,
-                  flip=self._flip, fill_value=self._fill_value, dtype=self.grid.dtype, growable=self._growable)
+        b = Board(
+            size_x=self.size_x,
+            size_y=self.size_y,
+            do_translate=self._do_translate,
+            flip=self._flip,
+            fill_value=self._fill_value,
+            dtype=self.grid.dtype,
+            growable=self._growable,
+        )
         b.grid = self.grid.copy()
         return b
 
@@ -163,7 +188,9 @@ class Board(object):
         if crop_to_bounds:
             min_row, max_row = max_row, min_row
         for row in rows:
-            if (tainted := not all(c == self._fill_value for c in row)) or include_empty:
+            if (
+                tainted := not all(c == self._fill_value for c in row)
+            ) or include_empty:
                 if tainted and crop_to_bounds:
                     min_row = min(min_row, len(lines))
                     max_row = max(max_row, len(lines) + 1)
@@ -181,6 +208,9 @@ class Board(object):
         return buf.getvalue()
 
     def __eq__(self, other):
-        return other is not None and \
-               (self.grid == other.grid).all() and \
-               self._flip == other._flip and self._do_translate == other._do_translate
+        return (
+            other is not None
+            and (self.grid == other.grid).all()
+            and self._flip == other._flip
+            and self._do_translate == other._do_translate
+        )

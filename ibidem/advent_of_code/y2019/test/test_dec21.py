@@ -3,7 +3,9 @@
 import pytest
 
 
-@pytest.mark.parametrize("a, b, c, d, result", (
+@pytest.mark.parametrize(
+    "a, b, c, d, result",
+    (
         (True, True, True, True, False),
         (False, True, True, True, True),
         (True, False, True, True, True),
@@ -11,7 +13,8 @@ import pytest
         (True, True, True, False, False),
         (True, False, True, False, False),
         (True, True, False, False, False),
-))
+    ),
+)
 def test_logic1(a, b, c, d, result):
     t = j = False
 
@@ -25,7 +28,9 @@ def test_logic1(a, b, c, d, result):
     assert j == result
 
 
-@pytest.mark.parametrize("ground, result", (
+@pytest.mark.parametrize(
+    "ground, result",
+    (
         (".########", True),
         ("###.#####", False),
         ("#.#.#####", False),
@@ -42,27 +47,28 @@ def test_logic1(a, b, c, d, result):
         ("#..#.####", True),
         ("...####.#", True),
         ("#.###..#.", True),
-))
+    ),
+)
 def test_logic2(ground, result):
     a, b, c, d, e, f, g, h, i = [v == "#" for v in ground]
     t = j = False
 
     # Jump if b false and e or f false
-    j = not f  #j
-    t = not e  #t
+    j = not f  # j
+    t = not e  # t
     t = j or t
-    j = not b  #t
+    j = not b  # t
     j = t and j
 
     # Jump if already jumping, and c false, and h true
-    t = not c  #t
+    t = not c  # t
     j = t or j
-    t = not h  #t
-    t = not t  #t
+    t = not h  # t
+    t = not t  # t
     j = t and j
 
     # Jump if already jumping, or a false
-    t = not a  #t
+    t = not a  # t
     j = t or j
 
     # Don't jump if d false

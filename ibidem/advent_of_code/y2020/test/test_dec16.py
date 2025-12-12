@@ -25,21 +25,23 @@ RULES = [
     Input("seat", Range(0, 13), Range(16, 19)),
 ]
 
-NEARBY = np.array([
-    [3, 9, 18],
-    [15, 1, 5],
-    [20, 0, 0],
-    [5, 14, 9],
-    [19, 19, 19],
-    [0, 0, 0],
-    [8, 4, 16],
-    [0, 20, 0],
-    [5, 1, 13],
-    [0, 0, 20],
-])
+NEARBY = np.array(
+    [
+        [3, 9, 18],
+        [15, 1, 5],
+        [20, 0, 0],
+        [5, 14, 9],
+        [19, 19, 19],
+        [0, 0, 0],
+        [8, 4, 16],
+        [0, 20, 0],
+        [5, 1, 13],
+        [0, 0, 20],
+    ]
+)
 
 
-class TestDec16():
+class TestDec16:
     @pytest.fixture(autouse=True)
     def input_data(self, tmp_path):
         input_file = tmp_path / "input.txt"

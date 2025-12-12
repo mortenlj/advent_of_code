@@ -26,8 +26,9 @@ def part2(input):
     counts = Counter(right)
     score = 0
     for loc in left:
-        score += loc*counts[loc]
+        score += loc * counts[loc]
     return score
+
 
 if __name__ == "__main__":
     with open(get_input_name(1, 2024)) as fobj:

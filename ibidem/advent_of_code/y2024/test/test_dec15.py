@@ -7,10 +7,14 @@ import pytest
 from ibidem.advent_of_code.board import Board
 from ibidem.advent_of_code.y2024.dec15 import load, part1, part2, Direction
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(2028, NotImplemented, io.StringIO(textwrap.dedent("""\
+    Case(
+        2028,
+        NotImplemented,
+        io.StringIO(
+            textwrap.dedent("""\
         ########
         #..O.O.#
         ##@.O..#
@@ -21,8 +25,14 @@ TEST_INPUTS = [
         ########
         
         <^^>>>vv<v>>v<<
-    """))),
-    Case(10092, 9021, io.StringIO(textwrap.dedent("""\
+    """)
+        ),
+    ),
+    Case(
+        10092,
+        9021,
+        io.StringIO(
+            textwrap.dedent("""\
         ##########
         #..O..O.O#
         #......O.#
@@ -44,11 +54,13 @@ TEST_INPUTS = [
         <><^^>^^^<><vvvvv^v<v<<>^v<v>v<<^><<><<><<<^^<<<^<<>><<><^^^>^^<>^>v<>
         ^^>vv<^v^v<vv>^<><v<^v>^^^>>>^^vvv^>vvv<>>>^<^>>>>>^<<^v>^vvv<>^<><<v>
         v^^>>><<^^<>>^v^<v^vv<>v^<<>^<^v^v><^<<<><<^<v><v<>vv>>v><v^<vv<>v^<<^
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec15():
+class TestDec15:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)

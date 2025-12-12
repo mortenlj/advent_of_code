@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8
+import math
 import re
 from functools import reduce
 from multiprocessing import Process, Queue
 
-import math
 from vectormath import Vector3
 
 from ibidem.advent_of_code.util import get_input_name
@@ -67,7 +67,11 @@ class Moon(object):
 
     def __eq__(self, other):
         try:
-            return self.name == other.name and self.pos == other.pos and self.vel == other.vel
+            return (
+                self.name == other.name
+                and self.pos == other.pos
+                and self.vel == other.vel
+            )
         except AttributeError:
             return False
 
@@ -126,7 +130,11 @@ def find_axis_cycle(axis, moons, out):
         steps += 1
         state = get_state(moons, axis)
         if seen.get(state, False):
-            print("Axis {} repeats after {} steps, with state {}".format(axis, steps, state))
+            print(
+                "Axis {} repeats after {} steps, with state {}".format(
+                    axis, steps, state
+                )
+            )
             out.put(steps)
             return
         seen[state] = True

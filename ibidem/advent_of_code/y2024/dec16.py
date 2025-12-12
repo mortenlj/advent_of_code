@@ -16,9 +16,13 @@ class Node:
         return str(self.direction)
 
     def neighbors(self, board: Board):
-        candidates = [Vector(nx, ny) for nx, ny in
-                      board.adjacent_indexes(self.pos.x, self.pos.y, include_diagonal=False) if
-                      board.get(nx, ny) != "#"]
+        candidates = [
+            Vector(nx, ny)
+            for nx, ny in board.adjacent_indexes(
+                self.pos.x, self.pos.y, include_diagonal=False
+            )
+            if board.get(nx, ny) != "#"
+        ]
         for direction in Direction:
             n_pos = self.pos + direction
             if n_pos in candidates:

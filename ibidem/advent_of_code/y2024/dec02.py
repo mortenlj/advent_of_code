@@ -12,7 +12,8 @@ def load(fobj):
 
 
 def report_is_safe(report):
-    return all(a > b and 1 <= a-b <= 3 for a,b in itertools.pairwise(report))
+    return all(a > b and 1 <= a - b <= 3 for a, b in itertools.pairwise(report))
+
 
 def part1(input):
     count = 0

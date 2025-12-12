@@ -15,7 +15,7 @@ def design_is_possible(towels: list[str], design: str) -> bool:
         return True
     for towel in towels:
         if design.startswith(towel):
-            if design_is_possible(towels, design[len(towel):]):
+            if design_is_possible(towels, design[len(towel) :]):
                 return True
     return False
 
@@ -29,13 +29,15 @@ def part1(input):
     return possible
 
 
-def find_designs(cache: dict[str, list[list[str]]], towels: list[str], design: str) -> list[list[str]]:
+def find_designs(
+    cache: dict[str, list[list[str]]], towels: list[str], design: str
+) -> list[list[str]]:
     if design in cache:
         return cache[design]
     results = []
     for towel in towels:
         if design.startswith(towel):
-            remaining = design[len(towel):]
+            remaining = design[len(towel) :]
             if not remaining:
                 results.append([towel])
                 continue

@@ -22,7 +22,9 @@ class Amp(object):
         self._thread.start()
 
     def _execute(self):
-        self._intcode.execute(input_func=self._input_func, output_func=self._output_func)
+        self._intcode.execute(
+            input_func=self._input_func, output_func=self._output_func
+        )
 
     def join(self):
         self._thread.join()

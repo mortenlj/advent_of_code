@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-"""CLI to make working with Advent of Code slightly simpler
-"""
+"""CLI to make working with Advent of Code slightly simpler"""
+
 import argparse
 from importlib import resources
 import json
@@ -11,8 +11,14 @@ from datetime import datetime
 
 import requests
 
-HTTPIE_SESSION_PATH = os.path.join(os.path.expanduser("~"), ".config", "httpie", "sessions", "adventofcode.com",
-                                   "session.json")
+HTTPIE_SESSION_PATH = os.path.join(
+    os.path.expanduser("~"),
+    ".config",
+    "httpie",
+    "sessions",
+    "adventofcode.com",
+    "session.json",
+)
 
 SOLUTION_TEMPLATE = """\
 #!/usr/bin/env python
@@ -106,7 +112,10 @@ def create_test(options):
 
 
 def _create_file(prefix, ext, content_generator, now):
-    ref = resources.files(f"ibidem.advent_of_code.y{now.year}") / f"{prefix}dec{now.day:02}.{ext}"
+    ref = (
+        resources.files(f"ibidem.advent_of_code.y{now.year}")
+        / f"{prefix}dec{now.day:02}.{ext}"
+    )
     with resources.as_file(ref) as filepath:
         if os.path.exists(filepath):
             return filepath
@@ -129,7 +138,9 @@ def main():
     filepath = create_test(options)
     print(f"Created test file at {filepath}")
     problem_url = f"https://adventofcode.com/{options.year}/day/{options.day}"
-    print(f"Read the problem description at {problem_url} (I've tried opening it for you)")
+    print(
+        f"Read the problem description at {problem_url} (I've tried opening it for you)"
+    )
     webbrowser.open_new_tab(problem_url)
 
 

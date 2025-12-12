@@ -84,7 +84,9 @@ def load1(fobj):
 def load2(fobj):
     for line in fobj:
         if m := INSTRUCTION_PATTERN.match(line.strip()):
-            yield Instruction(Direction.from_digit(int(m.group(4))), int(m.group(3), 16))
+            yield Instruction(
+                Direction.from_digit(int(m.group(4))), int(m.group(3), 16)
+            )
 
 
 def is_inside(board, coord):
@@ -97,7 +99,9 @@ def crossings(board, x, y):
     if x < 0:
         value = 0
     elif board.get(x, y) == "#":
-        if board.get(x - 1, y) == "#":  # We are on a horizontal line, so ignore this "crossing"
+        if (
+            board.get(x - 1, y) == "#"
+        ):  # We are on a horizontal line, so ignore this "crossing"
             value = crossings(board, x - 1, y)
         else:
             value = 1 + crossings(board, x - 1, y)

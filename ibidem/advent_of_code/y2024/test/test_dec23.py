@@ -7,10 +7,14 @@ from networkx.classes import Graph
 
 from ibidem.advent_of_code.y2024.dec23 import load, part1, part2
 
-Case = namedtuple('Case', 'part1 part2 input')
+Case = namedtuple("Case", "part1 part2 input")
 
 TEST_INPUTS = [
-    Case(7, "co,de,ka,ta", io.StringIO(textwrap.dedent("""\
+    Case(
+        7,
+        "co,de,ka,ta",
+        io.StringIO(
+            textwrap.dedent("""\
         kh-tc
         qp-kh
         de-cg
@@ -43,11 +47,13 @@ TEST_INPUTS = [
         wh-qp
         tb-vc
         td-yn
-    """))),
+    """)
+        ),
+    ),
 ]
 
 
-class TestDec23():
+class TestDec23:
     @pytest.fixture(params=TEST_INPUTS)
     def case(self, request):
         request.param.input.seek(0)
@@ -59,11 +65,11 @@ class TestDec23():
 
     def test_load(self, loaded):
         assert isinstance(loaded, Graph)
-        
+
     def test_part1(self, loaded, case):
         result = part1(loaded)
         assert result == case.part1
-        
+
     def test_part2(self, loaded, case):
         result = part2(loaded)
         assert result == case.part2

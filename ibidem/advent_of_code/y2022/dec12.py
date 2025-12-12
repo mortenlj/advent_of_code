@@ -44,7 +44,9 @@ def build_graph(board):
 def part2(board):
     g, start, end = build_graph(board)
     results = shortest_path_length(g, target=end)
-    filtered = (length for node, length in results.items() if board.get(*node) in ("a", "S"))
+    filtered = (
+        length for node, length in results.items() if board.get(*node) in ("a", "S")
+    )
     return min(filtered)
 
 

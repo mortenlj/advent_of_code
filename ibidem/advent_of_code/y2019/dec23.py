@@ -67,7 +67,7 @@ class Nic(object):
         if self._idle_counter > IDLE_THRESHOLD:
             return True
         return False
-    
+
 
 class Nat(object):
     def __init__(self, inq, outq, idle_check):
@@ -133,7 +133,11 @@ class Router(object):
 def part2():
     router = Router()
     result = router.start()
-    print("The first Y value delivered by the NAT to the computer at address 0 twice in a row: {}".format(result))
+    print(
+        "The first Y value delivered by the NAT to the computer at address 0 twice in a row: {}".format(
+            result
+        )
+    )
 
 
 if __name__ == "__main__":

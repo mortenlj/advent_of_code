@@ -81,11 +81,13 @@ def load(fobj):
             move_lines.append(line.strip())
     return (
         Board.from_string("\n".join(board_lines), fill_value=".", growable=False),
-        [Direction(move) for move in "".join(move_lines)]
+        [Direction(move) for move in "".join(move_lines)],
     )
 
 
-def extract_entities(board: Board, moves: list[Direction]) -> tuple[Robot, dict[Vector, Box]]:
+def extract_entities(
+    board: Board, moves: list[Direction]
+) -> tuple[Robot, dict[Vector, Box]]:
     """Extract robot and boxes and remove them from the board in-place"""
     boxes = {}
     for y in range(board.size_y):
@@ -111,13 +113,15 @@ def part1(input):
 
 
 def widen_board(board):
-    wide_board = Board(board.size_x * 2, board.size_y,
-                       do_translate=board._do_translate,
-                       flip=board._flip,
-                       fill_value=board._fill_value,
-                       dtype=board.grid.dtype,
-                       growable=board._growable
-                       )
+    wide_board = Board(
+        board.size_x * 2,
+        board.size_y,
+        do_translate=board._do_translate,
+        flip=board._flip,
+        fill_value=board._fill_value,
+        dtype=board.grid.dtype,
+        growable=board._growable,
+    )
     for y in range(board.size_y):
         for x in range(board.size_x):
             value = board.get(x, y)

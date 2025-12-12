@@ -8,7 +8,9 @@ from ibidem.advent_of_code.util import get_input_name
 def load():
     with open(get_input_name(13, 2020)) as fobj:
         estimate = int(fobj.readline().strip())
-        busses = [int(v) if v != "x" else None for v in fobj.readline().strip().split(",")]
+        busses = [
+            int(v) if v != "x" else None for v in fobj.readline().strip().split(",")
+        ]
         return estimate, busses
 
 
@@ -22,9 +24,11 @@ def part1(estimate, busses):
     first_departing_bus = busses[first_departure_idx]
     waiting_time = first_departure - estimate
     result = waiting_time * first_departing_bus
-    print(f"The first departing bus is {first_departing_bus}, leaving at {first_departure}.\n"
-          f"That is {waiting_time} after the estimated ferry arrival at {estimate}.\n"
-          f"This gives a result of {result}.")
+    print(
+        f"The first departing bus is {first_departing_bus}, leaving at {first_departure}.\n"
+        f"That is {waiting_time} after the estimated ferry arrival at {estimate}.\n"
+        f"This gives a result of {result}."
+    )
     return waiting_time, first_departing_bus, result
 
 

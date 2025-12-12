@@ -13,9 +13,11 @@ Input = collections.namedtuple("Input", ("fieldname", "first", "second"))
 Range = collections.namedtuple("Range", ("start", "end"))
 
 
-class Reader():
-    RULE = re.compile(r"(?P<fieldname>[a-z _-]+): (?P<first_start>\d+)-(?P<first_end>\d+) or "
-                      r"(?P<second_start>\d+)-(?P<second_end>\d+)")
+class Reader:
+    RULE = re.compile(
+        r"(?P<fieldname>[a-z _-]+): (?P<first_start>\d+)-(?P<first_end>\d+) or "
+        r"(?P<second_start>\d+)-(?P<second_end>\d+)"
+    )
     YOUR_HEADER = re.compile(r"your ticket:")
     NEARBY_HEADER = re.compile(r"nearby tickets:")
 
@@ -80,10 +82,12 @@ def part1(input):
 def find_invalid(field_rules, nearby):
     rule_check = []
     for rule in field_rules:
-        rule_check.append(np.logical_or(
-            np.logical_and(nearby >= rule.first.start, nearby <= rule.first.end),
-            np.logical_and(nearby >= rule.second.start, nearby <= rule.second.end)
-        ))
+        rule_check.append(
+            np.logical_or(
+                np.logical_and(nearby >= rule.first.start, nearby <= rule.first.end),
+                np.logical_and(nearby >= rule.second.start, nearby <= rule.second.end),
+            )
+        )
     results = np.logical_not(np.array(rule_check))
     invalid = results.all(axis=0)
     return invalid, results
