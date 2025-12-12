@@ -166,7 +166,7 @@ def generate_path(input):
     addition = 0
     down_left = left_down = False
     for instruction in input[:-1]:
-        delta = instruction.distance * instruction.direction.deltav()
+        delta = Vector2(instruction.distance * instruction.direction.deltav())
         if instruction.direction == Direction.DOWN:
             if left_down:
                 addition -= 1
@@ -182,7 +182,7 @@ def generate_path(input):
         else:
             down_left = False
             left_down = False
-        new_pos = pos + delta
+        new_pos = Vector2(pos + delta)
         path.append(new_pos)
         pos = new_pos
     print(f"Generated path: {path!r}")
