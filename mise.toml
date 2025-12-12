@@ -1,6 +1,14 @@
 [tasks.test]
-depends = ["python:test"]
 description = "Run tests"
+run = """
+#!/usr/bin/env bash
+for d in ibidem/advent_of_code/*; do
+  if [[ -d "${d}" ]]; then
+    echo Running tests in "${d}"
+    poetry run pytest "${d}"
+  fi
+done
+"""
 
 [tasks.fmt]
 depends = ["python:fmt"]
@@ -25,14 +33,10 @@ description = "Run CI tasks"
 [tasks.build]
 depends = ["python:build"]
 description = "Build the project in debug mode"
-sources = ["advent_of_code/**/*.py", "src/**/*.py", "uv.lock", "pyproject.toml"]
-outputs = ["dist/advent_of_code-*.tar.gz", "dist/advent_of_code-*.whl"]
 
 [tasks.release-build]
 depends = ["python:release-build"]
 description = "Build the project"
-sources = ["advent_of_code/**/*.py", "src/**/*.py", "uv.lock", "pyproject.toml"]
-outputs = ["dist/advent_of_code-*.tar.gz", "dist/advent_of_code-*.whl"]
 
 [task_config]
 includes = [".config/mise-lib/virtual_tasks.toml", ".config/mise-lib"]
