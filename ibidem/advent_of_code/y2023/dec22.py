@@ -2,7 +2,7 @@
 import copy
 import re
 
-from Geometry3D import Point, Renderer, Segment
+from Geometry3D import Point, Visualizer, Segment
 from rich.progress import track
 
 from ibidem.advent_of_code.util import get_input_name, gen_list
@@ -112,7 +112,7 @@ def part1(bricks):
 
 
 def show_bricks(bricks):
-    r = Renderer(backend='matplotlib')
+    r = Visualizer(backend='matplotlib')
     for i, brick in enumerate(bricks):
         r.add((brick.geo_body, COLORS[i % len(COLORS)], 10))
     r.show()
