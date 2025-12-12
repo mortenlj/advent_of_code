@@ -1,6 +1,6 @@
 import pytest
 
-from ibidem.advent_of_code.y2020.dec13 import *
+from ibidem.advent_of_code.y2020.dec13 import part1, part2
 
 TEST_BUSSES = [7, 13, None, None, 59, None, 31, 19]
 PART1_ESTIMATE = 939

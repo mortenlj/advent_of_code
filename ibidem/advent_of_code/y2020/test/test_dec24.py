@@ -1,6 +1,6 @@
 import pytest
 
-from ibidem.advent_of_code.y2020.dec24 import *
+from ibidem.advent_of_code.y2020.dec24 import part1, parse_line, Direction
 
 INPUT = """\
 sesenwnenenewseeswwswswwnenewsewsw
@@ -30,7 +30,7 @@ eeeeeeeeeeeeeeeeeee
 class TestDec24:
     @pytest.fixture
     def tile_flips(self):
-        return list(parse_line(l.strip()) for l in INPUT.splitlines(keepends=False))
+        return list(parse_line(line.strip()) for line in INPUT.splitlines(keepends=False))
 
     def test_parse_line(self):
         directions = list(parse_line("ewnenwsesw"))

@@ -1,4 +1,7 @@
-from ibidem.advent_of_code.y2021.dec03 import *
+import numpy as np
+
+from ibidem.advent_of_code.board import Board
+from ibidem.advent_of_code.y2021.dec03 import part1, part2
 
 TEST_INPUT = """\
 00100

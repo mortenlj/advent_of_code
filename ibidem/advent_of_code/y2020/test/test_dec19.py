@@ -2,7 +2,7 @@ from collections import namedtuple
 
 import pytest
 
-from ibidem.advent_of_code.y2020.dec19 import *
+from ibidem.advent_of_code.y2020.dec19 import Rule, load_rule, parse_plain_rule, parse_split_rule, part1
 
 Case = namedtuple("TestCase", ["rules", "messages", "matches"])
 

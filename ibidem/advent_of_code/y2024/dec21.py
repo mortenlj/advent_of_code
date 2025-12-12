@@ -59,7 +59,7 @@ class Directional(Pad):
 
 
 def load(fobj):
-    return [l.strip() for l in fobj]
+    return [line.strip() for line in fobj]
 
 
 def make_sequence(input):

@@ -1,4 +1,4 @@
-from ibidem.advent_of_code.y2020.dec08 import *
+from ibidem.advent_of_code.y2020.dec08 import Handheld, Instruction
 
 TEST_PROGRAM = [
     "nop +0",

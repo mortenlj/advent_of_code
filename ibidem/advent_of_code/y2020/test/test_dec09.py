@@ -1,4 +1,4 @@
-from ibidem.advent_of_code.y2020.dec09 import *
+from ibidem.advent_of_code.y2020.dec09 import find_invalid, find_weakness
 
 TEST_INVALID = 127
 TEST_WEAKNESS = 62

@@ -1,8 +1,9 @@
 from unittest.mock import patch
 
+import numpy as np
 import pytest
 
-from ibidem.advent_of_code.y2020.dec16 import *
+from ibidem.advent_of_code.y2020.dec16 import Input, Range, load, part1, find_invalid, find_field_order
 
 INPUT = """\
 class: 1-3 or 5-7

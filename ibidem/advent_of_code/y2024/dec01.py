@@ -16,8 +16,8 @@ def load(fobj):
 def part1(input):
     left, right = input
     diff = 0
-    for l, r in zip(sorted(left), sorted(right)):
-        diff += abs(r - l)
+    for left_value, right_value in zip(sorted(left), sorted(right)):
+        diff += abs(right_value - left_value)
     return diff
 
 

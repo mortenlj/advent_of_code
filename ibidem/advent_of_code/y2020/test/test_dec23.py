@@ -1,6 +1,6 @@
 import pytest
 
-from ibidem.advent_of_code.y2020.dec23 import *
+from ibidem.advent_of_code.y2020.dec23 import parse, part2, Cup, play_round, pick_destination, extract_three, play_game
 
 
 class TestDec23:

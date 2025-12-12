@@ -38,9 +38,9 @@ class TestDec02:
 
     def test_load(self, loaded):
         assert len(loaded) == 6
-        assert all(isinstance(l, list) for l in loaded)
-        assert all(all(isinstance(i, int) for i in l) for l in loaded)
-        assert all(len(l) == 5 for l in loaded)
+        assert all(isinstance(line, list) for line in loaded)
+        assert all(all(isinstance(i, int) for i in line) for line in loaded)
+        assert all(len(line) == 5 for line in loaded)
 
     def test_part1(self, loaded, case):
         result = part1(loaded)

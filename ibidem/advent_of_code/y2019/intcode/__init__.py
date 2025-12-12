@@ -2,8 +2,8 @@
 # -*- coding: utf-8
 
 from ibidem.advent_of_code.util import get_input_name
-from .disassembler import Disassembler
-from .machine import IntCode
+from .disassembler import Disassembler as Disassembler
+from .machine import IntCode as IntCode
 
 
 def load_program(day):

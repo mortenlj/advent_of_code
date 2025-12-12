@@ -5,7 +5,7 @@ from ibidem.advent_of_code.util import get_input_name
 
 def load():
     with open(get_input_name(25, 2020)) as fobj:
-        return [int(l.strip()) for l in fobj]
+        return [int(line.strip()) for line in fobj]
 
 
 def transform_loop(value, subject):

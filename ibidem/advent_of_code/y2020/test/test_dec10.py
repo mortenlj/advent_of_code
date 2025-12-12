@@ -1,6 +1,6 @@
 import pytest
 
-from ibidem.advent_of_code.y2020.dec10 import *
+from ibidem.advent_of_code.y2020.dec10 import part1, part2
 
 TEST1 = [16, 10, 15, 5, 1, 11, 7, 19, 6, 12, 4]
 TEST2 = [

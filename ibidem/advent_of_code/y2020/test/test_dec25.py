@@ -1,4 +1,4 @@
-from ibidem.advent_of_code.y2020.dec25 import *
+from ibidem.advent_of_code.y2020.dec25 import part1
 
 
 class TestDec25:

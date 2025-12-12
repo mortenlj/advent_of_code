@@ -2,7 +2,7 @@ import io
 
 import pytest
 
-from ibidem.advent_of_code.y2021.dec06 import *
+from ibidem.advent_of_code.y2021.dec06 import part1, part2
 
 TEST_INPUT = io.StringIO("3,4,3,1,2")
 

@@ -1,4 +1,4 @@
-from ibidem.advent_of_code.y2020.dec12 import *
+from ibidem.advent_of_code.y2020.dec12 import Command, Action, part1
 
 PART1_RESULT = 25
 PART1_ROUTE = [

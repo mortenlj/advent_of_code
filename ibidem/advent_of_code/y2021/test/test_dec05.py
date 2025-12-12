@@ -2,8 +2,7 @@ import io
 
 import pytest
 
-from ibidem.advent_of_code.y2021.dec05 import *
-from ibidem.advent_of_code.y2021.dec05 import _load_input
+from ibidem.advent_of_code.y2021.dec05 import _load_input, Pos, part1, Line, DiagonalLine
 
 TEST_INPUT = io.StringIO("""\
 0,9 -> 5,9

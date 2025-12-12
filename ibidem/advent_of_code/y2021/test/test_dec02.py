@@ -1,4 +1,4 @@
-from ibidem.advent_of_code.y2021.dec02 import *
+from ibidem.advent_of_code.y2021.dec02 import part1, part2
 
 TEST_INPUT = """\
 forward 5

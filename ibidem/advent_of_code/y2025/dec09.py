@@ -72,7 +72,7 @@ class Line:
             self.start.x, self.end.x
         ) and max(self.start.y, self.end.y) >= point.y >= min(self.start.y, self.end.y)
 
-    def intersects(self, other: Line):
+    def intersects(self, other: "Line"):
         # find the four orientations needed
         # for general and special cases
         o1 = orientation(self.start, self.end, other.start)
@@ -112,7 +112,7 @@ class Line:
 class Polygon:
     def __init__(self, lines):
         self.lines = lines
-        self.min_y = min(min(l.start.y, l.end.y) for l in lines) - 1
+        self.min_y = min(min(line.start.y, line.end.y) for line in lines) - 1
 
     @lru_cache(maxsize=None)
     def __contains__(self, item):

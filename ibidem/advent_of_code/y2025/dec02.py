@@ -7,7 +7,6 @@ from ibidem.advent_of_code.util import get_input_name, gen_list
 @gen_list
 def load(fobj):
     ranges = fobj.read().strip().split(",")
-    result = []
     for rng in ranges:
         p = rng.split("-")
         yield int(p[0]), int(p[1]) + 1

@@ -16,8 +16,6 @@ import pytest
     ),
 )
 def test_logic1(a, b, c, d, result):
-    t = j = False
-
     t = not a  # t
     t = not t  # t
     t = b and t
@@ -78,7 +76,7 @@ def test_logic2(ground, result):
 
 
 def operations():
-    a = b = c = d = t = j = False
+    a = b = c = d = t = j = False # noqa
 
     j = a and j
     j = b or j

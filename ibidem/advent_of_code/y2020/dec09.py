@@ -6,7 +6,7 @@ from ibidem.advent_of_code.util import get_input_name
 
 def load():
     with open(get_input_name(9, 2020)) as fobj:
-        return [int(l) for l in fobj]
+        return [int(line) for line in fobj]
 
 
 def find_invalid(input, preamble):

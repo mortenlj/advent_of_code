@@ -44,7 +44,7 @@ def part1(input):
     matches = set()
     for lock in locks:
         for key in keys:
-            if all(k + l <= 5 for k, l in zip(key, lock)):
+            if all(k + l <= 5 for k, l in zip(key, lock)):  # noqa
                 matches.add((key, lock))
     return len(matches)
 

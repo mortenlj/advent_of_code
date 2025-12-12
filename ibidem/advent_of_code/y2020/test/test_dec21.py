@@ -1,4 +1,4 @@
-from ibidem.advent_of_code.y2020.dec21 import *
+from ibidem.advent_of_code.y2020.dec21 import load_lines, part1, format_cdi
 
 RECIPIES = [
     "mxmxvkd kfcds sqjhc nhms (contains dairy, fish)",

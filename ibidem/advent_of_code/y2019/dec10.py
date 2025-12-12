@@ -162,7 +162,6 @@ def vaporize(board, target):
 
 def decide_firing_order(vectors):
     vectors.sort(key=angle_sort)
-    angles = [angle_sort(v) for v in vectors]
     firing_order = [v.theta for v in vectors]
     return firing_order
 

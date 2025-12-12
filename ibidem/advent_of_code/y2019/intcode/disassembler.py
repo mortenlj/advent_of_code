@@ -75,7 +75,7 @@ class Disassembler(object):
         return instruction(params)
 
     def _prepare(self):
-        self._dis.sort(key=lambda l: l.address)
+        self._dis.sort(key=lambda location: location.address)
 
     def _output(self):
         ip = 0

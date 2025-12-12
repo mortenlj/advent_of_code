@@ -1,8 +1,10 @@
 import textwrap
 
+import numpy as np
 import pytest
 
-from ibidem.advent_of_code.y2020.dec11 import *
+from ibidem.advent_of_code.board import Board
+from ibidem.advent_of_code.y2020.dec11 import Part2Stepper, step1, count, part2
 
 PART1_COUNT = 37
 PART2_COUNT = 26
