@@ -54,7 +54,7 @@ def explode(number, _depth=0):
                         if left is None and right is None:
                             raise ExitRecursive
                         raise ExplodeValues(left, right)
-    except (ExitRecursive, ExplodeValues) as e:
+    except (ExitRecursive, ExplodeValues):
         if _depth > 0:
             raise
         return True

@@ -2,7 +2,6 @@ import collections
 import io
 import textwrap
 from collections import namedtuple
-from queue import Queue
 
 import pytest
 

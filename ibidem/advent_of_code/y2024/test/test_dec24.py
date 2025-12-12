@@ -1,7 +1,7 @@
 import io
 import textwrap
 from collections import namedtuple
-from typing import Mapping, Tuple, Sequence
+from typing import Mapping, Sequence
 
 import pytest
 

@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 from functools import lru_cache
 
-from rich.progress import track
 
 from ibidem.advent_of_code.util import get_input_name
 

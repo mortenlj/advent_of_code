@@ -181,14 +181,14 @@ def parse_leaderboard(leaderboard_path: Path, year: int) -> dict[str, DayScores]
         for line in table_rows:
             day, *scores = re.split(r"\s+", line.strip())
             if year < 2025:
-                if not len(scores) in (3, 6):
+                if len(scores) not in (3, 6):
                     raise InvalidNumberOfScoresException(
                         f"Number scores for {day=} ({scores}) are not 3 or 6."
                     )
                 values = [None if score == "-" else score for score in scores]
                 leaderboard[day] = DayScores(*values)
             else:
-                if not len(scores) in (1, 2):
+                if len(scores) not in (1, 2):
                     raise InvalidNumberOfScoresException(
                         f"Number scores for {day=} ({scores}) are not 1 or 2."
                     )
