@@ -16,7 +16,7 @@ def adjacency_board():
         ijkl
         mnop
         qrst
-        """))
+        """), growable=False)
 
 
 def test_board():

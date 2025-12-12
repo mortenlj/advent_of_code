@@ -127,7 +127,10 @@ class Board(object):
     def adjacent(self, x, y, include_diagonal=True):
         values = []
         for nx, ny in self.adjacent_indexes(x, y, include_diagonal):
-            values.append(self.get(nx, ny))
+            try:
+                values.append(self.get(nx, ny))
+            except IndexError, TooSmall:
+                pass
         return values
 
     def adjacent_indexes(self, x, y, include_diagonal):
