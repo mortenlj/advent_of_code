@@ -1,5 +1,6 @@
 [tasks.test]
 description = "Run tests"
+depends = ["python:setup"]
 run = """
 #!/usr/bin/env bash
 for d in ibidem/advent_of_code/*; do
@@ -12,6 +13,7 @@ done
 
 [tasks.test-year]
 description = "Run tests for a given year"
+depends = ["python:setup"]
 usage = """
 arg "<year>" help="Year to run tests for"
 """
