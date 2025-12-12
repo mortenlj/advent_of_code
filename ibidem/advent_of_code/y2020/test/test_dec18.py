@@ -2,7 +2,13 @@ from unittest.mock import patch
 
 import pytest
 
-from ibidem.advent_of_code.y2020.dec18 import load, tokenize_line, tokenize, solve_expression, part1
+from ibidem.advent_of_code.y2020.dec18 import (
+    load,
+    tokenize_line,
+    tokenize,
+    solve_expression,
+    part1,
+)
 
 EXPRESSIONS = [
     "2 * 3 + (4 * 5)",

@@ -30,7 +30,9 @@ eeeeeeeeeeeeeeeeeee
 class TestDec24:
     @pytest.fixture
     def tile_flips(self):
-        return list(parse_line(line.strip()) for line in INPUT.splitlines(keepends=False))
+        return list(
+            parse_line(line.strip()) for line in INPUT.splitlines(keepends=False)
+        )
 
     def test_parse_line(self):
         directions = list(parse_line("ewnenwsesw"))

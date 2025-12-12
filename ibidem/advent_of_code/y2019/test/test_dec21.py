@@ -76,7 +76,7 @@ def test_logic2(ground, result):
 
 
 def operations():
-    a = b = c = d = t = j = False # noqa
+    a = b = c = d = t = j = False  # noqa
 
     j = a and j
     j = b or j
