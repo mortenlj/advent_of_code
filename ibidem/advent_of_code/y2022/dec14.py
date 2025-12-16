@@ -80,22 +80,25 @@ def part2(structures):
     def new_get(self, x, y):
         if y == max_y + 2:
             return "#"
-        return self.old_get(x, y)
+        return self._old_get(x, y)
 
-    Board.old_get = Board.get
-    Board.get = new_get
+    Board._old_get = Board.get
+    try:
+        Board.get = new_get
 
-    while add_sand(board, max_y) == Location.Taken:
-        pass
-    count = board.count("o")
-    # For visualization
-    board.set(500, 0, "+")
-    for x in range(480, 520):
-        board.set(x, max_y + 2, "~")
-    print("=" * 60)
-    board.print(include_empty=True, crop_to_bounds=True)
-    print("=" * 60)
-    return count
+        while add_sand(board, max_y) == Location.Taken:
+            pass
+        count = board.count("o")
+        # For visualization
+        board.set(500, 0, "+")
+        for x in range(480, 520):
+            board.set(x, max_y + 2, "~")
+        print("=" * 60)
+        board.print(include_empty=True, crop_to_bounds=True)
+        print("=" * 60)
+        return count
+    finally:
+        Board.get = Board._old_get
 
 
 if __name__ == "__main__":
