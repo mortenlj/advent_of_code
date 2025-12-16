@@ -6,7 +6,7 @@ run = """
 for d in ibidem/advent_of_code/*; do
   if [[ -d "${d}" ]]; then
     echo Running tests in "${d}"
-    poetry run pytest "${d}"
+    uv run pytest "${d}"
   fi
 done
 """
@@ -18,7 +18,7 @@ usage = """
 arg "<year>" help="Year to run tests for"
 """
 run = """
-poetry run pytest "ibidem/advent_of_code/y${usage_year?}"
+uv run pytest "ibidem/advent_of_code/y${usage_year?}"
 """
 
 [tasks.fmt]
@@ -53,4 +53,4 @@ description = "Build the project"
 includes = [".config/mise-lib/virtual_tasks.toml", ".config/mise-lib"]
 
 [tools]
-poetry = "latest"
+uv = "latest"
