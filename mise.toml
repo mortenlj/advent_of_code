@@ -1,15 +1,6 @@
 [tasks.test]
 description = "Run tests"
-depends = ["python:setup"]
-run = """
-#!/usr/bin/env bash
-for d in ibidem/advent_of_code/*; do
-  if [[ -d "${d}" ]]; then
-    echo Running tests in "${d}"
-    uv run pytest "${d}"
-  fi
-done
-"""
+depends = ["python:test"]
 
 [tasks.test-year]
 description = "Run tests for a given year"
