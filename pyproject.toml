@@ -29,7 +29,7 @@ aoc = "ibidem.advent_of_code.cli:main"
 
 [dependency-groups]
 dev = [
-    "pytest==9.0.1",
+    "pytest==9.0.2",
     "pytest-xdist==3.8.0",
     "pytest-sugar==1.1.1",
     "ipython>=9.8.0,<10",
