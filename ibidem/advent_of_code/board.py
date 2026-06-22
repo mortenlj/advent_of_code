@@ -154,7 +154,7 @@ class Board(object):
         for nx, ny in self.adjacent_indexes(x, y, include_diagonal):
             try:
                 values.append(self.get(nx, ny))
-            except (IndexError, TooSmall):
+            except IndexError, TooSmall:
                 pass
         return values
 
@@ -170,7 +170,7 @@ class Board(object):
                     if not self._growable:
                         self._index_check(nx, ny)
                     yield (nx, ny)
-                except (IndexError, TooSmall):
+                except IndexError, TooSmall:
                     pass
 
     def adjacent_view(self, x, y):
